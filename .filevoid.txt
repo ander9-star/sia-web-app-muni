@@ -1,0 +1,38 @@
+# Usar la imagen personalizada creada
+FROM jdk-personalize
+
+# Exponer el puerto
+EXPOSE 8080
+
+# Establecer el directorio de trabajo en el contenedor
+WORKDIR /app
+
+# Verificar la version de java que se usa en el contenedor
+RUN java -version
+
+# Copiar archivos de la aplicacion web a la imagen docker
+COPY ./pom.xml /app
+COPY ./.mvn /app/.mvn
+COPY ./mvnw /app
+
+# Descargar las dependencias
+RUN /app/mvnw dependency:go-offline
+
+# Copiar el codigo fuente del proyecto a la imagen docker
+COPY ./src /app/src
+
+USER root
+RUN mkdir -p target && chmod 777 target
+USER ${USER_NAME}
+
+# Construir la aplicacion con maven
+RUN ./mvnw clean install -DskipTests
+
+# Ejecutar la aplicacion
+ENTRYPOINT [ "java", "-jar", "/app/target/sia-app-web-0.0.1-SNAPSHOT.jar" ]
+
+# Limpiar el cache de paquetes para reducir el size de la imagen
+RUN rm -rf /var/cache/apk/*
+
+# Mensaje de la construccion exitosa
+RUN echo "La imagen de la aplicacion web sia se ha generado correctamente"

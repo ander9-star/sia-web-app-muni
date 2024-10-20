@@ -1,0 +1,82 @@
+package pe.sia.persistence.entity.incidencias;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import pe.sia.persistence.entity.activos.ActivoInformatico;
+import pe.sia.persistence.entity.actores.Personal;
+import pe.sia.persistence.entity.actores.Usuario;
+import pe.sia.persistence.entity.ubicaciones.Ubicacion;
+import java.time.OffsetDateTime;
+
+/*
+ * @author Villalta Carnero Anderson 
+ * @version 1.0
+ ** Esta entidad representa un fallo o incidencia reportada en el sistema. Está relacionada con otras entidades 
+ ** como Ubicación, Activo Informático, Usuario, Personal, Categoría y Prioridad, lo que permite una mejor gestión y seguimiento de los fallos.
+ */
+
+@Entity
+@Table(name = "fallo_incidencia")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class FalloIncidencia {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    private String descripcion;
+
+    @Column(name = "fecha_ocurrencia", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime fechaOcurrencia;
+    
+    @NotNull
+    private String medioReporte;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
+    private Ubicacion ubicacion;
+
+    private String solucion;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "activo_id", referencedColumnName = "id")
+    private ActivoInformatico activoId;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private Usuario usuarioId;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "personal_id", referencedColumnName = "id")
+    private Personal personalId;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    private Categoria categoriaId;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "prioridad_id", referencedColumnName = "id")
+    private Prioridad prioridadId;
+    
+    private boolean solucionado;
+
+}

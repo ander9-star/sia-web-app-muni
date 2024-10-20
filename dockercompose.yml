@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  sia-app-web:
+    image: sia-app-web
+    container_name: sia-app-spring
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-network
+    depends_on:
+      - postgres:
+  postgres:
+    image: postgres
+    container_name: muni-postgres
+    environment:
+      POSTGRES_USER: usuario_soporte
+      POSTGRES_PASSWORD: muniadmin
+      POSTGRES_DB: dbhistorialactivos
+    ports:
+      - "5432:5432"
+    networks:
+      - spring-network
+    volumes:
+      - postgres-volume:/var/lib/postgres
+networks:
+  spring-network:
+volumes:
+  postgres-volume:
