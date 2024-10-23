@@ -26,7 +26,7 @@ public class TipoRedController {
     }
 
     // 1. Petición para crear un tipo de red
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<TipoRedDTO> createTipoRed(@RequestBody TipoRedDTO tipoRedDTO) {
         return ResponseEntity.ok(tipoRedService.createTipoRed(tipoRedDTO));
     }

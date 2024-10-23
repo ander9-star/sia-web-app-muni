@@ -106,9 +106,9 @@ public class RedServiceImpl implements RedService {
         RedDTO dto = new RedDTO();
         dto.setId(red.getId());
         dto.setModelo(red.getModelo());
+        dto.setDireccionIP(red.getDireccionIP());
         dto.setProveedorId(red.getProveedor().getId());
         dto.setTipoRedId(red.getTipoRedId().getId());
-        dto.setDireccionIP(red.getDireccionIP());
         dto.setOrdenCompra(red.getOrdenCompra());
         return dto;
     }

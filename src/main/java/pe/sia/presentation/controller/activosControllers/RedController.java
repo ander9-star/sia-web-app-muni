@@ -25,7 +25,7 @@ public class RedController {
         this.redService = redService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<RedDTO> createRed(@RequestBody RedDTO redDTO) {
         return ResponseEntity.ok(redService.createRed(redDTO));
     }

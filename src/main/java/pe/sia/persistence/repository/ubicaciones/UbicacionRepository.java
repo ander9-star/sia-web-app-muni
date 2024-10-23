@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.ubicaciones.Ubicacion;
 
 @Repository
-public interface UbicacionRepository extends JpaRepository<Ubicacion, Long> {
+public interface UbicacionRepository extends JpaRepository<Ubicacion, Integer> {
 
 }

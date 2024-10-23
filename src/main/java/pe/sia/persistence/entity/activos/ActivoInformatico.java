@@ -36,7 +36,6 @@ public class ActivoInformatico {
     @JoinColumn(name = "tipo_activo_id", referencedColumnName = "id")
     private TipoActivo tipoActivoId;
 
-
     @NotNull
     @ManyToOne
     @JoinColumn(name = "empleado_id", referencedColumnName = "id")

@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pe.sia.persistence.entity.ubicaciones.Ubicacion;
 
 @Entity
 @Table(name = "empleado")
@@ -31,9 +32,9 @@ public class Empleado {
 
     @NotNull
     private String cargo;
-
+    
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "red_id", referencedColumnName = "id")
-    private Area areaId;
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
+    private Ubicacion ubicacion;
 }

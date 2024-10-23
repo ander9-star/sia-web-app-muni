@@ -2,6 +2,7 @@ package pe.sia.persistence.entity.activos;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,12 +40,18 @@ public class Software {
     private String version;
 
     @NotNull
+    @Column(name = "fecha_instalacion")
     private LocalDate fechaInstalacion;
 
+    @Column(name = "fecha_vencimiento_licencia")
     private LocalDate fechaVencimiento;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "proveedor_id", referencedColumnName = "id")
     private Proveedor proveedor;
+
+    @NotNull
+    @Column(name = "orden_compra")
+    private String ordenCompra;
 }

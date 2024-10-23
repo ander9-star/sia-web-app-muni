@@ -4,15 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pe.sia.persistence.entity.actores.Area;
-
 /*
  * @author Villalta Carnero Anderson
  * @version 1.0
@@ -29,24 +25,9 @@ public class Ubicacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
     private String nombre;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "oficina_id", referencedColumnName = "id")
-    private Oficina oficina;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "area_id", referencedColumnName = "id")
-    private Area area;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "piso_id", referencedColumnName = "id")
-    private Piso piso;
-    
 }

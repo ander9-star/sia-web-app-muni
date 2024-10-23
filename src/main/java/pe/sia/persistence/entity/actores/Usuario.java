@@ -1,5 +1,13 @@
 package pe.sia.persistence.entity.actores;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,6 +16,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import pe.sia.persistence.entity.ubicaciones.Ubicacion;
 
 /*
  * @author Villalta Carnero Anderson
@@ -18,29 +28,61 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+@Data
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
     private String nombre;
 
-    @NotNull
-    private String usuario;
+    @Column(name = "username")
+    private String userName;
 
     @NotNull
     private String password;
-
+    
     @NotNull
+    private String correo;
+    
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
+    private Ubicacion ubicacion;
+
     @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "id")
     private Rol rol;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "area_id", referencedColumnName = "id")
-    private Area area;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(rol.getNombre()));
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
     
 }

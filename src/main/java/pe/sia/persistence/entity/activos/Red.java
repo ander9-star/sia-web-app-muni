@@ -1,5 +1,6 @@
 package pe.sia.persistence.entity.activos;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +35,7 @@ public class Red {
     private String modelo;
     
     @NotNull
+    @Column(name = "direccion_ip")
     private String direccionIP;
     
     @NotNull
@@ -47,5 +49,6 @@ public class Red {
     private TipoRed tipoRedId;
 
     @NotNull
+    @Column(name = "orden_compra")
     private Long ordenCompra;
 }

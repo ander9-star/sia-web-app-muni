@@ -25,7 +25,7 @@ public class HardwareController {
         this.hardwareService = hardwareService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<HardwareDTO> createHardware(@RequestBody HardwareDTO hardwareDTO) {
         return ResponseEntity.ok(hardwareService.createHardware(hardwareDTO));
     }

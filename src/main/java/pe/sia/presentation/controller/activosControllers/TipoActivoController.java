@@ -26,7 +26,7 @@ public class TipoActivoController {
     }
 
     // 1. Petición para crear un tipo de activo
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<TipoActivoDTO> createTipoActivo(@RequestBody TipoActivoDTO tipoActivoDTO) {
         return ResponseEntity.ok(tipoActivoService.createTipoActivo(tipoActivoDTO));
     }

@@ -1,5 +1,6 @@
 # Usar la imagen personalizada creada
 FROM jdk-21-per
+
 # Exponer el puerto
 EXPOSE 8080
 

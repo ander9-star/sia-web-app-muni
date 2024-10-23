@@ -1,5 +1,6 @@
 package pe.sia.persistence.entity.activos;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,6 +46,7 @@ public class Hardware {
     private Proveedor proveedor;
 
     @NotNull
+    @Column(name = "orden_compra")
     private Long ordenCompra;
     
 }

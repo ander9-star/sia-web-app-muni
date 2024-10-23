@@ -30,7 +30,7 @@ public class ProveedorController {
     }
 
     // 1. peticion para crear un proveedor
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ProveedorDTO> createProveedor(@RequestBody ProveedorDTO proveedorDTO) {
         return ResponseEntity.ok(proveedorService.createProveedor(proveedorDTO));
     }

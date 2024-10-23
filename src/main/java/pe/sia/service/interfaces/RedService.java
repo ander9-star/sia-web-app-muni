@@ -1,7 +1,6 @@
 package pe.sia.service.interfaces;
 
 import java.util.List;
-
 import pe.sia.presentation.dto.activosDTO.RedDTO;
 
 public interface RedService {
