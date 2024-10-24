@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.activos.TipoActivo;
 
 @Repository
-public interface TipoActivoRepository extends JpaRepository<TipoActivo, Long> {
+public interface TipoActivoRepository extends JpaRepository<TipoActivo, Integer> {
 
 }

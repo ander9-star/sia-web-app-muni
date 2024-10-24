@@ -18,10 +18,10 @@ public class RedDTO {
     private String direccionIP;
     
     @NotNull(message = "El proveedor no puede ser nulo")
-    private Long proveedorId;
+    private Integer proveedorId;
     
     @NotNull(message = "El tipo de red no puede ser nulo")
-    private Long tipoRedId;
+    private Integer tipoRedId;
 
     @NotNull(message = "El número de orden de compra no puede ser nulo")
     private Long ordenCompra;

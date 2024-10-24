@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pe.sia.persistence.entity.actores.Usuario;
 import pe.sia.presentation.dto.actoresDTO.UsuarioDTO;
-import pe.sia.service.implementation.UsuarioServiceImpl;
+import pe.sia.service.interfaces.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,48 +22,48 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioServiceImpl usuarioServiceImpl;
+    private UsuarioService usuarioService;
 
     @PostMapping("/auth/register")
     public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioServiceImpl.createUsuario(usuarioDTO));
+        return ResponseEntity.ok(usuarioService.createUsuario(usuarioDTO));
     }
 
     @PostMapping("/auth/login")
     public ResponseEntity<UsuarioDTO> loginUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioServiceImpl.login(usuarioDTO));
+        return ResponseEntity.ok(usuarioService.login(usuarioDTO));
     }
 
     @PostMapping("/auth/refresh")
     public ResponseEntity<UsuarioDTO> refreshToken(@RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioServiceImpl.refreshToken(usuarioDTO));
+        return ResponseEntity.ok(usuarioService.refreshToken(usuarioDTO));
     }
     
     @GetMapping("/admin/get-all-users")
     public ResponseEntity<UsuarioDTO> getAllUsers() {
-        return ResponseEntity.ok(usuarioServiceImpl.getAllUsuarios());
+        return ResponseEntity.ok(usuarioService.getAllUsuarios());
     }
 
     @GetMapping("/admin/get-user/{id}")
     public ResponseEntity<UsuarioDTO> getUserById(@PathVariable Integer id) {
-        return ResponseEntity.ok(usuarioServiceImpl.getUsuarioById(id));
+        return ResponseEntity.ok(usuarioService.getUsuarioById(id));
     }
 
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<UsuarioDTO> updateUser(@PathVariable Integer id, @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioServiceImpl.updateUsuario(id, usuario));
+        return ResponseEntity.ok(usuarioService.updateUsuario(id, usuario));
     }
 
     @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<UsuarioDTO> deleteUser(@PathVariable Integer id) {
-        return ResponseEntity.ok(usuarioServiceImpl.deleteUsuario(id));
+        return ResponseEntity.ok(usuarioService.deleteUsuario(id));
     }
 
     @GetMapping("/adminuser/get-profile")
     public ResponseEntity<UsuarioDTO> getProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String correo = authentication.getName();
-        UsuarioDTO usuarioDTO = usuarioServiceImpl.getMyProfile(correo);
+        UsuarioDTO usuarioDTO = usuarioService.getMyProfile(correo);
         return ResponseEntity.status(usuarioDTO.getStatusCode()).body(usuarioDTO);
     }  
 }

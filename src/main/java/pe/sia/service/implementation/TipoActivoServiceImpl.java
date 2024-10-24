@@ -31,7 +31,7 @@ public class TipoActivoServiceImpl implements TipoActivoService {
     }
 
     @Override
-    public TipoActivoDTO updateTipoActivo(Long idTipoActivo, TipoActivoDTO tipoActivoDTO) {
+    public TipoActivoDTO updateTipoActivo(Integer idTipoActivo, TipoActivoDTO tipoActivoDTO) {
         TipoActivo tipoActivo = tipoActivoRepository.findById(idTipoActivo)
                                     .orElseThrow(() -> new RuntimeException("el tipo de activo no existe"));
         tipoActivo.setNombre(tipoActivoDTO.getNombre());
@@ -42,12 +42,12 @@ public class TipoActivoServiceImpl implements TipoActivoService {
     }
 
     @Override
-    public void deleteTipoActivo(Long idTipoActivo) {
+    public void deleteTipoActivo(Integer idTipoActivo) {
         tipoActivoRepository.deleteById(idTipoActivo);
     }
 
     @Override
-    public TipoActivoDTO getTipoActivoById(Long idTipoActivo) {
+    public TipoActivoDTO getTipoActivoById(Integer idTipoActivo) {
         TipoActivo tipoActivo = tipoActivoRepository.findById(idTipoActivo)
                                     .orElseThrow(() -> new RuntimeException("el tipo de activo no existe"));
         return mapToDTO(tipoActivo);

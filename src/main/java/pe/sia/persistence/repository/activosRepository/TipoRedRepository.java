@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.activos.TipoRed;
 
 @Repository
-public interface TipoRedRepository extends JpaRepository<TipoRed, Long>{
+public interface TipoRedRepository extends JpaRepository<TipoRed, Integer>{
     
 }

@@ -7,9 +7,9 @@ import pe.sia.presentation.dto.activosDTO.TipoActivoDTO;
 public interface TipoActivoService {
 
     TipoActivoDTO createTipoActivo(TipoActivoDTO tipoActivoDTO);
-    TipoActivoDTO updateTipoActivo(Long idTipoActivo, TipoActivoDTO tipoActivoDTO);
-    void deleteTipoActivo(Long idTipoActivo);
-    TipoActivoDTO getTipoActivoById(Long idTipoActivo);
+    TipoActivoDTO updateTipoActivo(Integer idTipoActivo, TipoActivoDTO tipoActivoDTO);
+    void deleteTipoActivo(Integer idTipoActivo);
+    TipoActivoDTO getTipoActivoById(Integer idTipoActivo);
     List<TipoActivoDTO> getAllTipoActivo();
     
 }

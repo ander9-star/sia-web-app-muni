@@ -1,6 +1,7 @@
 package pe.sia.service.implementation;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +15,10 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import pe.sia.persistence.entity.actores.Rol;
 import pe.sia.persistence.entity.actores.Usuario;
-import pe.sia.persistence.entity.ubicaciones.Ubicacion;
+import pe.sia.persistence.entity.ubicaciones.Area;
 import pe.sia.persistence.repository.actoresRepository.RolRepository;
 import pe.sia.persistence.repository.actoresRepository.UsuarioRepository;
-import pe.sia.persistence.repository.ubicaciones.UbicacionRepository;
+import pe.sia.persistence.repository.ubicaciones.AreaRepository;
 import pe.sia.presentation.dto.actoresDTO.UsuarioDTO;
 import pe.sia.service.interfaces.UsuarioService;
 import pe.sia.util.JWTokenUtils;
@@ -30,7 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private UbicacionRepository ubicacionRepository;
+    private AreaRepository areaRepository;
 
     @Autowired
     private RolRepository rolRepository;
@@ -53,10 +54,10 @@ public class UsuarioServiceImpl implements UsuarioService {
             usuario.setUserName(usuarioCreateDTO.getUserName());
             usuario.setPassword(passwordEncoder.encode(usuarioCreateDTO.getPassword()));
             usuario.setCorreo(usuarioCreateDTO.getCorreo());
-            Ubicacion ubicacion = ubicacionRepository.findById(1).orElseThrow();
-            usuario.setUbicacion(ubicacion);
             Rol rol = rolRepository.findById(3).orElseThrow();
             usuario.setRol(rol);
+            Area area = areaRepository.findById(1).orElseThrow();
+            usuario.setArea(area);
             usuario = usuarioRepository.save(usuario);
 
             if(usuario.getId() > 0) {
@@ -82,7 +83,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 usuarioUpdate.setNombre(updateUser.getNombre());
                 usuarioUpdate.setUserName(updateUser.getUsername());
                 usuarioUpdate.setCorreo(updateUser.getCorreo());
-                usuarioUpdate.setUbicacion(updateUser.getUbicacion());
+                usuarioUpdate.setArea(updateUser.getArea());
                 usuarioUpdate.setRol(updateUser.getRol()); 
                 if(updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
                     // codificar la password
@@ -180,7 +181,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             usuarioDTO.setRefreshTokenJWT(refreshToken);
             usuarioDTO.setExpiracionTokenTime("24Hrs");
             usuarioDTO.setMessage("Usuario logeado con éxito, Rol " + user.getRol());
-            usuarioDTO.setDateTokenCreation(LocalDate.now());
+            usuarioDTO.setDateTokenCreation(this.getFormatoFechaActual());
             log.info("\n Token generado: " + usuarioDTO.getTokenJWT());
 
         } catch (Exception e) {
@@ -206,7 +207,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 usuarioDTO.setRefreshTokenJWT(usuarioRefreshDTO.getTokenJWT());
                 usuarioDTO.setExpiracionTokenTime("24Hrs");
                 usuarioDTO.setMessage("Token refrescado con éxito");
-                usuarioDTO.setDateTokenCreation(LocalDate.now());
+                usuarioDTO.setDateTokenCreation(this.getFormatoFechaActual());
             }
             usuarioDTO.setStatusCode(200);
             return usuarioDTO;
@@ -237,5 +238,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         return requestDTO;
+    }
+
+    private String getFormatoFechaActual() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTimeFormatter.format(dateTime);
     }
 }

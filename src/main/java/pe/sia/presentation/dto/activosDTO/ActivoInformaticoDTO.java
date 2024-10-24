@@ -6,13 +6,13 @@ import lombok.Data;
 @Data
 public class ActivoInformaticoDTO {
     
-    private Long id;
+    private Integer id;
     
     @NotNull(message = "El tipo de activo no puede ser nulo")
-    private Long tipoActivoId;
+    private Integer tipoActivoId;
 
     @NotNull(message = "El empleado no puede ser nulo")
-    private Long empleadoId;
+    private Integer empleadoId;
 
     @NotNull(message = "El hardware no puede ser nulo")
     private Long hardwareId;

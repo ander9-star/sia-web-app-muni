@@ -30,9 +30,10 @@ public class Prompt {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
+    @JoinColumn(name = "texto")
     private String prompt;
 
     @NotNull

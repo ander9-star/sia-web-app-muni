@@ -7,9 +7,9 @@ import pe.sia.presentation.dto.activosDTO.TipoRedDTO;
 public interface TipoRedService {
 
     TipoRedDTO createTipoRed(TipoRedDTO tipoRedDTO);
-    TipoRedDTO updateTipoRed(Long idTipoRed, TipoRedDTO tipoRedDTO);
-    void deleteTipoRed(Long idTipoRed);
-    TipoRedDTO getTipoRedById(Long idTipoRed);
+    TipoRedDTO updateTipoRed(Integer idTipoRed, TipoRedDTO tipoRedDTO);
+    void deleteTipoRed(Integer idTipoRed);
+    TipoRedDTO getTipoRedById(Integer idTipoRed);
     List<TipoRedDTO> getAllTipoRed();
     
 }

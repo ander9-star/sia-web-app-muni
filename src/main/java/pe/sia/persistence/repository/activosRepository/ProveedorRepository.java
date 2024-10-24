@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.activos.Proveedor;
 
 @Repository
-public interface ProveedorRepository extends JpaRepository<Proveedor, Long>{
+public interface ProveedorRepository extends JpaRepository<Proveedor, Integer>{
 
 }

@@ -42,6 +42,7 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
 
     @Override
     public ActivoInformaticoDTO createActivoInformatico(ActivoInformaticoDTO activoInformaticoDTO) {
+       
         ActivoInformatico activoInformatico = new ActivoInformatico();
 
         // validaciones correspondientes
@@ -64,11 +65,11 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
         Red red = redRepository.findById(activoInformaticoDTO.getRedId())
                 .orElseThrow(() -> new RuntimeException("El equipo red no existe"));
 
-        activoInformatico.setTipoActivoId(tipoActivo);
-        activoInformatico.setEmpleadoId(empleado);
-        activoInformatico.setHardwareId(hardware);
-        activoInformatico.setSoftwareId(software);
-        activoInformatico.setRedId(red);
+        activoInformatico.setTipoActivo(tipoActivo);
+        activoInformatico.setEmpleado(empleado);
+        activoInformatico.setHardware(hardware);
+        activoInformatico.setSoftware(software);
+        activoInformatico.setRed(red);
 
         activoInformatico = activoInformaticoRepository.save(activoInformatico);
 
@@ -76,7 +77,7 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
     }
 
     @Override
-    public ActivoInformaticoDTO updateActivoInformatico(Long IdactivoInformaticoDTO,
+    public ActivoInformaticoDTO updateActivoInformatico(Integer IdactivoInformaticoDTO,
             ActivoInformaticoDTO activoInformaticoDTO) {
 
         ActivoInformatico activoInformatico = activoInformaticoRepository.findById(activoInformaticoDTO.getId())
@@ -102,11 +103,11 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
         Red red = redRepository.findById(activoInformaticoDTO.getRedId())
                 .orElseThrow(() -> new RuntimeException("El equipo red no existe"));
 
-        activoInformatico.setTipoActivoId(tipoActivo);
-        activoInformatico.setEmpleadoId(empleado);
-        activoInformatico.setHardwareId(hardware);
-        activoInformatico.setSoftwareId(software);
-        activoInformatico.setRedId(red);
+        activoInformatico.setTipoActivo(tipoActivo);
+        activoInformatico.setEmpleado(empleado);
+        activoInformatico.setHardware(hardware);
+        activoInformatico.setSoftware(software);
+        activoInformatico.setRed(red);
 
         activoInformatico = activoInformaticoRepository.save(activoInformatico);
 
@@ -114,12 +115,12 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
     }
 
     @Override
-    public void deleteActivoInformatico(Long idactivoInformatico) {
+    public void deleteActivoInformatico(Integer idactivoInformatico) {
         activoInformaticoRepository.deleteById(idactivoInformatico);
     }
 
     @Override
-    public ActivoInformaticoDTO getActivoInformaticoById(Long idactivoInformatico) {
+    public ActivoInformaticoDTO getActivoInformaticoById(Integer idactivoInformatico) {
         ActivoInformatico activoInformatico = activoInformaticoRepository.findById(idactivoInformatico)
                                                     .orElseThrow(() -> new RuntimeException("El activo no existe"));
         return mapToDTO(activoInformatico);
@@ -136,11 +137,11 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
     private ActivoInformaticoDTO mapToDTO(ActivoInformatico activoInformatico) {
         ActivoInformaticoDTO dto = new ActivoInformaticoDTO();
         dto.setId(activoInformatico.getId());
-        dto.setTipoActivoId(activoInformatico.getTipoActivoId().getId());
-        dto.setEmpleadoId(activoInformatico.getEmpleadoId().getId());
-        dto.setHardwareId(activoInformatico.getHardwareId().getId());
-        dto.setSoftwareId(activoInformatico.getSoftwareId().getId());
-        dto.setRedId(activoInformatico.getRedId().getId());
+        dto.setTipoActivoId(activoInformatico.getTipoActivo().getId());
+        dto.setEmpleadoId(activoInformatico.getEmpleado().getId());
+        dto.setHardwareId(activoInformatico.getHardware().getId());
+        dto.setSoftwareId(activoInformatico.getSoftware().getId());
+        dto.setRedId(activoInformatico.getRed().getId());
         return dto;
     }
 

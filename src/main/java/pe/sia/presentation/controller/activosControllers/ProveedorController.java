@@ -37,20 +37,20 @@ public class ProveedorController {
 
     // 2. peticion para actualizar un proveedor
     @PutMapping("/{id}")
-    public ResponseEntity<ProveedorDTO> updateProveedor(@PathVariable Long id, @RequestBody ProveedorDTO proveedorDTO) {
+    public ResponseEntity<ProveedorDTO> updateProveedor(@PathVariable Integer id, @RequestBody ProveedorDTO proveedorDTO) {
         return ResponseEntity.ok(proveedorService.updateProveedor(id, proveedorDTO));
     }
 
     // 3. peticion para eliminar un proveedor
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProveedor(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProveedor(@PathVariable Integer id) {
         proveedorService.deleteProveedor(id);
         return ResponseEntity.noContent().build();
     }
 
     // 4. buscar un proveedor por id
     @GetMapping("/{id}")
-    public ResponseEntity<ProveedorDTO> getProveedorById(@PathVariable Long id) {
+    public ResponseEntity<ProveedorDTO> getProveedorById(@PathVariable Integer id) {
         return ResponseEntity.ok(proveedorService.getProveedorById(id));
     }
 

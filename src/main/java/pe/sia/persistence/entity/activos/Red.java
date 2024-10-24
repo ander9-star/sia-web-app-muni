@@ -46,7 +46,7 @@ public class Red {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "tipo_red_id", referencedColumnName = "id") 
-    private TipoRed tipoRedId;
+    private TipoRed tipoRed;
 
     @NotNull
     @Column(name = "orden_compra")

@@ -29,30 +29,30 @@ public class ActivoInformatico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     
     @NotNull
     @ManyToOne
     @JoinColumn(name = "tipo_activo_id", referencedColumnName = "id")
-    private TipoActivo tipoActivoId;
+    private TipoActivo tipoActivo;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "empleado_id", referencedColumnName = "id")
-    private Empleado empleadoId;
+    private Empleado empleado;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "hardware_id", referencedColumnName = "id")
-    private Hardware hardwareId;
+    private Hardware hardware;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "software_id", referencedColumnName = "id")
-    private Software softwareId;
+    private Software software;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "red_id", referencedColumnName = "id")
-    private Red redId;
+    private Red red;
 }

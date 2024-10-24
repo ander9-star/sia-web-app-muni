@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.incidencias.Mantenimiento;
 
 @Repository
-public interface MantenimientoRepository extends JpaRepository<Mantenimiento, Long>{
+public interface MantenimientoRepository extends JpaRepository<Mantenimiento, Integer>{
 
 }

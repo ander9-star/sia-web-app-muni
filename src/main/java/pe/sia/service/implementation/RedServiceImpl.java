@@ -47,7 +47,7 @@ public class RedServiceImpl implements RedService {
         
         TipoRed tipoRed = tipoRedRepository.findById(redDTO.getTipoRedId())
             .orElseThrow(() -> new RuntimeException("El tipo de red no existe"));
-        red.setTipoRedId(tipoRed);
+        red.setTipoRed(tipoRed);
 
         red = redRepository.save(red);
 
@@ -70,7 +70,7 @@ public class RedServiceImpl implements RedService {
         
         TipoRed tipoRed = tipoRedRepository.findById(redDTO.getTipoRedId())
             .orElseThrow(() -> new RuntimeException("El tipo de red no existe"));
-        red.setTipoRedId(tipoRed);
+        red.setTipoRed(tipoRed);
 
         red = redRepository.save(red);
 
@@ -108,7 +108,7 @@ public class RedServiceImpl implements RedService {
         dto.setModelo(red.getModelo());
         dto.setDireccionIP(red.getDireccionIP());
         dto.setProveedorId(red.getProveedor().getId());
-        dto.setTipoRedId(red.getTipoRedId().getId());
+        dto.setTipoRedId(red.getTipoRed().getId());
         dto.setOrdenCompra(red.getOrdenCompra());
         return dto;
     }

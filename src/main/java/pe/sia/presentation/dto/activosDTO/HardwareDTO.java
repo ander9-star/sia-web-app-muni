@@ -18,7 +18,7 @@ public class HardwareDTO {
     private String modelo;
 
     @NotNull(message = "el proveedor no debe de ser nulo")
-    private Long proveedorId;
+    private Integer proveedorId;
 
     @NotNull(message = "el número de orden de compra no debe de ser nulo")
     private Long ordenCompra;

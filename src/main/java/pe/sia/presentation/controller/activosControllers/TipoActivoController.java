@@ -33,20 +33,20 @@ public class TipoActivoController {
 
     // 2. Petición para actualizar un tipo de activo
     @PutMapping("/{id}")
-    public ResponseEntity<TipoActivoDTO> updateTipoActivo(@PathVariable Long id, @RequestBody TipoActivoDTO tipoActivoDTO) {
+    public ResponseEntity<TipoActivoDTO> updateTipoActivo(@PathVariable Integer id, @RequestBody TipoActivoDTO tipoActivoDTO) {
         return ResponseEntity.ok(tipoActivoService.updateTipoActivo(id, tipoActivoDTO));
     }
 
     // 3. Petición para eliminar un tipo de activo
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTipoActivo(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTipoActivo(@PathVariable Integer id) {
         tipoActivoService.deleteTipoActivo(id);
         return ResponseEntity.noContent().build();
     }
 
     // 4. Buscar un tipo de activo por id
     @GetMapping("/{id}")
-    public ResponseEntity<TipoActivoDTO> getTipoActivoById(@PathVariable Long id) {
+    public ResponseEntity<TipoActivoDTO> getTipoActivoById(@PathVariable Integer id) {
         return ResponseEntity.ok(tipoActivoService.getTipoActivoById(id));
     }
 

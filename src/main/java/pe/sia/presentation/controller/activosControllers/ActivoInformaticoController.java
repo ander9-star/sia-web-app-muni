@@ -30,18 +30,18 @@ public class ActivoInformaticoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ActivoInformaticoDTO> updateActivoInformatico(@PathVariable Long id, @RequestBody ActivoInformaticoDTO activoInformaticoDTO) {
+    public ResponseEntity<ActivoInformaticoDTO> updateActivoInformatico(@PathVariable Integer id, @RequestBody ActivoInformaticoDTO activoInformaticoDTO) {
         return ResponseEntity.ok(activoInformaticoService.updateActivoInformatico(id, activoInformaticoDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteActivoInformatico(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteActivoInformatico(@PathVariable Integer id) {
         activoInformaticoService.deleteActivoInformatico(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ActivoInformaticoDTO getActivoInformaticoById(@PathVariable Long id) {
+    public ActivoInformaticoDTO getActivoInformaticoById(@PathVariable Integer id) {
         return activoInformaticoService.getActivoInformaticoById(id);
     }
 

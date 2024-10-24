@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.incidencias.Prioridad;
 
 @Repository
-public interface PrioridadRepository extends JpaRepository<Prioridad, Long>{
+public interface PrioridadRepository extends JpaRepository<Prioridad, Integer>{
 
 }

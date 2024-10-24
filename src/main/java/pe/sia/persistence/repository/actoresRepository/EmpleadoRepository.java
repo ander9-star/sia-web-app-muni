@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.actores.Empleado;
 
 @Repository
-public interface EmpleadoRepository extends JpaRepository<Empleado, Long>{
+public interface EmpleadoRepository extends JpaRepository<Empleado, Integer>{
 
 }

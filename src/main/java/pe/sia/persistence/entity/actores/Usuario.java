@@ -16,8 +16,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import pe.sia.persistence.entity.ubicaciones.Ubicacion;
+import lombok.NoArgsConstructor;
+import pe.sia.persistence.entity.ubicaciones.Area;
 
 /*
  * @author Villalta Carnero Anderson
@@ -29,6 +31,8 @@ import pe.sia.persistence.entity.ubicaciones.Ubicacion;
 @Entity
 @Table(name = "usuario")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario implements UserDetails {
 
     @Id
@@ -48,12 +52,12 @@ public class Usuario implements UserDetails {
     private String correo;
     
     @ManyToOne
-    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
-    private Ubicacion ubicacion;
-
-    @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "id")
     private Rol rol;
+    
+    @ManyToOne
+    @JoinColumn(name = "area_id", referencedColumnName = "id")
+    private Area area;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

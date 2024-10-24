@@ -1,6 +1,5 @@
 package pe.sia.presentation.dto.actoresDTO;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,7 +20,9 @@ public class UsuarioDTO {
     private String tokenJWT;
     private String refreshTokenJWT;
     private String expiracionTokenTime;
-    private LocalDate dateTokenCreation;
+    private String dateTokenCreation;
+
+    private Integer id;
 
     @NotNull
     private String nombre;

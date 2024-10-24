@@ -37,7 +37,7 @@ public class TipoRedServiceImpl implements TipoRedService {
 
     // Paso 2: Método para actualizar un tipo de red existente a través de un DTO
     @Override
-    public TipoRedDTO updateTipoRed(Long idTipoRed, TipoRedDTO tipoRedDTO) {
+    public TipoRedDTO updateTipoRed(Integer idTipoRed, TipoRedDTO tipoRedDTO) {
 
         TipoRed tipoRed = tipoRedRepository.findById(idTipoRed)
                                 .orElseThrow(() -> new RuntimeException("El tipo de red no existe"));
@@ -51,13 +51,13 @@ public class TipoRedServiceImpl implements TipoRedService {
 
     // Paso 3: Método para eliminar un tipo de red por su ID
     @Override
-    public void deleteTipoRed(Long idTipoRed) {
+    public void deleteTipoRed(Integer idTipoRed) {
         tipoRedRepository.deleteById(idTipoRed);
     }
 
     // Paso 4: Método para obtener un tipo de red por su ID
     @Override
-    public TipoRedDTO getTipoRedById(Long idTipoRed) {
+    public TipoRedDTO getTipoRedById(Integer idTipoRed) {
         TipoRed tipoRed = tipoRedRepository.findById(idTipoRed)
                             .orElseThrow(() -> new RuntimeException("El tipo de red no existe"));
 

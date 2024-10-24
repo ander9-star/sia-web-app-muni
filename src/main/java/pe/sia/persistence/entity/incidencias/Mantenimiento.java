@@ -2,6 +2,7 @@ package pe.sia.persistence.entity.incidencias;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,11 +30,13 @@ public class Mantenimiento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
+    @Column(name = "fecha_programada")
     private LocalDate fechaProgramada;
 
+    @Column(name = "fecha_realizada")
     private LocalDate fechaRealizada;
 
     @NotNull

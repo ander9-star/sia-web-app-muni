@@ -45,7 +45,7 @@ public class ProveedorServiceImpl implements ProveedorService {
 
     // Paso 2: Método para actualizar un proveedor si exsite a tráves de un DTO
     @Override
-    public ProveedorDTO updateProveedor(Long idProveedor, ProveedorDTO proveedorDTO) {
+    public ProveedorDTO updateProveedor(Integer idProveedor, ProveedorDTO proveedorDTO) {
 
         // Paso 1: hacer la validacion si existe el Proveedor en la base de datos, si existe, paso 2
         Proveedor proveedor = proveedorRepository
@@ -66,13 +66,13 @@ public class ProveedorServiceImpl implements ProveedorService {
 
     // Paso 3: Método para eliminar un proveedor
     @Override
-    public void deleteProveedor(Long idProveedor) {
+    public void deleteProveedor(Integer idProveedor) {
         proveedorRepository.deleteById(idProveedor);
     }
 
     // Paso 4: Método para obtener un proveedor a tráves de un Id
     @Override
-    public ProveedorDTO getProveedorById(Long idProveedor) {
+    public ProveedorDTO getProveedorById(Integer idProveedor) {
         Proveedor proveedor = proveedorRepository
                                     .findById(idProveedor)
                                     .orElseThrow(() -> new RuntimeException("El proveedor no existe"));

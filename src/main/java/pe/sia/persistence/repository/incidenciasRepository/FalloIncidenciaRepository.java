@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.incidencias.FalloIncidencia;
 
 @Repository
-public interface FalloIncidenciaRepository extends JpaRepository<FalloIncidencia, Long>{
+public interface FalloIncidenciaRepository extends JpaRepository<FalloIncidencia, Integer>{
 
 }

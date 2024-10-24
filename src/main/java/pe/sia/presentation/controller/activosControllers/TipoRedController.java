@@ -33,20 +33,20 @@ public class TipoRedController {
 
     // 2. Petición para actualizar un tipo de red
     @PutMapping("/{id}")
-    public ResponseEntity<TipoRedDTO> updateTipoRed(@PathVariable Long id, @RequestBody TipoRedDTO tipoRedDTO) {
+    public ResponseEntity<TipoRedDTO> updateTipoRed(@PathVariable Integer id, @RequestBody TipoRedDTO tipoRedDTO) {
         return ResponseEntity.ok(tipoRedService.updateTipoRed(id, tipoRedDTO));
     }
 
     // 3. Petición para eliminar un tipo de red
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTipoRed(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTipoRed(@PathVariable Integer id) {
         tipoRedService.deleteTipoRed(id);
         return ResponseEntity.noContent().build();
     }
 
     // 4. Buscar un tipo de red por id
     @GetMapping("/{id}")
-    public ResponseEntity<TipoRedDTO> getTipoRedById(@PathVariable Long id) {
+    public ResponseEntity<TipoRedDTO> getTipoRedById(@PathVariable Integer id) {
         return ResponseEntity.ok(tipoRedService.getTipoRedById(id));
     }
 

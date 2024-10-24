@@ -15,7 +15,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pe.sia.service.interfaces.UsuarioDetailsService;
+import pe.sia.service.details.UsuarioDetailsService;
 import pe.sia.util.JWTokenUtils;
 
 @Component

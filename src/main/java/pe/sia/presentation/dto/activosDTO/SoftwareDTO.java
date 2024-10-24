@@ -22,7 +22,7 @@ public class SoftwareDTO {
     private LocalDate fechaVencimiento;
 
     @NotNull(message = "el proveedor no debe de estar vacio")
-    private Long proveedorId;
+    private Integer proveedorId;
 
     @NotNull(message = "la orden de compra no debe de estar vacio")
     private String ordenCompra;

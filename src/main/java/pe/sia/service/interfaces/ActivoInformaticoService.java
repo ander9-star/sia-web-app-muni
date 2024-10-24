@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface ActivoInformaticoService {
     ActivoInformaticoDTO createActivoInformatico(ActivoInformaticoDTO activoInformaticoDTO);
-    ActivoInformaticoDTO updateActivoInformatico(Long idactivoInformaticoDTO, ActivoInformaticoDTO activoInformaticoDTO);
-    void deleteActivoInformatico(Long idactivoInformaticoDTO);
-    ActivoInformaticoDTO getActivoInformaticoById(Long idactivoInformaticoDTO);
+    ActivoInformaticoDTO updateActivoInformatico(Integer idactivoInformaticoDTO, ActivoInformaticoDTO activoInformaticoDTO);
+    void deleteActivoInformatico(Integer idactivoInformaticoDTO);
+    ActivoInformaticoDTO getActivoInformaticoById(Integer idactivoInformaticoDTO);
     List<ActivoInformaticoDTO> getAllActivoInformatico();
 }

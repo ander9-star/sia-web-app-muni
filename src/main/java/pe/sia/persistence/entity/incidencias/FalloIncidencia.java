@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import pe.sia.persistence.entity.activos.ActivoInformatico;
 import pe.sia.persistence.entity.actores.Personal;
 import pe.sia.persistence.entity.actores.Usuario;
-import pe.sia.persistence.entity.ubicaciones.Ubicacion;
+import pe.sia.persistence.entity.ubicaciones.Area;
 import java.time.OffsetDateTime;
 
 /*
@@ -34,7 +34,7 @@ public class FalloIncidencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
     private String descripcion;
@@ -43,40 +43,41 @@ public class FalloIncidencia {
     private OffsetDateTime fechaOcurrencia;
     
     @NotNull
+    @Column(name = "medio_reporte")
     private String medioReporte;
-    
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
-    private Ubicacion ubicacion;
 
     private String solucion;
     
     @NotNull
     @ManyToOne
     @JoinColumn(name = "activo_id", referencedColumnName = "id")
-    private ActivoInformatico activoId;
+    private ActivoInformatico activoInformatico;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private Usuario usuarioId;
-    
-    @NotNull
-    @ManyToOne
     @JoinColumn(name = "personal_id", referencedColumnName = "id")
-    private Personal personalId;
+    private Personal personal;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "categoria_id", referencedColumnName = "id")
-    private Categoria categoriaId;
+    private Categoria categoria;
     
     @NotNull
     @ManyToOne
     @JoinColumn(name = "prioridad_id", referencedColumnName = "id")
-    private Prioridad prioridadId;
+    private Prioridad prioridad;
     
     private boolean solucionado;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private Usuario usuario;
+        
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "area_id", referencedColumnName = "id")
+    private Area area;
 
 }

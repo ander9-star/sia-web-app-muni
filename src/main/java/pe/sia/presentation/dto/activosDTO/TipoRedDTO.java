@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class TipoRedDTO {
 
-    private Long id;
+    private Integer id;
 
     @NotNull(message = "el nombre no debe de estar vacio")
     private String nombre;
