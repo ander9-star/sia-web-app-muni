@@ -27,12 +27,11 @@ public class SoftwareServiceImpl implements SoftwareService {
         software.setNombre(softwareDTO.getNombre());
         software.setVersion(softwareDTO.getVersion());
         software.setFechaInstalacion(softwareDTO.getFechaInstalacion());
-        software.setFechaVencimiento(softwareDTO.getFechaVencimiento());
+        software.setFechaVencimientoLicencia(softwareDTO.getFechaVencimientoLicencia());
 
         Proveedor proveedor = proveedorRepository.findById(softwareDTO.getProveedorId())
                 .orElseThrow(() -> new RuntimeException("El proveedor no existe"));
         software.setProveedor(proveedor);
-        software.setOrdenCompra(softwareDTO.getOrdenCompra());
 
         software = softwareRepository.save(software);
 
@@ -40,18 +39,17 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
-    public SoftwareDTO updateSoftware(Long idSoftware, SoftwareDTO softwareDTO) {
+    public SoftwareDTO updateSoftware(Integer idSoftware, SoftwareDTO softwareDTO) {
         Software software = softwareRepository.findById(idSoftware)
                 .orElseThrow(() -> new RuntimeException("El proveedor no existe"));
         software.setNombre(softwareDTO.getNombre());
         software.setVersion(softwareDTO.getVersion());
         software.setFechaInstalacion(softwareDTO.getFechaInstalacion());
-        software.setFechaVencimiento(softwareDTO.getFechaVencimiento());
+        software.setFechaVencimientoLicencia(softwareDTO.getFechaVencimientoLicencia());
 
         Proveedor proveedor = proveedorRepository.findById(softwareDTO.getProveedorId())
                 .orElseThrow(() -> new RuntimeException("El proveedor no existe"));
         software.setProveedor(proveedor);
-        software.setOrdenCompra(softwareDTO.getOrdenCompra());
 
         software = softwareRepository.save(software);
 
@@ -59,12 +57,12 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
-    public void deleteSoftware(Long idSoftware) {
+    public void deleteSoftware(Integer idSoftware) {
         softwareRepository.deleteById(idSoftware);
     }
 
     @Override
-    public SoftwareDTO getSoftwareById(Long idSoftware) {
+    public SoftwareDTO getSoftwareById(Integer idSoftware) {
         Software software = softwareRepository.findById(idSoftware)
                                 .orElseThrow(() -> new RuntimeException("El proveedor no existe"));
         return mapToDTO(software);
@@ -84,9 +82,8 @@ public class SoftwareServiceImpl implements SoftwareService {
         dto.setNombre(software.getNombre());
         dto.setVersion(software.getVersion());
         dto.setFechaInstalacion(software.getFechaInstalacion());
-        dto.setFechaVencimiento(software.getFechaVencimiento());
+        dto.setFechaVencimientoLicencia(software.getFechaVencimientoLicencia());
         dto.setProveedorId(software.getProveedor().getId());
-        dto.setOrdenCompra(software.getOrdenCompra());
         return dto;
     }
 

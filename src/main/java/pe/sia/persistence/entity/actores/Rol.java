@@ -7,8 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /*
  * @author Villalta Carnero Anderson
@@ -17,7 +18,8 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "rol")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rol {

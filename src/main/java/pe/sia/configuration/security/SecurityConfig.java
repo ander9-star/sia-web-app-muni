@@ -39,9 +39,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // Configuración de CORS por defecto
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**", "/public/**").permitAll() // Rutas permitidas sin autenticación
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN") // Rutas para administradores
-                        .requestMatchers("/ingeniero/**").hasAnyAuthority("INGENIERO") // Rutas para ingenieros
-                        .requestMatchers("/soporte-tecnico").hasAnyAuthority("SOPORTE TECNICO") // Rutas para soporte técnico
-                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "INGENIERO", "SOPORTE TECNICO") // Rutas para usuarios administrativos
+                        .requestMatchers("/soporte-tecnico").hasAnyAuthority("SOPORTE_TECNICO") // Rutas para soporte técnico
+                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "SOPORTE_TECNICO") // Rutas para usuarios administrativos
                         .anyRequest().authenticated()) // Todas las demás solicitudes requieren autenticación
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Política de sesión sin estado
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

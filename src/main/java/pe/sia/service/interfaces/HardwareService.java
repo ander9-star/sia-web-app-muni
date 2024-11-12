@@ -7,9 +7,9 @@ import pe.sia.presentation.dto.activosDTO.HardwareDTO;
 public interface HardwareService {
 
     HardwareDTO createHardware(HardwareDTO hardwareDTO);
-    HardwareDTO updateHardware(Long idHardware, HardwareDTO hardwareDTO);
-    void deleteHardware(Long idHardware);
-    HardwareDTO getHardwareById(Long idHardware);
+    HardwareDTO updateHardware(Integer idHardware, HardwareDTO hardwareDTO);
+    void deleteHardware(Integer idHardware);
+    HardwareDTO getHardwareById(Integer idHardware);
     List<HardwareDTO> getAllHardware();
 
 }

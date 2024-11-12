@@ -10,9 +10,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pe.sia.persistence.entity.actores.Personal;
+import lombok.Setter;
 import java.time.OffsetDateTime;
 
 /*
@@ -23,7 +23,8 @@ import java.time.OffsetDateTime;
  */
 @Entity
 @Table(name = "auditoria")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Auditoria {
@@ -32,20 +33,15 @@ public class Auditoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "fallo_incidencia_id", referencedColumnName = "id")
-    private FalloIncidencia falloIncidencia;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "personal_id", referencedColumnName = "id")
-    private Personal personal;
-
     @Column(name = "fecha_cambio", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime fechaCambio;
 
     @NotNull
     private String cambioRealizado;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "mantenimiento_id", referencedColumnName = "id")
+    private Mantenimiento mantenimiento;
 
 }

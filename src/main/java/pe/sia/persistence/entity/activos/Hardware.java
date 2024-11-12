@@ -1,6 +1,5 @@
 package pe.sia.persistence.entity.activos;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,9 +8,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /*
  * @author Villalta Carnero Anderson
@@ -22,22 +23,23 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "hardware")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Hardware {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @NotNull
+    @Null
     private String nombre;
 
-    @NotNull
+    @Null
     private String marca;
     
-    @NotNull
+    @Null
     private String modelo;
 
     @NotNull
@@ -45,8 +47,5 @@ public class Hardware {
     @JoinColumn(name="proveedor_id", referencedColumnName = "id")
     private Proveedor proveedor;
 
-    @NotNull
-    @Column(name = "orden_compra")
-    private Long ordenCompra;
     
 }

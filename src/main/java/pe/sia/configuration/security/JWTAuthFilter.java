@@ -27,6 +27,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     @Autowired
     private UsuarioDetailsService usuarioDeatilsService;
 
+    @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
@@ -41,7 +42,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Extrae el token JWT del encabezado
+        // Extraer el token JWT del encabezado
         jwtToken = authHeader.substring(7); // Eliminar "Bearer " del encabezado
         userName = jwTokenUtils.extraerUsername(jwtToken);
 

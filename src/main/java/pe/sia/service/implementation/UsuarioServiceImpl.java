@@ -1,9 +1,8 @@
 package pe.sia.service.implementation;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +14,25 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import pe.sia.persistence.entity.actores.Rol;
 import pe.sia.persistence.entity.actores.Usuario;
-import pe.sia.persistence.entity.ubicaciones.Area;
+import pe.sia.persistence.entity.ubicaciones.OficinaSubgerencia;
 import pe.sia.persistence.repository.actoresRepository.RolRepository;
 import pe.sia.persistence.repository.actoresRepository.UsuarioRepository;
-import pe.sia.persistence.repository.ubicaciones.AreaRepository;
+import pe.sia.persistence.repository.ubicaciones.OficinaSubgerenciaRepository;
 import pe.sia.presentation.dto.actoresDTO.UsuarioDTO;
 import pe.sia.service.interfaces.UsuarioService;
 import pe.sia.util.JWTokenUtils;
+import pe.sia.util.UtilsApp;
 
 @Slf4j
 @Service
+//@RequiredArgsConstructor(onConstructor = @__(@Lazy))  
 public class UsuarioServiceImpl implements UsuarioService {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private AreaRepository areaRepository;
+    private OficinaSubgerenciaRepository oficinaSubgerenciaRepository;
 
     @Autowired
     private RolRepository rolRepository;
@@ -51,13 +52,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         try {
             Usuario usuario = new Usuario();
             usuario.setNombre(usuarioCreateDTO.getNombre());
+            usuario.setApellidos(usuarioCreateDTO.getApellidos()); 
             usuario.setUserName(usuarioCreateDTO.getUserName());
             usuario.setPassword(passwordEncoder.encode(usuarioCreateDTO.getPassword()));
             usuario.setCorreo(usuarioCreateDTO.getCorreo());
-            Rol rol = rolRepository.findById(3).orElseThrow();
+            Rol rol = rolRepository.findById(2).orElseThrow();
             usuario.setRol(rol);
-            Area area = areaRepository.findById(1).orElseThrow();
-            usuario.setArea(area);
+            OficinaSubgerencia oficinaSubgerencia = oficinaSubgerenciaRepository.findById(15).orElseThrow();
+            usuario.setOficinaSubgerencia(oficinaSubgerencia);
             usuario = usuarioRepository.save(usuario);
 
             if(usuario.getId() > 0) {
@@ -74,28 +76,35 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDTO updateUsuario(Integer userId, Usuario updateUser) { 
+    public UsuarioDTO updateUsuario(Integer userId, UsuarioDTO usuarioRequestDTO) { 
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         try {
              Optional<Usuario> userOptional = usuarioRepository.findById(userId);
              if(userOptional.isPresent()) {
                 Usuario usuarioUpdate = userOptional.get();
-                usuarioUpdate.setNombre(updateUser.getNombre());
-                usuarioUpdate.setUserName(updateUser.getUsername());
-                usuarioUpdate.setCorreo(updateUser.getCorreo());
-                usuarioUpdate.setArea(updateUser.getArea());
-                usuarioUpdate.setRol(updateUser.getRol()); 
-                if(updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
+                usuarioUpdate.setNombre(usuarioRequestDTO.getNombre());
+                usuarioUpdate.setApellidos(usuarioRequestDTO.getApellidos());
+                usuarioUpdate.setUserName(usuarioRequestDTO.getUserName());
+                if(usuarioRequestDTO.getPassword() != null && !usuarioRequestDTO.getPassword().isEmpty()) {
                     // codificar la password
-                    usuarioUpdate.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+                    usuarioUpdate.setPassword(passwordEncoder.encode(usuarioRequestDTO.getPassword()));
                 }
+                usuarioUpdate.setCorreo(usuarioRequestDTO.getCorreo());
+
+                Rol rol = rolRepository.findById(usuarioRequestDTO.getRolId()).orElseThrow();
+                usuarioUpdate.setRol(rol);
+
+                OficinaSubgerencia oficinaSubgerencia = oficinaSubgerenciaRepository.findById(usuarioRequestDTO.getOficinaSubgerenciaId())
+                                                                                    .orElseThrow();
+                usuarioUpdate.setOficinaSubgerencia(oficinaSubgerencia);
+
                 Usuario newUsuario = usuarioRepository.save(usuarioUpdate);
                 usuarioDTO.setUser(newUsuario);
                 usuarioDTO.setStatusCode(200);
-                usuarioDTO.setMessage("Usuario: " + usuarioUpdate.getNombre() + " actualizado con éxito");
+                usuarioDTO.setMessage("Usuario: " + userOptional.get().getNombre() + " actualizado con éxito");
              } else {
                 usuarioDTO.setStatusCode(404);
-                usuarioDTO.setMessage("Usuario: " + updateUser.getNombre() + " no encontrado");
+                usuarioDTO.setMessage("Usuario: " + usuarioRequestDTO.getNombre() + " no encontrado");
              }
         } catch (Exception e) {
              usuarioDTO.setStatusCode(500);
@@ -133,11 +142,12 @@ public class UsuarioServiceImpl implements UsuarioService {
             Usuario usuarioById = usuarioRepository.findById(idUsuario).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             usuarioDTO.setUser(usuarioById);
             usuarioDTO.setStatusCode(200);
-            usuarioDTO.setMessage("Usuario encontrado con el id: " + usuarioById + " exitosamente");
+            usuarioDTO.setMessage("Usuario encontrado con el id: " + usuarioById.getUsername() + " exitosamente");
 
         } catch (Exception e) {
             usuarioDTO.setStatusCode(500);
             usuarioDTO.setError("Ha ocurrido un error inesperado: " + e.getMessage());
+            log.error("\nHa sucedido un crear el usuario", e.getCause() + "\n"); 
         }
         return usuarioDTO;
     }
@@ -169,24 +179,24 @@ public class UsuarioServiceImpl implements UsuarioService {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
 
         try {
-            authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(usuarioLoginDTO.getUserName(),
-                                  usuarioLoginDTO.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioLoginDTO.getUserName(), usuarioLoginDTO.getPassword()));
             var user = usuarioRepository.findByUserName(usuarioLoginDTO.getUserName()).orElseThrow();
             var jwt = jwTokenService.generateTokenJWT(user);
             var refreshToken = jwTokenService.generateRefreshTokenJWT(new HashMap<>(), user);
             usuarioDTO.setStatusCode(200);
             usuarioDTO.setTokenJWT(jwt); 
             usuarioDTO.setRolId(user.getRol().getId());
+            usuarioDTO.setRol(user.getRol().getNombre()); 
             usuarioDTO.setRefreshTokenJWT(refreshToken);
             usuarioDTO.setExpiracionTokenTime("24Hrs");
-            usuarioDTO.setMessage("Usuario logeado con éxito, Rol " + user.getRol());
-            usuarioDTO.setDateTokenCreation(this.getFormatoFechaActual());
-            log.info("\n Token generado: " + usuarioDTO.getTokenJWT());
+            usuarioDTO.setMessage("Usuario logeado con éxito, Rol " + user.getRol().getNombre());
+            usuarioDTO.setDateTokenCreation(UtilsApp.getFormatoFechaActual());
+            log.info("\nToken generado: " + usuarioDTO.getTokenJWT());
 
         } catch (Exception e) {
             usuarioDTO.setStatusCode(500);
             usuarioDTO.setMessage("Ha ocurrido un problema al logearse: " + e.getMessage());
+            log.error("\nHa sucedido un error al logearse el usuario", e.getCause() + "\n"); 
         }
         
         return usuarioDTO;
@@ -207,7 +217,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 usuarioDTO.setRefreshTokenJWT(usuarioRefreshDTO.getTokenJWT());
                 usuarioDTO.setExpiracionTokenTime("24Hrs");
                 usuarioDTO.setMessage("Token refrescado con éxito");
-                usuarioDTO.setDateTokenCreation(this.getFormatoFechaActual());
+                usuarioDTO.setDateTokenCreation(UtilsApp.getFormatoFechaActual()); 
             }
             usuarioDTO.setStatusCode(200);
             return usuarioDTO;
@@ -240,9 +250,38 @@ public class UsuarioServiceImpl implements UsuarioService {
         return requestDTO;
     }
 
-    private String getFormatoFechaActual() {
-        LocalDateTime dateTime = LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return dateTimeFormatter.format(dateTime);
+    @Override
+    public UsuarioDTO getAllUsuariosDTO() {
+        
+        UsuarioDTO requestDTO = new UsuarioDTO();
+        
+        try {
+            List<Object[]> listResults = usuarioRepository.findAllUser();
+            List<UsuarioDTO> listUsuarioDTO = new ArrayList<>();
+
+            if(!listResults.isEmpty()) {
+                for(Object[] object : listResults) {
+                    UsuarioDTO usuarioDTO = new UsuarioDTO();
+                    usuarioDTO.setStatusCode(200);
+                    usuarioDTO.setNombre((String) object[0]);
+                    usuarioDTO.setApellidos((String) object[1]);
+                    usuarioDTO.setUserName((String) object[2]);
+                    usuarioDTO.setCorreo((String) object[3]);
+                    usuarioDTO.setRol((String) object[4]);
+                    usuarioDTO.setOficina((String) object[5]);
+                    listUsuarioDTO.add(usuarioDTO);
+                }
+
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Listado de usuarios con éxito");
+                requestDTO.setListUsuarioDTO(listUsuarioDTO);
+            }
+            return requestDTO;
+
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setError("Ha ocurrido un error inexperado al listar los usuarios: " + e.getMessage());
+            return requestDTO;
+        }
     }
 }

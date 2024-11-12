@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SiaAppWebApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SiaAppWebApplication.class, args);
+
 	}
 
 }

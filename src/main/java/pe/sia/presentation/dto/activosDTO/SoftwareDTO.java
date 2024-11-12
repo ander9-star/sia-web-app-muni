@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class SoftwareDTO {
 
-    private Long id;
+    private Integer id;
 
     @NotNull(message = "el nombre no debe de estar vacio")
     private String nombre;
@@ -19,11 +19,8 @@ public class SoftwareDTO {
     @NotNull(message = "la fecha de instalación no debe de estar vacia")
     private LocalDate fechaInstalacion;
 
-    private LocalDate fechaVencimiento;
+    private LocalDate fechaVencimientoLicencia;
 
     @NotNull(message = "el proveedor no debe de estar vacio")
     private Integer proveedorId;
-
-    @NotNull(message = "la orden de compra no debe de estar vacio")
-    private String ordenCompra;
 }

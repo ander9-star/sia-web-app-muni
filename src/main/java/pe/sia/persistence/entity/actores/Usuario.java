@@ -17,9 +17,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pe.sia.persistence.entity.ubicaciones.Area;
+import lombok.Setter;
+import pe.sia.persistence.entity.ubicaciones.OficinaSubgerencia;
 
 /*
  * @author Villalta Carnero Anderson
@@ -30,7 +31,8 @@ import pe.sia.persistence.entity.ubicaciones.Area;
 
 @Entity
 @Table(name = "usuario")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario implements UserDetails {
@@ -41,6 +43,9 @@ public class Usuario implements UserDetails {
 
     @NotNull
     private String nombre;
+
+    @NotNull
+    private String apellidos;
 
     @Column(name = "username")
     private String userName;
@@ -56,8 +61,8 @@ public class Usuario implements UserDetails {
     private Rol rol;
     
     @ManyToOne
-    @JoinColumn(name = "area_id", referencedColumnName = "id")
-    private Area area;
+    @JoinColumn(name = "oficina_subgerencia_id", referencedColumnName = "id")
+    private OficinaSubgerencia oficinaSubgerencia;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

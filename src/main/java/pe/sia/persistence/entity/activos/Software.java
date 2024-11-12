@@ -11,9 +11,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /*
  * @author villalta carnero 
@@ -24,34 +26,32 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "software")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Software {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
     private String nombre;
 
-    @NotNull
+    @Null
     private String version;
 
-    @NotNull
+    @Null
     @Column(name = "fecha_instalacion")
     private LocalDate fechaInstalacion;
 
     @Column(name = "fecha_vencimiento_licencia")
-    private LocalDate fechaVencimiento;
+    private LocalDate fechaVencimientoLicencia;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "proveedor_id", referencedColumnName = "id")
     private Proveedor proveedor;
 
-    @NotNull
-    @Column(name = "orden_compra")
-    private String ordenCompra;
 }

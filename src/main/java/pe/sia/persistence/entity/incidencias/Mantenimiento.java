@@ -12,8 +12,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pe.sia.persistence.entity.actores.Personal;
 
 /*
  * @author Villalta Carnero Anderson
@@ -23,7 +25,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "mantenimiento")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mantenimiento {
@@ -31,6 +34,11 @@ public class Mantenimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "fallo_incidencia_id", referencedColumnName = "id")
+    private FalloIncidencia falloIncidencia;
 
     @NotNull
     @Column(name = "fecha_programada")
@@ -48,7 +56,7 @@ public class Mantenimiento {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "fallo_incidencia_id", referencedColumnName = "id")
-    private FalloIncidencia falloIncidencia;
+    @JoinColumn(name = "personal_id", referencedColumnName = "id")
+    private Personal personal;
     
 }

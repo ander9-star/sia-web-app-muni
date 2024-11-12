@@ -1,5 +1,6 @@
 package pe.sia.persistence.entity.actores;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,13 +10,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pe.sia.persistence.entity.ubicaciones.Area;
+import lombok.Setter;
+import pe.sia.persistence.entity.ubicaciones.OficinaSubgerencia;
 
 @Entity
 @Table(name = "empleado")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Empleado {
@@ -23,6 +26,10 @@ public class Empleado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotNull
+    @Column(unique = true, length = 12)
+    private String codigo;
 
     @NotNull
     private String nombre;
@@ -35,6 +42,6 @@ public class Empleado {
     
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "area_id", referencedColumnName = "id")
-    private Area area;
+    @JoinColumn(name = "oficina_subgerencia_id", referencedColumnName = "id")
+    private OficinaSubgerencia oficinaSubgerencia;
 }

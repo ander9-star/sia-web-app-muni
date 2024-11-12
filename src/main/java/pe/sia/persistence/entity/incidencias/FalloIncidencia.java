@@ -10,12 +10,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pe.sia.persistence.entity.activos.ActivoInformatico;
-import pe.sia.persistence.entity.actores.Personal;
+import lombok.Setter;
+import pe.sia.persistence.entity.activos.ActivoMaestro;
 import pe.sia.persistence.entity.actores.Usuario;
-import pe.sia.persistence.entity.ubicaciones.Area;
 import java.time.OffsetDateTime;
 
 /*
@@ -27,7 +26,8 @@ import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "fallo_incidencia")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FalloIncidencia {
@@ -35,6 +35,9 @@ public class FalloIncidencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "codigo_problema", unique = true, length = 5)
+    private String codigoProblema;
 
     @NotNull
     private String descripcion;
@@ -50,13 +53,8 @@ public class FalloIncidencia {
     
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "activo_id", referencedColumnName = "id")
-    private ActivoInformatico activoInformatico;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "personal_id", referencedColumnName = "id")
-    private Personal personal;
+    @JoinColumn(name = "activo_maestro_id", referencedColumnName = "id")
+    private ActivoMaestro activoInformatico;
 
     @NotNull
     @ManyToOne
@@ -67,17 +65,11 @@ public class FalloIncidencia {
     @ManyToOne
     @JoinColumn(name = "prioridad_id", referencedColumnName = "id")
     private Prioridad prioridad;
-    
-    private boolean solucionado;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
         
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "area_id", referencedColumnName = "id")
-    private Area area;
-
+    private boolean solucionado;
 }

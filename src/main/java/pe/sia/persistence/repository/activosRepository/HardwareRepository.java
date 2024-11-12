@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.activos.Hardware;
 
 @Repository
-public interface HardwareRepository extends JpaRepository<Hardware, Long>{
+public interface HardwareRepository extends JpaRepository<Hardware, Integer>{
 
 }

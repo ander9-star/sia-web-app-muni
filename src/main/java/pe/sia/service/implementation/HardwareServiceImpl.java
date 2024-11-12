@@ -36,7 +36,6 @@ public class HardwareServiceImpl implements HardwareService {
         hardware.setNombre(hardwareDTO.getNombre());
         hardware.setMarca(hardwareDTO.getMarca());
         hardware.setModelo(hardwareDTO.getModelo());
-        hardware.setOrdenCompra(hardwareDTO.getOrdenCompra());
         hardware.setProveedor(getProveedor(hardwareDTO));
 
         hardware = hardwareRepository.save(hardware);
@@ -46,14 +45,13 @@ public class HardwareServiceImpl implements HardwareService {
 
     // Paso 2: Método para actualizar un hardware existente a través de un DTO
     @Override
-    public HardwareDTO updateHardware(Long idHardware, HardwareDTO hardwareDTO) {
+    public HardwareDTO updateHardware(Integer idHardware, HardwareDTO hardwareDTO) {
         Hardware hardware = hardwareRepository.findById(idHardware)
                                     .orElseThrow(() -> new RuntimeException("Hardware no encontrado"));
 
         hardware.setNombre(hardwareDTO.getNombre());
         hardware.setMarca(hardwareDTO.getMarca());
         hardware.setModelo(hardwareDTO.getModelo());
-        hardware.setOrdenCompra(hardwareDTO.getOrdenCompra());
         hardware.setProveedor(getProveedor(hardwareDTO));
 
         hardware = hardwareRepository.save(hardware);
@@ -62,13 +60,13 @@ public class HardwareServiceImpl implements HardwareService {
 
     // Paso 3: Método para eliminar un hardware por su ID
     @Override
-    public void deleteHardware(Long idHardware) {
+    public void deleteHardware(Integer idHardware) {
         hardwareRepository.deleteById(idHardware); 
     }
 
     // Paso 4: Método para obtener un hardware por su ID
     @Override
-    public HardwareDTO getHardwareById(Long idHardware) {
+    public HardwareDTO getHardwareById(Integer idHardware) {
         Hardware hardware = hardwareRepository
                                     .findById(idHardware)
                                     .orElseThrow(() -> new RuntimeException("Hardware no encontrado"));
@@ -92,7 +90,6 @@ public class HardwareServiceImpl implements HardwareService {
         dto.setMarca(hardware.getMarca());
         dto.setModelo(hardware.getModelo());
         dto.setProveedorId(hardware.getProveedor().getId());
-        dto.setOrdenCompra(hardware.getOrdenCompra());
         return dto;
     }
 

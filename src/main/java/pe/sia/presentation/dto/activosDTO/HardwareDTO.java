@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class HardwareDTO {
 
-    private Long id;
+    private Integer id;
 
     @NotNull(message = "el nombre del hardware no puede ser nulo")
     private String nombre;
@@ -19,8 +19,5 @@ public class HardwareDTO {
 
     @NotNull(message = "el proveedor no debe de ser nulo")
     private Integer proveedorId;
-
-    @NotNull(message = "el número de orden de compra no debe de ser nulo")
-    private Long ordenCompra;
 
 }

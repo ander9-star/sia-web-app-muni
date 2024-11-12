@@ -1,5 +1,6 @@
 package pe.sia.persistence.entity.activos;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,9 +10,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pe.sia.persistence.entity.actores.Empleado;
+import lombok.Setter;
 
 /*
  * @author Villalta Carnero Anderson
@@ -22,7 +23,8 @@ import pe.sia.persistence.entity.actores.Empleado;
 
 @Entity
 @Table(name = "activo_informatico")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActivoInformatico {
@@ -30,16 +32,14 @@ public class ActivoInformatico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "tipo_activo_id", referencedColumnName = "id")
-    private TipoActivo tipoActivo;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "empleado_id", referencedColumnName = "id")
-    private Empleado empleado;
+    @Column(name = "orden_compra", unique = true, length = 12)
+    private String ordenCompra;
+    
+    @NotNull
+    @Column(name = "tipo_activo")
+    private String tipoActivo;
 
     @NotNull
     @ManyToOne
@@ -53,6 +53,6 @@ public class ActivoInformatico {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "red_id", referencedColumnName = "id")
-    private Red red;
+    @JoinColumn(name = "infraestructura_red_id", referencedColumnName = "id")
+    private InfraestructuraRed infraestructuraRed;
 }

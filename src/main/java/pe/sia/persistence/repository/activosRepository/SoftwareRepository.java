@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.activos.Software;
 
 @Repository
-public interface SoftwareRepository extends JpaRepository<Software, Long> {
+public interface SoftwareRepository extends JpaRepository<Software, Integer> {
 
 }

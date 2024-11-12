@@ -6,15 +6,13 @@ import org.springframework.stereotype.Service;
 
 import pe.sia.persistence.entity.activos.ActivoInformatico;
 import pe.sia.persistence.entity.activos.Hardware;
-import pe.sia.persistence.entity.activos.Red;
+import pe.sia.persistence.entity.activos.InfraestructuraRed;
 import pe.sia.persistence.entity.activos.Software;
-import pe.sia.persistence.entity.activos.TipoActivo;
-import pe.sia.persistence.entity.actores.Empleado;
 import pe.sia.persistence.repository.activosRepository.ActivoInformaticoRepository;
 import pe.sia.persistence.repository.activosRepository.HardwareRepository;
-import pe.sia.persistence.repository.activosRepository.RedRepository;
+import pe.sia.persistence.repository.activosRepository.InfraestructuraRedRepository;
 import pe.sia.persistence.repository.activosRepository.SoftwareRepository;
-import pe.sia.persistence.repository.activosRepository.TipoActivoRepository;
+import pe.sia.persistence.repository.activosRepository.ActivoMaestroRepository;
 import pe.sia.persistence.repository.actoresRepository.EmpleadoRepository;
 import pe.sia.presentation.dto.activosDTO.ActivoInformaticoDTO;
 import pe.sia.service.interfaces.ActivoInformaticoService;
@@ -23,18 +21,14 @@ import pe.sia.service.interfaces.ActivoInformaticoService;
 public class ActivoInformaticoImpl implements ActivoInformaticoService {
 
     private final ActivoInformaticoRepository activoInformaticoRepository;
-    private final TipoActivoRepository tipoActivoRepository;
-    private final EmpleadoRepository empleadoRepository;
     private final HardwareRepository hardwareRepository;
     private final SoftwareRepository softwareRepository;
-    private final RedRepository redRepository;
+    private final InfraestructuraRedRepository redRepository;
 
     public ActivoInformaticoImpl(ActivoInformaticoRepository activoInformaticoRepository,
-            TipoActivoRepository tipoActivoRepository, EmpleadoRepository empleadoRepository,
-            HardwareRepository hardwareRepository, SoftwareRepository softwareRepository, RedRepository redRepository) {
+            ActivoMaestroRepository tipoActivoRepository, EmpleadoRepository empleadoRepository,
+            HardwareRepository hardwareRepository, SoftwareRepository softwareRepository, InfraestructuraRedRepository redRepository) {
         this.activoInformaticoRepository = activoInformaticoRepository;
-        this.tipoActivoRepository = tipoActivoRepository;
-        this.empleadoRepository = empleadoRepository;
         this.hardwareRepository = hardwareRepository;
         this.softwareRepository = softwareRepository;
         this.redRepository = redRepository;
@@ -46,30 +40,23 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
         ActivoInformatico activoInformatico = new ActivoInformatico();
 
         // validaciones correspondientes
-        // 1. para tipo de activo
-        TipoActivo tipoActivo = tipoActivoRepository.findById(activoInformaticoDTO.getTipoActivoId())
-                .orElseThrow(() -> new RuntimeException("El tipo de activo no existe"));
-        // 2. para empleado
-        Empleado empleado = empleadoRepository.findById(activoInformaticoDTO.getEmpleadoId())
-                .orElseThrow(() -> new RuntimeException("El empleado no existe"));
-
-        // 3. para hardware
+        // 1. para hardware
         Hardware hardware = hardwareRepository.findById(activoInformaticoDTO.getHardwareId())
                 .orElseThrow(() -> new RuntimeException("El hardware no existe"));
 
-        // 4. para software
+        // 2. para software
         Software software = softwareRepository.findById(activoInformaticoDTO.getSoftwareId())
                 .orElseThrow(() -> new RuntimeException("El software no existe"));
 
-        // 5. para red
-        Red red = redRepository.findById(activoInformaticoDTO.getRedId())
+        // 3. para red
+        InfraestructuraRed infraestructuraRed = redRepository.findById(activoInformaticoDTO.getInfraestructuraRedId())
                 .orElseThrow(() -> new RuntimeException("El equipo red no existe"));
 
-        activoInformatico.setTipoActivo(tipoActivo);
-        activoInformatico.setEmpleado(empleado);
+        activoInformatico.setOrdenCompra(activoInformaticoDTO.getOrdenCompra());
+        activoInformatico.setTipoActivo(activoInformaticoDTO.getTipoActivo());
         activoInformatico.setHardware(hardware);
         activoInformatico.setSoftware(software);
-        activoInformatico.setRed(red);
+        activoInformatico.setInfraestructuraRed(infraestructuraRed);
 
         activoInformatico = activoInformaticoRepository.save(activoInformatico);
 
@@ -84,30 +71,23 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
                                                     .orElseThrow(() -> new RuntimeException("El activo no existe"));
 
         // validaciones correspondientes
-        // 1. para tipo de activo
-        TipoActivo tipoActivo = tipoActivoRepository.findById(activoInformaticoDTO.getTipoActivoId())
-                .orElseThrow(() -> new RuntimeException("El tipo de activo no existe"));
-        // 2. para empleado
-        Empleado empleado = empleadoRepository.findById(activoInformaticoDTO.getEmpleadoId())
-                .orElseThrow(() -> new RuntimeException("El empleado no existe"));
-
-        // 3. para hardware
+        // 1. para hardware
         Hardware hardware = hardwareRepository.findById(activoInformaticoDTO.getHardwareId())
                 .orElseThrow(() -> new RuntimeException("El hardware no existe"));
 
-        // 4. para software
+        // 2. para software
         Software software = softwareRepository.findById(activoInformaticoDTO.getSoftwareId())
                 .orElseThrow(() -> new RuntimeException("El software no existe"));
 
-        // 5. para red
-        Red red = redRepository.findById(activoInformaticoDTO.getRedId())
+        // 3. para red
+        InfraestructuraRed infraestructuraRed = redRepository.findById(activoInformaticoDTO.getInfraestructuraRedId())
                 .orElseThrow(() -> new RuntimeException("El equipo red no existe"));
 
-        activoInformatico.setTipoActivo(tipoActivo);
-        activoInformatico.setEmpleado(empleado);
+        activoInformatico.setOrdenCompra(activoInformaticoDTO.getOrdenCompra());
+        activoInformatico.setTipoActivo(activoInformaticoDTO.getTipoActivo());
         activoInformatico.setHardware(hardware);
         activoInformatico.setSoftware(software);
-        activoInformatico.setRed(red);
+        activoInformatico.setInfraestructuraRed(infraestructuraRed);
 
         activoInformatico = activoInformaticoRepository.save(activoInformatico);
 
@@ -137,11 +117,11 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
     private ActivoInformaticoDTO mapToDTO(ActivoInformatico activoInformatico) {
         ActivoInformaticoDTO dto = new ActivoInformaticoDTO();
         dto.setId(activoInformatico.getId());
-        dto.setTipoActivoId(activoInformatico.getTipoActivo().getId());
-        dto.setEmpleadoId(activoInformatico.getEmpleado().getId());
+        dto.setOrdenCompra(activoInformatico.getOrdenCompra());
+        dto.setTipoActivo(activoInformatico.getTipoActivo());
         dto.setHardwareId(activoInformatico.getHardware().getId());
         dto.setSoftwareId(activoInformatico.getSoftware().getId());
-        dto.setRedId(activoInformatico.getRed().getId());
+        dto.setInfraestructuraRedId(activoInformatico.getInfraestructuraRed().getId());
         return dto;
     }
 

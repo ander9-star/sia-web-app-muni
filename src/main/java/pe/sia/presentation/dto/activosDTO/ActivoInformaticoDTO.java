@@ -8,18 +8,18 @@ public class ActivoInformaticoDTO {
     
     private Integer id;
     
-    @NotNull(message = "El tipo de activo no puede ser nulo")
-    private Integer tipoActivoId;
+    @NotNull(message = "La orden de compra no puede ser nulo")
+    private String ordenCompra;
 
-    @NotNull(message = "El empleado no puede ser nulo")
-    private Integer empleadoId;
+    @NotNull(message = "El tipo de activo no puede ser nulo")
+    private String tipoActivo;
 
     @NotNull(message = "El hardware no puede ser nulo")
-    private Long hardwareId;
+    private Integer hardwareId;
 
     @NotNull(message = "El software no puede ser nulo")
-    private Long softwareId;
+    private Integer softwareId;
 
     @NotNull(message = "La red no puede ser nula")
-    private Long redId;
+    private Integer infraestructuraRedId;
 }

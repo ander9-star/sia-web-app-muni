@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
@@ -18,7 +19,7 @@ import io.jsonwebtoken.Jwts;
 @Component
 public class JWTokenUtils {
     
-    private SecretKey secretKey;
+    private final SecretKey secretKey;
     private static final long EXPIRATION_TIME = 86400000; // 24 horas
 
     public JWTokenUtils() {
@@ -37,7 +38,7 @@ public class JWTokenUtils {
                 .compact();
     }
 
-    public String generateRefreshTokenJWT(HashMap<String, Object> claims, UserDetails userDetails) {
+    public String generateRefreshTokenJWT(Map<String, Object> claims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())

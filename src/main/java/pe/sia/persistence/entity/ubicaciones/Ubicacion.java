@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 /*
  * @author Villalta Carnero Anderson
@@ -15,10 +15,12 @@ import lombok.NoArgsConstructor;
  ** Esta entidad representa la ubicacion del activo informatico cuando se genera la incidencia
  ** tiene relacion con las tablas de Oficina, Area y Piso
  */
+import lombok.Setter;
 
 @Entity
 @Table(name = "ubicacion")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ubicacion {
