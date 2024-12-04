@@ -1,14 +1,7 @@
 package pe.sia.presentation.controller.falloIncidenciaController;
 
-import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.sia.persistence.entity.incidencias.FalloIncidencia;
 import pe.sia.presentation.dto.incienciasDTO.IncidenciaFalloDTO;
 import pe.sia.service.interfaces.FalloIncidenciaService;
 
@@ -36,51 +28,24 @@ public class FalloIncidenciaController {
         return ResponseEntity.ok(falloIncidenciaService.getIncidenciaFallo());
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") FalloIncidencia id) {
-        /*Optional<?> existingItemOptional = repository.findById(id);
-
-        if (existingItemOptional.isPresent()) {
-            return new ResponseEntity<>(existingItemOptional.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }*/
-        return null;
+    @GetMapping("/soporte-tecnico/get-incidencia/{codigoProblema}")
+    public ResponseEntity<IncidenciaFalloDTO> getByIdIncidencia(@PathVariable("codigoProblema") String codigoProblema) {
+        return ResponseEntity.ok(falloIncidenciaService.buscarIncidencia(codigoProblema));
     }
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody FalloIncidencia item) {
-        /*try {
-            entityClassName savedItem = repository.save(item);
-            return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-        }*/
-        return null;
+    @PostMapping("/soporte-tecnico/create-incidencia")
+    public ResponseEntity<IncidenciaFalloDTO> create(@RequestBody IncidenciaFalloDTO item) {
+        return  ResponseEntity.ok(falloIncidenciaService.insertarIncidencia(item));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody FalloIncidencia item) {
-        /*Optional<?> existingItemOptional = falloIncidenciaService.findById(id);
-        if (existingItemOptional.isPresent()) {
-            //entityClassName existingItem = existingItemOptional.get();
-            System.out.println("TODO for developer - update logic is unique to entity and must be implemented manually.");
-            //existingItem.setSomeField(item.getSomeField());
-            //return new ResponseEntity<>(repository.save(existingItem), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }*/
-        return null;
+    @PutMapping("/soporte-tecnico/update-incidencia/{id}")
+    public ResponseEntity<IncidenciaFalloDTO> update(@PathVariable("id") Integer id, @RequestBody IncidenciaFalloDTO item) {
+        return  ResponseEntity.ok(falloIncidenciaService.actualizarIncidencia(id, item));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
-        try {
-            //repository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+    @DeleteMapping("/soporte-tecnico/delete-incidencia/{id}")
+    public ResponseEntity<IncidenciaFalloDTO> delete(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(falloIncidenciaService.eliminarIncidencia(id));
     }
 
     @GetMapping("/admin/countmes-incidencias")
@@ -152,5 +117,30 @@ public class FalloIncidenciaController {
     public ResponseEntity<IncidenciaFalloDTO> getTableResults() {
         return ResponseEntity.ok(falloIncidenciaService.getTableResults());
     }
-    
+
+    @GetMapping("/adminuser/cantidad-mes")
+    public ResponseEntity<IncidenciaFalloDTO> getCantidadFalloPorMes() {
+        return ResponseEntity.ok(falloIncidenciaService.getCantidadTotalIncidencaPorMes());
+    }
+
+    @GetMapping("/adminuser/total-incidencias")
+    public ResponseEntity<IncidenciaFalloDTO> getCantidadTotalIncidencias() {
+        return ResponseEntity.ok(falloIncidenciaService.getTotalIncidencias());
+    }
+
+    @GetMapping("/adminuser/total-dia-mes")
+    public ResponseEntity<IncidenciaFalloDTO> getTotalIncidenciasDiasMes() {
+        return ResponseEntity.ok(falloIncidenciaService.getTotalIncidenciasDiasMes());
+    }
+
+    @GetMapping("/adminuser/total-mes")
+    public ResponseEntity<IncidenciaFalloDTO> getIncidenciasTotalMesActualAnterior() {
+        return ResponseEntity.ok(falloIncidenciaService.getIncidenciasTotalMesActualAnterior());
+    }
+
+    @GetMapping("/adminuser/total-prioridad-mes")
+    public ResponseEntity<IncidenciaFalloDTO> getTotalIncidenciasFalloByPrioridad() {
+        return ResponseEntity.ok(falloIncidenciaService.getTotalIncidenciasFalloByPrioridad());
+    }
+
 }
