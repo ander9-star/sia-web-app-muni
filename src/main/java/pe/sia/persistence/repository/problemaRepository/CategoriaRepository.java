@@ -4,10 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import pe.sia.persistence.entity.incidencias.Categoria;
+import pe.sia.persistence.entity.problema.Categoria;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer>{

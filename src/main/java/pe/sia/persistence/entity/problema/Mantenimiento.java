@@ -1,6 +1,6 @@
 package pe.sia.persistence.entity.incidencias;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,14 +38,14 @@ public class Mantenimiento {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "fallo_incidencia_id", referencedColumnName = "id")
-    private FalloIncidencia falloIncidencia;
+    private ProblemaGeneral falloIncidencia;
 
     @NotNull
-    @Column(name = "fecha_programada")
-    private LocalDate fechaProgramada;
+    @Column(name = "fecha_programada", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Instant fechaProgramada;
 
-    @Column(name = "fecha_realizada")
-    private LocalDate fechaRealizada;
+    @Column(name = "fecha_realizada", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Instant fechaRealizada;
 
     @NotNull
     @ManyToOne

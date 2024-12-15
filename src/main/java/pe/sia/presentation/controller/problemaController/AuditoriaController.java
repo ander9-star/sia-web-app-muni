@@ -19,6 +19,11 @@ public class AuditoriaController {
         return ResponseEntity.ok(auditoriaService.getAuditoriaMantenimiento(id));
     }
 
+    @GetMapping("/adminuser/auditoria-full")
+    public ResponseEntity<AuditoriaDTO> getDataFullAuditoria() {
+        return ResponseEntity.ok(auditoriaService.getDataFullAuditoria());
+    }
+
     @PostMapping("/adminuser/insert-auditoria")
     public ResponseEntity<AuditoriaDTO> insertAuditoria(@RequestBody AuditoriaDTO auditoriaDTO) {
         return ResponseEntity.ok(auditoriaService.insertAuditoria(auditoriaDTO));

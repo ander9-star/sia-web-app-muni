@@ -13,13 +13,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.Instant;
 import java.time.OffsetDateTime;
 
 /*
  * @author Villalta Carnero Anderson
  * @version 1.0
  ** Entidad que representa la auditoría de cambios en las incidencias.
- ** Esta clase tiene relaciones con las entidades FalloIncidencia y Personal.
+ ** Esta clase tiene relaciones con las entidades ProblemaGeneral y Personal.
  */
 @Entity
 @Table(name = "auditoria")
@@ -34,7 +36,7 @@ public class Auditoria {
     private Integer id;
 
     @Column(name = "fecha_cambio", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private OffsetDateTime fechaCambio;
+    private Instant fechaCambio;
 
     @NotNull
     private String cambioRealizado;

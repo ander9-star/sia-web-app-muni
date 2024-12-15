@@ -1,4 +1,4 @@
-package pe.sia.persistence.entity.incidencias;
+package pe.sia.persistence.entity.problema;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,22 +15,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.sia.persistence.entity.activos.ActivoMaestro;
 import pe.sia.persistence.entity.actores.Usuario;
-import java.time.OffsetDateTime;
+
+import java.time.Instant;
 
 /*
  * @author Villalta Carnero Anderson 
  * @version 1.0
- ** Esta entidad representa un fallo o incidencia reportada en el sistema. Está relacionada con otras entidades 
+ ** Esta entidad representa un el problema reportada en el sistema. Está relacionada con otras entidades
  ** como Ubicación, Activo Informático, Usuario, Personal, Categoría y Prioridad, lo que permite una mejor gestión y seguimiento de los fallos.
  */
 
 @Entity
-@Table(name = "fallo_incidencia")
+@Table(name = "detalle_problema")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FalloIncidencia {
+public class ProblemaDetalle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +44,7 @@ public class FalloIncidencia {
     private String descripcion;
 
     @Column(name = "fecha_ocurrencia", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private OffsetDateTime fechaOcurrencia;
+    private Instant fechaOcurrencia;
     
     @NotNull
     @Column(name = "medio_reporte")
@@ -54,7 +55,7 @@ public class FalloIncidencia {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "activo_maestro_id", referencedColumnName = "id")
-    private ActivoMaestro activoInformatico;
+    private ActivoMaestro activoMaestro;
 
     @NotNull
     @ManyToOne
@@ -70,6 +71,6 @@ public class FalloIncidencia {
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
-        
+
     private boolean solucionado;
 }
