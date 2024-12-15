@@ -1,11 +1,9 @@
 package pe.sia.presentation.controller.actoresController;
 
-import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.RestController;
 import pe.sia.presentation.dto.actoresDTO.UsuarioDTO;
 import pe.sia.service.interfaces.UsuarioService;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,8 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     @PostMapping("/auth/register")
     public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
@@ -48,9 +49,9 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.getUsuarioById(id));
     }
 
-    @PutMapping("/admin/update/{id}")
-    public ResponseEntity<UsuarioDTO> updateUser(@PathVariable Integer id, @RequestBody UsuarioDTO usuario) {
-        return ResponseEntity.ok(usuarioService.updateUsuario(id, usuario));
+    @PutMapping("/adminuser/update/{id}")
+    public ResponseEntity<UsuarioDTO> updateUser(@PathVariable Integer id, @RequestBody UsuarioDTO usuario, Authentication authentication) {
+        return ResponseEntity.ok(usuarioService.updateUsuario(id, usuario, authentication));
     }
 
     @DeleteMapping("/admin/delete/{id}")

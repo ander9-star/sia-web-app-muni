@@ -1,4 +1,4 @@
-package pe.sia.persistence.entity.incidencias;
+package pe.sia.persistence.entity.problema;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import lombok.Setter;
 /*
  * @author Villalta Carnero Anderson
  * @version 1.0
- ** Esta entidad representa el tipo de mantenimiento en el sistema de incidencias.
+ ** Esta entidad representa el tipo de mantenimiento en el sistema de problema.
  */
 
 @Entity

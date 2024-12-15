@@ -8,4 +8,5 @@ import pe.sia.persistence.entity.ubicaciones.OficinaMayor;
 @Repository
 public interface OficinaRepository extends JpaRepository<OficinaMayor, Integer> {
 
+
 }

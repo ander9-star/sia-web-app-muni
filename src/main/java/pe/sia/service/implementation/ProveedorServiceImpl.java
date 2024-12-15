@@ -1,7 +1,8 @@
 package pe.sia.service.implementation;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ProveedorServiceImpl implements ProveedorService {
         this.proveedorRepository = proveedorRepository;
     }
 
-    // Paso 1: Método para crear un nuevo proveedor a traves de de un DTO
+    // Paso 1: Metodo para crear un nuevo proveedor a traves de de un DTO
     @Override
     public ProveedorDTO createProveedor(ProveedorDTO proveedorDTO) {
 
@@ -43,7 +44,7 @@ public class ProveedorServiceImpl implements ProveedorService {
         return mapToDTO(proveedor);
     }
 
-    // Paso 2: Método para actualizar un proveedor si exsite a tráves de un DTO
+    // Paso 2: Metodo para actualizar un proveedor si exsite a tráves de un DTO
     @Override
     public ProveedorDTO updateProveedor(Integer idProveedor, ProveedorDTO proveedorDTO) {
 
@@ -64,13 +65,13 @@ public class ProveedorServiceImpl implements ProveedorService {
         return mapToDTO(proveedor);
     }
 
-    // Paso 3: Método para eliminar un proveedor
+    // Paso 3: Metodo para eliminar un proveedor
     @Override
     public void deleteProveedor(Integer idProveedor) {
         proveedorRepository.deleteById(idProveedor);
     }
 
-    // Paso 4: Método para obtener un proveedor a tráves de un Id
+    // Paso 4: Metodo para obtener un proveedor a tráves de un Id
     @Override
     public ProveedorDTO getProveedorById(Integer idProveedor) {
         Proveedor proveedor = proveedorRepository
@@ -80,16 +81,16 @@ public class ProveedorServiceImpl implements ProveedorService {
         return mapToDTO(proveedor);
     }
 
-    // Paso 5: Método para obtener todos los proveedores que hay en la base de datos
+    // Paso 5: Metodo para obtener todos los proveedores que hay en la base de datos
     @Override
     public List<ProveedorDTO> getAllProveedores() {
         return proveedorRepository.findAll()
                     .stream()
                     .map(this::mapToDTO)
-                    .collect(Collectors.toList());
+                    .toList();
     }
 
-    // Método auxiliar para mapear un Proveedor a un DTO
+    // Metodo auxiliar para mapear un Proveedor a un DTO
     private ProveedorDTO mapToDTO(Proveedor proveedor) {
         ProveedorDTO dto = new ProveedorDTO();
         dto.setId(proveedor.getId());
@@ -97,6 +98,39 @@ public class ProveedorServiceImpl implements ProveedorService {
         dto.setContacto(proveedor.getContacto());
         dto.setTelefono(proveedor.getNombre());
         return dto;
+    }
+
+    //
+    @Override
+    public ProveedorDTO getDataProveedor() {
+        ProveedorDTO requestDTO = new ProveedorDTO();
+        try {
+            List<Object[]> resultTable = proveedorRepository.getFIPorProveedor();
+            List<ProveedorDTO> proveedorDTOList = new ArrayList<>();
+            if(!resultTable.isEmpty()) {
+                for(Object[] row : resultTable) {
+                    ProveedorDTO proveedorDTO = new ProveedorDTO();
+                    proveedorDTO.setStatusCode(200);
+                    proveedorDTO.setNombre((String) row[0]);
+                    proveedorDTO.setContacto((String) row[1]);
+                    proveedorDTO.setTelefono((String) row[2]);
+                    proveedorDTO.setCantidadIncidencias((Integer) row[3]);
+                    proveedorDTO.setPorcentajeIncidencia((BigDecimal) row[4]);
+                    proveedorDTOList.add(proveedorDTO);
+                }
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Se ha extraido con éxito la data de proveedor");
+                requestDTO.setProveedorDTOList(proveedorDTOList);
+            } else {
+                requestDTO.setStatusCode(404);
+                requestDTO.setMessage("No hay data que extraer");
+            }
+            return requestDTO;
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setMessage("Ha sucedido un error al intenttar extraer la data: " + e.getMessage());
+            return requestDTO;
+        }
     }
 
 }

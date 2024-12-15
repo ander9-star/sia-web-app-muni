@@ -15,17 +15,17 @@ import pe.sia.presentation.dto.problemaDTO.DetalleProblemaDTO;
 import pe.sia.service.interfaces.DetalleProblemaService;
 
 @RestController
-public class FalloIncidenciaController {
+public class DetalleProblemaController {
 
     private final DetalleProblemaService detalleProblemaService;
 
-    public FalloIncidenciaController(DetalleProblemaService detalleProblemaService) {
+    public DetalleProblemaController(DetalleProblemaService detalleProblemaService) {
         this.detalleProblemaService = detalleProblemaService;
     }
 
-    @GetMapping("/soporte-tecnico/all-problema")
-    public ResponseEntity<DetalleProblemaDTO> getAll() {
-        return ResponseEntity.ok(detalleProblemaService.findAllDetalleProblema());
+    @GetMapping("/soporte-tecnico/all-detalle-problema/{idProblemaGeneral}")
+    public ResponseEntity<DetalleProblemaDTO> getDataNormalizadaDetalleProblema(@PathVariable("idProblemaGeneral") Integer idProblemaGeneral) {
+        return ResponseEntity.ok(detalleProblemaService.findAllDetalleProblema(idProblemaGeneral));
     }
 
     @GetMapping("/soporte-tecnico/get-incidencia/{codigoProblema}")
@@ -38,7 +38,7 @@ public class FalloIncidenciaController {
         return  ResponseEntity.ok(detalleProblemaService.insertarDetalleProblema(item));
     }
 
-    @PutMapping("/soporte-tecnico/update-incidencia/{id}")
+    @PutMapping("/soporte-tecnico/update-detalle-problema/{id}")
     public ResponseEntity<DetalleProblemaDTO> update(@PathVariable("id") Integer id, @RequestBody DetalleProblemaDTO item) {
         return  ResponseEntity.ok(detalleProblemaService.actualizarDetalleProblema(id, item));
     }
@@ -102,6 +102,11 @@ public class FalloIncidenciaController {
     @GetMapping("/adminuser/total-prioridad-mes")
     public ResponseEntity<DetalleProblemaDTO> getTotalIncidenciasFalloByPrioridad() {
         return ResponseEntity.ok(detalleProblemaService.getTotalDetalleProblemaByPrioridadByCategoria());
+    }
+
+    @GetMapping("/soporte-tecnico/get-dp-by-id-pg/{idProblemaGeneral}")
+    public ResponseEntity<DetalleProblemaDTO> getDetalleProblemaPorIdProblemaGeneral(@PathVariable("idProblemaGeneral") Integer idProblemaGeneral) {
+        return ResponseEntity.ok(detalleProblemaService.getDetalleProblemaPorIdProblemaGeneral(idProblemaGeneral));
     }
 
 }

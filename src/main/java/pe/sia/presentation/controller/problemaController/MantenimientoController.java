@@ -1,9 +1,11 @@
-package pe.sia.presentation.controller.falloIncidenciaController;
+package pe.sia.presentation.controller.problemaController;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.sia.presentation.dto.incienciasDTO.MantenimientoDTO;
+import pe.sia.presentation.dto.problemaDTO.MantenimientoDTO;
 import pe.sia.service.interfaces.MantenimientoService;
+
+import java.util.Map;
 
 @RestController
 public class MantenimientoController {
@@ -33,6 +35,12 @@ public class MantenimientoController {
     public ResponseEntity<MantenimientoDTO> getFISinMantenimiento() {
         return ResponseEntity.ok(mantenimientoService.getFISinMantenimiento());
     }
+
+    @GetMapping("/soporte-tecnico/mantenimiento-incidencia-hoy-ayer")
+    public ResponseEntity<Map<String, Object>> getTotalManenimientoHoyAyer() {
+        return ResponseEntity.ok(mantenimientoService.getTotalManenimientoHoyAyer());
+    }
+
 
     @PutMapping("/adminuser/update-mantenimiento/{id}")
     public ResponseEntity<MantenimientoDTO> updateMantenimiento(@PathVariable("id") Integer id, @RequestBody MantenimientoDTO item) {

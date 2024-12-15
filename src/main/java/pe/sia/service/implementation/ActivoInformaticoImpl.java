@@ -12,8 +12,6 @@ import pe.sia.persistence.repository.activosRepository.ActivoInformaticoReposito
 import pe.sia.persistence.repository.activosRepository.HardwareRepository;
 import pe.sia.persistence.repository.activosRepository.InfraestructuraRedRepository;
 import pe.sia.persistence.repository.activosRepository.SoftwareRepository;
-import pe.sia.persistence.repository.activosRepository.ActivoMaestroRepository;
-import pe.sia.persistence.repository.actoresRepository.EmpleadoRepository;
 import pe.sia.presentation.dto.activosDTO.ActivoInformaticoDTO;
 import pe.sia.service.interfaces.ActivoInformaticoService;
 
@@ -25,9 +23,8 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
     private final SoftwareRepository softwareRepository;
     private final InfraestructuraRedRepository redRepository;
 
-    public ActivoInformaticoImpl(ActivoInformaticoRepository activoInformaticoRepository,
-            ActivoMaestroRepository tipoActivoRepository, EmpleadoRepository empleadoRepository,
-            HardwareRepository hardwareRepository, SoftwareRepository softwareRepository, InfraestructuraRedRepository redRepository) {
+    public ActivoInformaticoImpl(ActivoInformaticoRepository activoInformaticoRepository, HardwareRepository hardwareRepository,
+                                 SoftwareRepository softwareRepository, InfraestructuraRedRepository redRepository) {
         this.activoInformaticoRepository = activoInformaticoRepository;
         this.hardwareRepository = hardwareRepository;
         this.softwareRepository = softwareRepository;
@@ -64,7 +61,7 @@ public class ActivoInformaticoImpl implements ActivoInformaticoService {
     }
 
     @Override
-    public ActivoInformaticoDTO updateActivoInformatico(Integer IdactivoInformaticoDTO,
+    public ActivoInformaticoDTO updateActivoInformatico(Integer idactivoInformaticoDTO,
             ActivoInformaticoDTO activoInformaticoDTO) {
 
         ActivoInformatico activoInformatico = activoInformaticoRepository.findById(activoInformaticoDTO.getId())

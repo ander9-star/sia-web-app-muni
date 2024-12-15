@@ -23,7 +23,7 @@ public class TipoRedServiceImpl implements TipoRedService {
         this.tipoRedRepository = tipoRedRepository;
     }
 
-    // Paso 1: Método para crear un nuevo tipo de red a través de un DTO
+    // Paso 1: Metodo para crear un nuevo tipo de red a través de un DTO
     @Override
     public TipoRedDTO createTipoRed(TipoRedDTO tipoRedDTO) {
         TipoRed tipoRed = new TipoRed();
@@ -35,7 +35,7 @@ public class TipoRedServiceImpl implements TipoRedService {
         return mapToDTO(tipoRed);
     }
 
-    // Paso 2: Método para actualizar un tipo de red existente a través de un DTO
+    // Paso 2: Metodo para actualizar un tipo de red existente a través de un DTO
     @Override
     public TipoRedDTO updateTipoRed(Integer idTipoRed, TipoRedDTO tipoRedDTO) {
 
@@ -49,13 +49,13 @@ public class TipoRedServiceImpl implements TipoRedService {
         return mapToDTO(tipoRed);
     }
 
-    // Paso 3: Método para eliminar un tipo de red por su ID
+    // Paso 3: Metodo para eliminar un tipo de red por su ID
     @Override
     public void deleteTipoRed(Integer idTipoRed) {
         tipoRedRepository.deleteById(idTipoRed);
     }
 
-    // Paso 4: Método para obtener un tipo de red por su ID
+    // Paso 4: Metodo para obtener un tipo de red por su ID
     @Override
     public TipoRedDTO getTipoRedById(Integer idTipoRed) {
         TipoRed tipoRed = tipoRedRepository.findById(idTipoRed)
@@ -64,7 +64,7 @@ public class TipoRedServiceImpl implements TipoRedService {
         return mapToDTO(tipoRed);
     }
 
-    // Paso 5: Método para obtener todos los tipos de red
+    // Paso 5: Metodo para obtener todos los tipos de red
     @Override
     public List<TipoRedDTO> getAllTipoRed() {
         return tipoRedRepository.findAll()
@@ -73,7 +73,7 @@ public class TipoRedServiceImpl implements TipoRedService {
                     .toList();
     }
 
-    // Método auxiliar para mapear un objeto TipoRed a TipoRedDTO
+    // Metodo auxiliar para mapear un objeto TipoRed a TipoRedDTO
     private TipoRedDTO mapToDTO(TipoRed tipoRed) {
         TipoRedDTO dto = new TipoRedDTO();
         dto.setId(tipoRed.getId());

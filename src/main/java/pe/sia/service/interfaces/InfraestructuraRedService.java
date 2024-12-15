@@ -10,5 +10,6 @@ public interface InfraestructuraRedService {
     void deleteRed(Integer idRed);
     InfraestructuraRedDTO getRedById(Integer idRed);
     List<InfraestructuraRedDTO> getAllRedes();
+    InfraestructuraRedDTO getFIRed();
     
 }

@@ -1,4 +1,4 @@
-package pe.sia.persistence.entity.incidencias;
+package pe.sia.persistence.entity.problema;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,13 +15,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.OffsetDateTime;
 
 /*
  * @author Villalta Carnero Anderson
  * @version 1.0
- ** Entidad que representa la auditoría de cambios en las incidencias.
- ** Esta clase tiene relaciones con las entidades ProblemaGeneral y Personal.
+ ** Entidad que representa la auditoría de cambios en las problema.
+ ** Esta clase tiene relaciones con las entidades DetalleProblema y Personal.
  */
 @Entity
 @Table(name = "auditoria")
@@ -39,6 +38,7 @@ public class Auditoria {
     private Instant fechaCambio;
 
     @NotNull
+    @Column(name = "cambio_realizado")
     private String cambioRealizado;
 
     @NotNull

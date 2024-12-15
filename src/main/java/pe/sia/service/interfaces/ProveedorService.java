@@ -11,5 +11,6 @@ public interface ProveedorService {
     void deleteProveedor(Integer idProveedor);
     ProveedorDTO getProveedorById(Integer idProveedor);
     List<ProveedorDTO> getAllProveedores();
+    ProveedorDTO getDataProveedor();
 
 }

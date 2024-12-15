@@ -1,4 +1,4 @@
-package pe.sia.persistence.entity.incidencias;
+package pe.sia.persistence.entity.problema;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +14,8 @@ import lombok.Setter;
 /*
  * @author Villalta Carnero Anderson
  * @version 1.0
- ** Esta entidad representa una categoría en el sistema de incidencias.
- ** Se utiliza para clasificar y organizar las incidencias reportadas.
+ ** Esta entidad representa una categoría en el sistema de problema.
+ ** Se utiliza para clasificar y organizar las problema reportadas.
  */
 
 @Entity

@@ -1,4 +1,4 @@
-package pe.sia.presentation.dto.incienciasDTO;
+package pe.sia.presentation.dto.problemaDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

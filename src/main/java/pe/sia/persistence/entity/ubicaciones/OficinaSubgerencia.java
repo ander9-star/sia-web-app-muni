@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OficinaSubgerencia {
+public class  OficinaSubgerencia {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

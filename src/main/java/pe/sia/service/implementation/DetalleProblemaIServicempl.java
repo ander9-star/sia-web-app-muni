@@ -6,72 +6,66 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import pe.sia.persistence.entity.activos.ActivoMaestro;
-import pe.sia.persistence.entity.actores.Usuario;
-import pe.sia.persistence.entity.problema.Categoria;
 import pe.sia.persistence.entity.problema.DetalleProblema;
-import pe.sia.persistence.entity.problema.Prioridad;
-import pe.sia.persistence.repository.activosRepository.ActivoMaestroRepository;
-import pe.sia.persistence.repository.actoresRepository.UsuarioRepository;
 import pe.sia.persistence.repository.problemaRepository.CategoriaRepository;
 import pe.sia.persistence.repository.problemaRepository.PrioridadRepository;
 import pe.sia.persistence.repository.problemaRepository.DetalleProblemaRepository;
+import pe.sia.persistence.repository.problemaRepository.ProblemaGeneralRepository;
 import pe.sia.presentation.dto.problemaDTO.DetalleProblemaDTO;
 import pe.sia.presentation.dto.problemaDTO.PrioridadDTO;
-import pe.sia.service.interfaces.ProblemaDetalleService;
+import pe.sia.service.interfaces.DetalleProblemaService;
 import pe.sia.util.UtilsApp;
 
 @Service
 @Slf4j
-public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
+public class DetalleProblemaIServicempl implements DetalleProblemaService {
 
     private final DetalleProblemaRepository detalleProblemaRepository;
-    private final ActivoMaestroRepository activoMaestroRepository;
     private final CategoriaRepository categoriaRepository;
     private final PrioridadRepository prioridadRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final ProblemaGeneralRepository problemaGeneralRepository;
 
-    public ProblemaDetalleIServicempl(DetalleProblemaRepository detalleProblemaRepository, ActivoMaestroRepository activoMaestroRepository,
-                                      CategoriaRepository categoriaRepository, PrioridadRepository prioridadRepository, UsuarioRepository usuarioRepository) {
+    public DetalleProblemaIServicempl(DetalleProblemaRepository detalleProblemaRepository, CategoriaRepository categoriaRepository,
+                                      PrioridadRepository prioridadRepository, ProblemaGeneralRepository problemaGeneralRepository) {
         this.detalleProblemaRepository = detalleProblemaRepository;
-        this.activoMaestroRepository = activoMaestroRepository;
         this.categoriaRepository = categoriaRepository;
         this.prioridadRepository = prioridadRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.problemaGeneralRepository = problemaGeneralRepository;
     }
 
     @Override
-    public DetalleProblemaDTO getIncidenciaFallo() {
+    public DetalleProblemaDTO findAllDetalleProblema(Integer idProblemaGeneral) {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
-            List<Object[]> listResults = detalleProblemaRepository.findAllDetalleProblema();
-            List<DetalleProblemaDTO> listFalloDTO = new ArrayList<>();
+            List<Object[]> listResults = detalleProblemaRepository.findAllDetalleProblema(idProblemaGeneral);
+            List<DetalleProblemaDTO> listaDetalleProblemaDTO = new ArrayList<>();
 
             if (!listResults.isEmpty()) {
                 for (Object[] object : listResults) {
-                    DetalleProblemaDTO falloIncidenciaDTO = new DetalleProblemaDTO();
-                    falloIncidenciaDTO.setStatusCode(200);
-                    falloIncidenciaDTO.setIdDetalleProblema((Integer) object[0]);
-                    falloIncidenciaDTO.setCodigoProblema((String) object[1]);
-                    falloIncidenciaDTO.setCodigoProblemaGeneral((String) object[2]);
-                    falloIncidenciaDTO.setDescripcion((String) object[2]);
-                    falloIncidenciaDTO.setFechaRegistro(UtilsApp.formatearFecha((Instant) object[3]));
-                    falloIncidenciaDTO.setMedioReporte((String) object[4]);
-                    falloIncidenciaDTO.setSolucion((String) object[5]);
-                    falloIncidenciaDTO.setCodigoBien((String) object[6]);
-                    falloIncidenciaDTO.setNombreActivo((String) object[7]);
-                    falloIncidenciaDTO.setTipoActivo((String) object[8]);
-                    falloIncidenciaDTO.setNombreEmpleado((String) object[9]);
-                    falloIncidenciaDTO.setPrioridad((String) object[10]);
-                    falloIncidenciaDTO.setCategoria((String) object[11]);
-                    falloIncidenciaDTO.setSolucionado((Boolean) object[12]);
-                    falloIncidenciaDTO.setNombreUsuario((String) object[13]);
-                    listFalloDTO.add(falloIncidenciaDTO);
+                    DetalleProblemaDTO detalleProblemaDTO = new DetalleProblemaDTO();
+                    detalleProblemaDTO.setStatusCode(200);
+                    detalleProblemaDTO.setIdDetalleProblema((Integer) object[0]);
+                    detalleProblemaDTO.setCodigoProblema(object[1].toString());
+                    detalleProblemaDTO.setCodigoProblemaGeneral(object[2].toString());
+                    detalleProblemaDTO.setDescripcion(object[3].toString());
+                    detalleProblemaDTO.setFechaRegistro(UtilsApp.formatearFecha((Instant) object[4]));
+                    detalleProblemaDTO.setMedioReporte(object[5].toString());
+                    detalleProblemaDTO.setSolucion(object[6].toString());
+                    detalleProblemaDTO.setCodigoBien(object[7].toString());
+                    detalleProblemaDTO.setNombreActivo(object[8].toString());
+                    detalleProblemaDTO.setTipoActivo(object[9].toString());
+                    detalleProblemaDTO.setNombreEmpleado(object[10].toString());
+                    detalleProblemaDTO.setPrioridad(object[11].toString());
+                    detalleProblemaDTO.setCategoria(object[12].toString());
+                    detalleProblemaDTO.setSolucionado((Boolean) object[13]);
+                    listaDetalleProblemaDTO.add(detalleProblemaDTO);
                 }
-
                 requestDTO.setStatusCode(200);
-                requestDTO.setMessage("Listado de problema con éxito");
-                requestDTO.setListFalloDetalleProblemaDTO(listFalloDTO);
+                requestDTO.setMessage(idProblemaGeneral != 0 ? "Listado de detalle problema por ID" : "Listado de problema con éxito");
+                requestDTO.setDetalleProblemaDTOList(listaDetalleProblemaDTO);
+            } else {
+                requestDTO.setStatusCode(404);
+                requestDTO.setMessage("Lista vacia, no hay datos");
             }
             return requestDTO;
 
@@ -83,220 +77,128 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
     }
 
     @Override
-    public DetalleProblemaDTO insertarIncidencia(DetalleProblemaDTO detalleProblemaDTO) {
+    public DetalleProblemaDTO insertarDetalleProblema(DetalleProblemaDTO detalleProblemaDTO) {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
-            DetalleProblema falloIncidencia = new DetalleProblema();
+            DetalleProblema detalleProblema = new DetalleProblema();
 
-            falloIncidencia.setDescripcion(detalleProblemaDTO.getDescripcion());
-            falloIncidencia.setFechaRegistro(UtilsApp.formatearFechaInstant(detalleProblemaDTO.getFechaRegistro()));
-            falloIncidencia.setMedioReporte(detalleProblemaDTO.getMedioReporte());
-            falloIncidencia.setSolucion(detalleProblemaDTO.getSolucion());
-
-            ActivoMaestro activoMaestro = activoMaestroRepository.findById(detalleProblemaDTO.getActivoMaestroId()).orElse(null);
-            Categoria categoria = categoriaRepository.findById(detalleProblemaDTO.getCategoriaId()).orElse(null);
-            Prioridad prioridad = prioridadRepository.findById(detalleProblemaDTO.getPrioridadId()).orElse(null);
-            Usuario usuario = usuarioRepository.findById(detalleProblemaDTO.getUsuarioId()).orElse(null);
-
-            falloIncidencia.setActivoMaestro(activoMaestro);
-            falloIncidencia.setCategoria(categoria);
-            falloIncidencia.setPrioridad(prioridad);
-            falloIncidencia.setUsuario(usuario);
-            falloIncidencia.setSolucionado(false);
-            // creando la incidencia
-            falloIncidencia = detalleProblemaRepository.save(falloIncidencia);
-            requestDTO.setFalloIncidencia(falloIncidencia);
-            requestDTO.setStatusCode(201);
-            requestDTO.setMessage("Se ha creado la incidencia correctamente");
+            detalleProblema.setDescripcion(detalleProblemaDTO.getDescripcion());
+            detalleProblema.setFechaRegistro(UtilsApp.formatearFechaInstant(detalleProblemaDTO.getFechaRegistro()));
+            detalleProblema.setMedioReporte(detalleProblemaDTO.getMedioReporte());
+            detalleProblema.setSolucion(detalleProblemaDTO.getSolucion());
+            detalleProblema.setCategoria(categoriaRepository.findById(detalleProblemaDTO.getCategoriaId()).orElse(null));
+            detalleProblema.setPrioridad(prioridadRepository.findById(detalleProblemaDTO.getPrioridadId()).orElse(null));
+            detalleProblema.setSolucionado(false);
+            detalleProblema.setProblemaGeneral(problemaGeneralRepository.findById(detalleProblemaDTO.getIdProblemaGeneral()).orElse(null));
+            DetalleProblema newDetalleProblema = detalleProblemaRepository.save(detalleProblema);
+            if(newDetalleProblema.getId() > 0) {
+                requestDTO.setDetalleProblema(detalleProblema);
+                requestDTO.setStatusCode(201);
+                requestDTO.setMessage("Se ha creado el detalle del problema correctamente");
+            }
             return requestDTO;
         } catch (Exception e) {
             requestDTO.setStatusCode(500);
-            requestDTO.setMessage("Error al crear la incidencia: " + e.getMessage());
+            requestDTO.setMessage("Error al crear el detalle problema: " + e.getMessage());
             return requestDTO;
         }
     }
 
     @Override
-    public DetalleProblemaDTO actualizarIncidencia(Integer id, DetalleProblemaDTO detalleProblemaDTO) {
+    public DetalleProblemaDTO actualizarDetalleProblema(Integer id, DetalleProblemaDTO detalleProblemaUpdate) {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
-            Optional<DetalleProblema> falloItemOptional = detalleProblemaRepository.findById(id);
-            if (falloItemOptional.isPresent()) {
-                DetalleProblema falloItemUpdate = falloItemOptional.get();
-                falloItemUpdate.setDescripcion(detalleProblemaDTO.getDescripcion());
-
-                falloItemUpdate.setFechaRegistro(UtilsApp.formatearFechaInstant(detalleProblemaDTO.getFechaRegistro()));
-                falloItemUpdate.setMedioReporte(detalleProblemaDTO.getMedioReporte());
-                falloItemUpdate.setSolucion(detalleProblemaDTO.getSolucion());
-
-                ActivoMaestro activoMaestro = activoMaestroRepository.findById(detalleProblemaDTO.getActivoMaestroId()).orElse(null);
-                Categoria categoria = categoriaRepository.findById(detalleProblemaDTO.getCategoriaId()).orElse(null);
-                Prioridad prioridad = prioridadRepository.findById(detalleProblemaDTO.getPrioridadId()).orElse(null);
-
-                falloItemUpdate.setActivoMaestro(activoMaestro);
-                falloItemUpdate.setCategoria(categoria);
-                falloItemUpdate.setPrioridad(prioridad);
-                falloItemUpdate.setSolucionado(detalleProblemaDTO.getSolucionado());
-
-                DetalleProblema newFalloUpdate = detalleProblemaRepository.save(falloItemUpdate);
-                requestDTO.setFalloIncidencia(newFalloUpdate);
+            Optional<DetalleProblema> detalleProblemaOptional = detalleProblemaRepository.findById(id);
+            detalleProblemaOptional.ifPresentOrElse( detalleProblema -> {
+                detalleProblema.setDescripcion(detalleProblemaUpdate.getDescripcion());
+                detalleProblema.setFechaRegistro(UtilsApp.formatearFechaInstant(detalleProblemaUpdate.getFechaRegistro()));
+                detalleProblema.setMedioReporte(detalleProblemaUpdate.getMedioReporte());
+                detalleProblema.setSolucion(detalleProblemaUpdate.getSolucion());
+                detalleProblema.setCategoria(categoriaRepository.findById(detalleProblemaUpdate.getCategoriaId()).orElse(null));
+                detalleProblema.setPrioridad(prioridadRepository.findById(detalleProblemaUpdate.getPrioridadId()).orElse(null));
+                detalleProblema.setSolucionado(detalleProblemaUpdate.getSolucionado());
+                detalleProblema.setProblemaGeneral(problemaGeneralRepository.findById(detalleProblemaUpdate.getIdProblemaGeneral()).orElse(null));
+                DetalleProblema updateDetalleProblema = detalleProblemaRepository.save(detalleProblema);
                 requestDTO.setStatusCode(201);
-                requestDTO.setMessage("Incidencia: " + falloItemOptional.get().getCodigoProblema() + " actualizado con éxito");
-            } else {
+                requestDTO.setMessage("El detalle problema se ha actualizado con éxito");
+                requestDTO.setDetalleProblema(updateDetalleProblema);
+            }, () -> {
                 requestDTO.setStatusCode(404);
-                requestDTO.setMessage("Usuario: " + requestDTO.getCodigoProblema() + " no encontrado");
-            }
+                requestDTO.setMessage("El detalle problema no se encontrado");
+            });
         } catch (Exception e) {
             requestDTO.setStatusCode(500);
-            requestDTO.setError("Ha ocurrido un error inesperado al actualizar la incidencia: " + e.getMessage());
+            requestDTO.setError("Ha ocurrido un error inesperado al actualizar el detalle problema: " + e.getMessage());
         }
         return requestDTO;
     }
 
     @Override
-    public DetalleProblemaDTO eliminarIncidencia(Integer id) {
+    public DetalleProblemaDTO eliminarDetalleProblema(Integer id) {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
             Optional<DetalleProblema> itemOptional = detalleProblemaRepository.findById(id);
             if (itemOptional.isPresent()) {
                 detalleProblemaRepository.deleteById(id);
                 requestDTO.setStatusCode(204);
-                requestDTO.setMessage("Incidencia eliminada con éxito");
+                requestDTO.setMessage("El detalle problema se ha eliminado con éxito");
             } else {
                 requestDTO.setStatusCode(404);
-                requestDTO.setMessage("Incidencia no encontrada");
+                requestDTO.setMessage("Detalle Problema no encontrada");
             }
 
         } catch (Exception e) {
             requestDTO.setStatusCode(500);
-            requestDTO.setError("Ha ocurrido un error inesperado al eliminar la incidencia: " + e.getMessage());
+            requestDTO.setError("Ha ocurrido un error inesperado al eliminar el detalle problema: " + e.getMessage());
         }
         return requestDTO;
     }
 
     @Override
-    public DetalleProblemaDTO buscarIncidencia(String codigoProblema) {
+    public DetalleProblemaDTO buscarDetalleProblema(String codigoProblema) {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
             Optional<DetalleProblema> itemOptional = detalleProblemaRepository.findByCodigoProblema(codigoProblema);
             if (itemOptional.isPresent()) {
-                DetalleProblema falloIncidencia = itemOptional.get();
-                requestDTO.setCodigoProblema(falloIncidencia.getCodigoProblema());
-                requestDTO.setDescripcion(falloIncidencia.getDescripcion());
-                requestDTO.setFechaRegistro(falloIncidencia.getFechaRegistro().toString());
-                requestDTO.setMedioReporte(falloIncidencia.getMedioReporte());
-                requestDTO.setCodigoBien(falloIncidencia.getActivoMaestro().getCodigoBien());
-                Optional<String> activoNombreOptional = detalleProblemaRepository.getNombreActivoPorCodigoProblema(falloIncidencia.getCodigoProblema());
-                activoNombreOptional.ifPresent(requestDTO::setNombreActivo);
-                requestDTO.setCategoria(falloIncidencia.getCategoria().getNombre());
-                requestDTO.setPrioridad(falloIncidencia.getPrioridad().getNombre());
-                requestDTO.setNombreUsuario(falloIncidencia.getUsuario().getNombre());
-                requestDTO.setSolucionado(falloIncidencia.isSolucionado());
+                DetalleProblema detalleProblema = itemOptional.get();
+                requestDTO.setCodigoProblema(detalleProblema.getCodigoProblema());
+                requestDTO.setDescripcion(detalleProblema.getDescripcion());
+                requestDTO.setFechaRegistro(detalleProblema.getFechaRegistro().toString());
+                requestDTO.setMedioReporte(detalleProblema.getMedioReporte());
+                requestDTO.setCategoria(detalleProblema.getCategoria().getNombre());
+                requestDTO.setPrioridad(detalleProblema.getPrioridad().getNombre());
+                requestDTO.setSolucionado(detalleProblema.isSolucionado());
+                requestDTO.setCodigoProblemaGeneral(detalleProblema.getProblemaGeneral().getCodigoProblemaGeneral());
                 requestDTO.setStatusCode(200);
-                requestDTO.setMessage("incidencia buscada con exito");
+                requestDTO.setMessage("Detalle problema encontrado con exito");
             } else {
                 requestDTO.setStatusCode(404);
-                requestDTO.setMessage("Incidencia no encontrada");
+                requestDTO.setMessage("Detalle problema no encontrado");
             }
 
         } catch (Exception e) {
             requestDTO.setStatusCode(500);
-            requestDTO.setError("Ha ocurrido un error al buscar la incidencia: " + e.getMessage());
+            requestDTO.setError("Ha ocurrido un error al buscar el detalle problema: " + e.getMessage());
         }
         return requestDTO;
     }
 
     @Override
-    public Integer getTotalIncidenciasPorMes() {
-        return detalleProblemaRepository.countIncidenciasByMonth();
-    }
-
-    @Override
-    public Map<String, Object> getIncidenciasDosMonthComparacion() {
-        List<Map<String, Object>> resultadosTable = detalleProblemaRepository.getIncidenciasComparacion();
-
-        if (resultadosTable.size() < 2) {
-            // si no estan los dos meses
-            return Map.of("mesActual", 0, "mesAnterior", 0);
-        }
-
-        Map<String, Object> mesActual = resultadosTable.get(0);
-        Map<String, Object> mesAnterior = resultadosTable.get(1);
-
-        long totalMesActual = (long) mesActual.get("total");
-        long totalMesAnterior = (long) mesAnterior.get("total");
-
-        double porcentaje = (double) ((totalMesActual - totalMesAnterior) / totalMesAnterior) * 100;
-        boolean incremento = porcentaje >= 0;
-
-        return Map.of(
-                "porcentaje", Math.abs(Math.round(porcentaje)),
-                "esIncremento", incremento
-        );
-    }
-
-    @Override
-    public Integer getTotalIncidenciasPorDia() {
-        return detalleProblemaRepository.countIncidenciasByDay();
-    }
-
-    @Override
-    public Map<String, Object> getIncidenciasDosDayComparacion() {
-        List<Map<String, Object>> resultadoTable = detalleProblemaRepository.getIncidenciasDiaComparacion();
-
-        if (resultadoTable.size() < 2) {
-            return Map.of("diaActual", 0, "diaAnterior", 0);
-        }
-
-        Map<String, Object> diaActual = resultadoTable.get(0);
-        Map<String, Object> diaAnterior = resultadoTable.get(1);
-
-        long totalDiaActual = (long) diaActual.get("total");
-        long totalDiaAnterior = (long) diaAnterior.get("total");
-
-        double porcentaje = getPorcentaje(totalDiaAnterior, totalDiaActual);
-
-        log.info("total dia actual: " + totalDiaActual + " total dia anterior: " + totalDiaAnterior + " procentaje: " + porcentaje);
-        boolean incremento = porcentaje >= 0;
-
-        return Map.of(
-                "porcentaje", Math.abs(Math.round(porcentaje)),
-                "esIncremento", incremento
-        );
-    }
-
-    private double getPorcentaje(long totalDiaAnterior, long totalDiaActual) {
-        double porcentaje;
-        if (totalDiaAnterior == 0) {
-            // Si el día anterior tiene 0 problema
-            if (totalDiaActual > 0) {
-                porcentaje = 100.0; // Se considera un incremento del 100%
-            } else {
-                porcentaje = 0.0; // No hay cambios si ambos son 0
-            }
-        } else {
-            // Si el día anterior tiene problema, calculamos el porcentaje normalmente
-            porcentaje = ((double) (totalDiaActual - totalDiaAnterior) / totalDiaAnterior) * 100;
-        }
-        return porcentaje;
-    }
-
-    @Override
-    public Integer getIncidenciasTotalesSolucionadas() {
+    public Integer getDetalleProblemaSolucionados() {
         int totalIncidenciasSolucionadas;
         totalIncidenciasSolucionadas = detalleProblemaRepository.getDetalleProblemaSolucionados();
         return totalIncidenciasSolucionadas;
     }
 
     @Override
-    public Integer getPromedioIncidenciasSolucionadas() {
+    public Integer getPromedioDetalleProblemaResueltos() {
         int promedioIncidenciasSolucionadas;
         promedioIncidenciasSolucionadas = detalleProblemaRepository.getPromedioDetalleProblemaResueltos();
         return promedioIncidenciasSolucionadas;
     }
 
     @Override
-    public Map<String, Object> getEmpleadoCantidadMaxIncidencias() {
+    public Map<String, Object> getMaxEmpleadoDetalleProblema() {
         List<Map<String, Object>> resultadoTabla = detalleProblemaRepository.getMaxEmpleadoDetalleProblema();
 
         Map<String, Object> empleado = resultadoTabla.getFirst();
@@ -308,76 +210,28 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
     }
 
     @Override
-    public Integer getPromedioIncidenciasEmpleado() {
+    public Integer getPromedioMaxEmpleadoDetalleProblema() {
         int promedio;
         promedio = detalleProblemaRepository.getPromedioMaxEmpleadoDetalleProblema();
         return promedio;
     }
 
     @Override
-    public Integer getIncidenciasTotalesAyer() {
+    public Integer getTotalDetalleProblemaAyer() {
         int total;
         total = detalleProblemaRepository.getTotalDetalleProblemaAyer();
         return total;
     }
 
     @Override
-    public Integer getPromedioIncidenciasAyerHoy() {
+    public Integer getPromedioDetalleProbemaEntreAyerHoy() {
         int promedio;
         promedio = detalleProblemaRepository.getPromedioDetalleProbemaEntreAyerHoy();
         return promedio;
     }
 
     @Override
-    public Map<String, Object> getTotalManenimientoHoyAyer() {
-        List<Map<String, Object>> resultadoTable = detalleProblemaRepository.getTotalManenimientoHoyAyer();
-        Map<String, Object> map = resultadoTable.getFirst();
-        return Map.of(
-                "totalHoy", map.get("totalHoy"),
-                "totalAyer", map.get("totalAyer")
-        );
-    }
-
-    @Override
-    public Map<String, Object> getTotalAuditoriaHoyTotal() {
-        List<Map<String, Object>> resultadoTable = detalleProblemaRepository.getTotalAuditoriaHoyTotal();
-        Map<String, Object> map = resultadoTable.getFirst();
-        return Map.of(
-                "totalHoy", map.get("totalHoy"),
-                "total", map.get("total")
-        );
-    }
-
-    @Override
-    public DetalleProblemaDTO getTableResults() {
-        DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
-        try {
-            List<Object[]> resultTable = detalleProblemaRepository.getTableResults();
-            List<DetalleProblemaDTO> listIncidenciaDTO = new ArrayList<>();
-            if (!resultTable.isEmpty()) {
-                for (Object[] objects : resultTable) {
-                    DetalleProblemaDTO detalleProblemaDTO = new DetalleProblemaDTO();
-                    detalleProblemaDTO.setStatusCode(200);
-                    detalleProblemaDTO.setActivoMaestroId((Integer) objects[0]);
-                    detalleProblemaDTO.setCodigoBien((String) objects[1]);
-                    detalleProblemaDTO.setNombreActivo((String) objects[2]);
-                    detalleProblemaDTO.setNombreEmpleado((String) objects[3]);
-                    listIncidenciaDTO.add(detalleProblemaDTO);
-                }
-                requestDTO.setStatusCode(200);
-                requestDTO.setMessage("Listado con éxito la tabla personalizada");
-                requestDTO.setListFalloDetalleProblemaDTO(listIncidenciaDTO);
-            }
-            return requestDTO;
-        } catch (Exception e) {
-            requestDTO.setStatusCode(500);
-            requestDTO.setError("Ha ocurrido un error inexperado al listar las problema: " + e.getMessage());
-            return requestDTO;
-        }
-    }
-
-    @Override
-    public DetalleProblemaDTO getCantidadTotalIncidencaPorMes() {
+    public DetalleProblemaDTO getCantidadTotalDetallePromedioPorMes() {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
 
@@ -395,7 +249,7 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
                 }
                 requestDTO.setStatusCode(200);
                 requestDTO.setMessage("Se ha extraido la cantidad de problema por mes con éxito");
-                requestDTO.setListFalloDetalleProblemaDTO(listMesIncidenia);
+                requestDTO.setDetalleProblemaDTOList(listMesIncidenia);
             }
             return requestDTO;
 
@@ -407,7 +261,7 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
     }
 
     @Override
-    public DetalleProblemaDTO getTotalIncidencias() {
+    public DetalleProblemaDTO getMedidasDetalleProblemaMantenimiento() {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
             List<Object[]> resultTable = detalleProblemaRepository.getMedidasDetalleProblemaMantenimiento();
@@ -437,7 +291,7 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
     }
 
     @Override
-    public DetalleProblemaDTO getTotalIncidenciasDiasMes() {
+    public DetalleProblemaDTO getCantidadDetalleProblemaPorDiaMesActualAnterior() {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try{
             List<Object[]> resultTable = detalleProblemaRepository.getCantidadDetalleProblemaPorDiaMesActualAnterior();
@@ -454,7 +308,7 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
                 }
                 requestDTO.setStatusCode(200);
                 requestDTO.setMessage("Obteniendo la cantidad de los dias el mes anterior y actual");
-                requestDTO.setListFalloDetalleProblemaDTO(listMesActualAnterior);
+                requestDTO.setDetalleProblemaDTOList(listMesActualAnterior);
             }
             else {
                 requestDTO.setStatusCode(404);
@@ -469,7 +323,7 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
     }
 
     @Override
-    public DetalleProblemaDTO getIncidenciasTotalMesActualAnterior() {
+    public DetalleProblemaDTO getDetalleProblemaTotalMesActualAnterior() {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
             List<Object[]> resultTable = detalleProblemaRepository.getDetalleProblemaTotalMesActualAnterior();
@@ -496,7 +350,7 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
     }
 
     @Override
-    public DetalleProblemaDTO getTotalIncidenciasFalloByPrioridad() {
+    public DetalleProblemaDTO getTotalDetalleProblemaByPrioridadByCategoria() {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
             List<Object[]> resultTable = detalleProblemaRepository.getTotalDetalleProblemaByPrioridadByCategoria();
@@ -524,6 +378,47 @@ public class ProblemaDetalleIServicempl implements ProblemaDetalleService {
         } catch (Exception e) {
             requestDTO.setStatusCode(500);
             requestDTO.setError("Ha ocurrido un error inexperado al obtener la cantidad de problema/fallos del mes anterior y actual por prioridad: " + e.getMessage());
+            return requestDTO;
+        }
+    }
+
+    @Override
+    public DetalleProblemaDTO getDetalleProblemaPorIdProblemaGeneral(Integer idProblemaGeneral) {
+        DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
+        try {
+            List<Object[]> listResults = detalleProblemaRepository.getDetalleProblemaPorIdPG(idProblemaGeneral);
+            List<DetalleProblemaDTO> listaDetalleProblemaDTO = new ArrayList<>();
+            if (!listResults.isEmpty()) {
+                for (Object[] object : listResults) {
+                    DetalleProblemaDTO detalleProblemaDTO = new DetalleProblemaDTO();
+                    detalleProblemaDTO.setStatusCode(200);
+                    detalleProblemaDTO.setIdDetalleProblema((Integer) object[0]);
+                    detalleProblemaDTO.setCodigoProblema(object[1].toString());
+                    detalleProblemaDTO.setCodigoProblemaGeneral(object[2].toString());
+                    detalleProblemaDTO.setDescripcion(object[3].toString());
+                    detalleProblemaDTO.setFechaRegistro(UtilsApp.formatearFecha((Instant) object[4]));
+                    detalleProblemaDTO.setMedioReporte(object[5].toString());
+                    detalleProblemaDTO.setSolucion(object[6].toString());
+                    detalleProblemaDTO.setCodigoBien(object[7].toString());
+                    detalleProblemaDTO.setNombreActivo(object[8].toString());
+                    detalleProblemaDTO.setTipoActivo(object[9].toString());
+                    detalleProblemaDTO.setNombreEmpleado(object[10].toString());
+                    detalleProblemaDTO.setPrioridad(object[11].toString());
+                    detalleProblemaDTO.setCategoria(object[12].toString());
+                    detalleProblemaDTO.setSolucionado((Boolean) object[13]);
+                    listaDetalleProblemaDTO.add(detalleProblemaDTO);
+                }
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Listado de problema con éxito");
+                requestDTO.setDetalleProblemaDTOList(listaDetalleProblemaDTO);
+            } else {
+                requestDTO.setStatusCode(404);
+                requestDTO.setMessage("Lista vacia, no hay datos");
+            }
+            return requestDTO;
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setError("Ha ocurrido un error inexperado al listar las problema: " + e.getMessage());
             return requestDTO;
         }
     }

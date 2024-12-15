@@ -10,5 +10,5 @@ public interface SoftwareService {
     void deleteSoftware(Integer idSoftware);
     SoftwareDTO getSoftwareById(Integer idSoftware);
     List<SoftwareDTO> getAllSoftwares();
-    
+    SoftwareDTO getFISoftware();
 }

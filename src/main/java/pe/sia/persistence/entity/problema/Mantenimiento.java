@@ -1,4 +1,4 @@
-package pe.sia.persistence.entity.incidencias;
+package pe.sia.persistence.entity.problema;
 
 import java.time.Instant;
 
@@ -37,8 +37,8 @@ public class Mantenimiento {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "fallo_incidencia_id", referencedColumnName = "id")
-    private ProblemaGeneral falloIncidencia;
+    @JoinColumn(name = "detalle_problema_id", referencedColumnName = "id")
+    private DetalleProblema detalleProblema;
 
     @NotNull
     @Column(name = "fecha_programada", columnDefinition = "TIMESTAMP WITH TIME ZONE")

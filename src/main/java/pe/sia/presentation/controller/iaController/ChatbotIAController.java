@@ -33,7 +33,7 @@ public class ChatbotIAController {
             if(apiKey == null || apiKey.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("La API Key no esta configurada");
             }
-            // estebleciendo las cabezerad de autorizacion
+            // estebleciendo las cabezeras de autorizacion
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("Authorization", "Bearer " + apiKey);
@@ -45,16 +45,16 @@ public class ChatbotIAController {
                 "jvillaltaca12@ucvvirtual.edu.pe"
             );
 
-            HttpEntity<ChatbotSessionRequestDTO> requestEntity = new HttpEntity<>(requestBody, headers); 
+            HttpEntity<ChatbotSessionRequestDTO> requestEntity = new HttpEntity<>(requestBody, headers);
 
             RestTemplate restTemplate = new RestTemplate();
 
             ResponseEntity<ChatbotSessionResponseDTO> response = restTemplate.postForEntity(
-                "https://www.askyourdatabase.com/api/chatbot/v2/session", 
-                requestEntity, 
+                "https://www.askyourdatabase.com/api/chatbot/v2/session",
+                requestEntity,
                 ChatbotSessionResponseDTO.class
-            ); 
-            
+            );
+
             if(response.getStatusCode() != HttpStatus.OK) {
                 return ResponseEntity.status(response.getStatusCode())
                                      .body("Error en la respuesta del servidor");

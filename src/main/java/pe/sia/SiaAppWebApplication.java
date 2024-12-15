@@ -11,5 +11,4 @@ public class SiaAppWebApplication {
 		SpringApplication.run(SiaAppWebApplication.class, args);
 
 	}
-
 }

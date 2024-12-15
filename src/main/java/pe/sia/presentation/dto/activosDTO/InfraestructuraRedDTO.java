@@ -1,11 +1,23 @@
 package pe.sia.presentation.dto.activosDTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.*;
+import pe.sia.util.EstadoPeticion;
 
-@Data
-public class InfraestructuraRedDTO {
+import java.math.BigDecimal;
+import java.util.List;
+
+@Setter
+@Getter
+@EqualsAndHashCode(callSuper = false)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class InfraestructuraRedDTO extends EstadoPeticion {
     
     private Integer id;
     
@@ -19,5 +31,14 @@ public class InfraestructuraRedDTO {
     
     @NotNull(message = "El proveedor no puede ser nulo")
     private Integer proveedorId;
+
+    private String tipRed;
+    private String nombreProveedor;
+    private String nombreEmpleado;
+    private String oficinaGerencia;
+    private Integer piso;
+    private Integer cantidadIncidencias;
+    private BigDecimal porcentajeIncidencias;
+    private List<InfraestructuraRedDTO> infraestructuraRedDTOList;
 
 }

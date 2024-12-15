@@ -11,5 +11,6 @@ public interface HardwareService {
     void deleteHardware(Integer idHardware);
     HardwareDTO getHardwareById(Integer idHardware);
     List<HardwareDTO> getAllHardware();
+    HardwareDTO getFIPorHardware();
 
 }

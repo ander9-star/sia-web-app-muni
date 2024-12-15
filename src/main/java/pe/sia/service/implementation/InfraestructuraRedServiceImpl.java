@@ -1,6 +1,9 @@
 package pe.sia.service.implementation;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -32,7 +35,7 @@ public class InfraestructuraRedServiceImpl implements InfraestructuraRedService 
         this.tipoRedRepository = tipoRedRepository;
     }
 
-    // Paso 1: Método para crear una nueva Red a través de un DTO
+    // Paso 1: Metodo para crear una nueva Red a través de un DTO
     @Override
     public InfraestructuraRedDTO createRed(InfraestructuraRedDTO redDTO) {
         InfraestructuraRed red = new InfraestructuraRed();
@@ -52,7 +55,7 @@ public class InfraestructuraRedServiceImpl implements InfraestructuraRedService 
         return mapToDTO(red);
     }
 
-    // Paso 2: Método para actualizar una Red existente a través de un DTO
+    // Paso 2: Metodo para actualizar una Red existente a través de un DTO
     @Override
     public InfraestructuraRedDTO updateRed(Integer idRed, InfraestructuraRedDTO redDTO) {
         InfraestructuraRed red = redRepository.findById(idRed)
@@ -74,13 +77,13 @@ public class InfraestructuraRedServiceImpl implements InfraestructuraRedService 
         return mapToDTO(red);
     }
 
-    // Paso 3: Método para eliminar una Red por su ID
+    // Paso 3: Metodo para eliminar una Red por su ID
     @Override
     public void deleteRed(Integer idRed) {
         redRepository.deleteById(idRed);
     }
 
-    // Paso 4: Método para obtener una Red por su ID
+    // Paso 4: Metodo para obtener una Red por su ID
     @Override
     public InfraestructuraRedDTO getRedById(Integer idRed) {
         InfraestructuraRed red = redRepository.findById(idRed)
@@ -89,16 +92,51 @@ public class InfraestructuraRedServiceImpl implements InfraestructuraRedService 
         return mapToDTO(red);
     }
 
-    // Paso 5: Método para obtener todas las Redes
+    // Paso 5: Metodo para obtener todas las Redes
     @Override
     public List<InfraestructuraRedDTO> getAllRedes() {
         return redRepository.findAll()
             .stream()
             .map(this::mapToDTO)
-            .collect(Collectors.toList());
+            .toList();
     }
 
-    // Método auxiliar para mapear un objeto Red a RedDTO
+    @Override
+    public InfraestructuraRedDTO getFIRed() {
+        InfraestructuraRedDTO requestDTO = new InfraestructuraRedDTO();
+        try {
+            List<Object[]> resulTable = redRepository.getFIRed();
+            List<InfraestructuraRedDTO> listRed = new ArrayList<>();
+            if (!resulTable.isEmpty()) {
+                for (Object[] row : resulTable) {
+                    InfraestructuraRedDTO red = new InfraestructuraRedDTO();
+                    red.setStatusCode(200);
+                    red.setTipRed((String) row[0]);
+                    red.setDireccionIP(row[1].toString());
+                    red.setNombreProveedor(row[2].toString());
+                    red.setNombreEmpleado(!row[3].toString().trim().isEmpty() ? row[3].toString() : "Sin Asignación");
+                    red.setOficinaGerencia(row[4].toString());
+                    red.setPiso((Integer) row[5]);
+                    red.setCantidadIncidencias((Integer) row[6]);
+                    red.setPorcentajeIncidencias((BigDecimal) row[7]);
+                    listRed.add(red);
+                }
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Se ha extraido la data de infraestructura red");
+                requestDTO.setInfraestructuraRedDTOList(listRed);
+            } else {
+                requestDTO.setStatusCode(404);
+                requestDTO.setMessage("Lista vacia");
+            }
+            return requestDTO;
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setMessage("Error al extraer la data: " + e.getMessage());
+            return requestDTO;
+        }
+    }
+
+    // Metodo auxiliar para mapear un objeto Red a RedDTO
     private InfraestructuraRedDTO mapToDTO(InfraestructuraRed red) {
         InfraestructuraRedDTO dto = new InfraestructuraRedDTO();
         dto.setId(red.getId());

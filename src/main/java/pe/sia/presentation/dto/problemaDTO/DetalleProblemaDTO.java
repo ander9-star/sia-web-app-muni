@@ -15,8 +15,9 @@ import pe.sia.util.EstadoPeticion;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProblemaDetalleDTO extends EstadoPeticion {
+public class DetalleProblemaDTO extends EstadoPeticion {
     private Integer idDetalleProblema;
+	private Integer idProblemaGeneral;
 	private String codigoProblema;
 	private String codigoProblemaGeneral;
 	private String descripcion;
@@ -35,8 +36,8 @@ public class ProblemaDetalleDTO extends EstadoPeticion {
 	private Integer usuarioId;
 	private Boolean solucionado;
 	private String nombreUsuario;
-	private DetalleProblema falloIncidencia;
-    private List<ProblemaDetalleDTO> listFalloProblemaDetalleDTO;
+	private DetalleProblema detalleProblema;
+    private List<DetalleProblemaDTO> detalleProblemaDTOList;
 	private Integer mes;
 	private Integer cantidadMes;
 	private Integer cantidadTotalFallo;
@@ -44,7 +45,7 @@ public class ProblemaDetalleDTO extends EstadoPeticion {
 	private Integer cantidadSolucionado;
 	private Integer porcentajeMantenimiento;
 	private Integer cantidadMantenimiento;
-	private ProblemaDetalleDTO problemaDetalleDTO;
+	private DetalleProblemaDTO detalleProblemaDTO;
 	private String diaSemana;
 	private Integer cantidadMesAnterior;
 	private Integer cantidadMesActual;
@@ -121,20 +122,20 @@ public class ProblemaDetalleDTO extends EstadoPeticion {
 		}
 
 		// por ultimo construir la incidencia
-		public ProblemaDetalleDTO build() {
-			ProblemaDetalleDTO problemaDetalleDTO = new ProblemaDetalleDTO();
-			problemaDetalleDTO.setStatusCode(this.getStatusCode());
-			problemaDetalleDTO.setMes(this.mes);
-			problemaDetalleDTO.setCantidadMes(this.cantidadMes);
-			problemaDetalleDTO.setCantidadTotalFallo(this.cantidadTotalFallo);
-			problemaDetalleDTO.setCantidadSolucionado(this.cantidadSolucionado);
-			problemaDetalleDTO.setPorcentajeSolucionado(this.porcentajeSolucionado);
-			problemaDetalleDTO.setPorcentajeMantenimiento(this.porcentajeMantenimiento);
-			problemaDetalleDTO.setCantidadMantenimiento(this.cantidadMantenimiento);
-			problemaDetalleDTO.setDiaSemana(this.diaSemana);
-			problemaDetalleDTO.setCantidadMesAnterior(this.cantidadMesAnterior);
-			problemaDetalleDTO.setCantidadMesActual(this.cantidadMesActual);
-			return problemaDetalleDTO;
+		public DetalleProblemaDTO build() {
+			DetalleProblemaDTO detalleProblemaDTO = new DetalleProblemaDTO();
+			detalleProblemaDTO.setStatusCode(this.getStatusCode());
+			detalleProblemaDTO.setMes(this.mes);
+			detalleProblemaDTO.setCantidadMes(this.cantidadMes);
+			detalleProblemaDTO.setCantidadTotalFallo(this.cantidadTotalFallo);
+			detalleProblemaDTO.setCantidadSolucionado(this.cantidadSolucionado);
+			detalleProblemaDTO.setPorcentajeSolucionado(this.porcentajeSolucionado);
+			detalleProblemaDTO.setPorcentajeMantenimiento(this.porcentajeMantenimiento);
+			detalleProblemaDTO.setCantidadMantenimiento(this.cantidadMantenimiento);
+			detalleProblemaDTO.setDiaSemana(this.diaSemana);
+			detalleProblemaDTO.setCantidadMesAnterior(this.cantidadMesAnterior);
+			detalleProblemaDTO.setCantidadMesActual(this.cantidadMesActual);
+			return detalleProblemaDTO;
 		}
 	}
 }

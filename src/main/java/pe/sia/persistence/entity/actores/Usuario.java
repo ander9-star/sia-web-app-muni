@@ -3,6 +3,7 @@ package pe.sia.persistence.entity.actores;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,18 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import pe.sia.persistence.entity.ubicaciones.OficinaSubgerencia;
 
-/*
- * @author Villalta Carnero Anderson
- * @version 1.0
- ** Esta entidad representa a un usuario en el sistema. Tiene relaciones muchos a uno con las entidades Rol y Area.
- ** Se utiliza para almacenar información sobre los usuarios que acceden al sistema.
- */
 
 @Entity
 @Table(name = "usuario")
@@ -35,6 +26,7 @@ import pe.sia.persistence.entity.ubicaciones.OficinaSubgerencia;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Usuario implements UserDetails {
 
     @Id
@@ -55,14 +47,19 @@ public class Usuario implements UserDetails {
     
     @NotNull
     private String correo;
-    
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "id")
     private Rol rol;
-    
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "oficina_subgerencia_id", referencedColumnName = "id")
     private OficinaSubgerencia oficinaSubgerencia;
+
+    @NotNull
+    private Boolean estado;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,22 +73,22 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return UserDetails.super.isAccountNonExpired();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return UserDetails.super.isAccountNonLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return UserDetails.super.isEnabled();
     }
     
 }

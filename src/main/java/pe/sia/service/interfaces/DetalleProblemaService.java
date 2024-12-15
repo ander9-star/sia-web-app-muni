@@ -1,75 +1,58 @@
 package pe.sia.service.interfaces;
 
 import java.util.Map;
-
 import pe.sia.presentation.dto.problemaDTO.DetalleProblemaDTO;
 
-public interface ProblemaDetalleService {
+public interface DetalleProblemaService {
 
-    // obtener todas las problema normalizadas
-    DetalleProblemaDTO getIncidenciaFallo();
+    // obtener la data de detalle problema normalizadas
+    DetalleProblemaDTO findAllDetalleProblema(Integer idProblemaGeneral);
 
-    // para insertar una incidencia
-    DetalleProblemaDTO insertarIncidencia(DetalleProblemaDTO falloIncidencia);
+    // para insertar una nuevo detalle problema
+    DetalleProblemaDTO insertarDetalleProblema(DetalleProblemaDTO detalleProblema);
 
-    // para insertar una incidencia
-    DetalleProblemaDTO actualizarIncidencia(Integer id, DetalleProblemaDTO falloIncidencia);
+    // para actualizar un detalle problema
+    DetalleProblemaDTO actualizarDetalleProblema(Integer id, DetalleProblemaDTO detalleProblemaUpdate);
 
-    // para eliminar una incidencia
-    DetalleProblemaDTO eliminarIncidencia(Integer id);
+    // para eliminar un detalle problema
+    DetalleProblemaDTO eliminarDetalleProblema(Integer id);
 
-    // para buscar una incidencia
-    DetalleProblemaDTO buscarIncidencia(String codigoProblema);
+    // para buscar una detalle problema por su codigo de problema
+    DetalleProblemaDTO buscarDetalleProblema(String codigoProblema);
 
-    Integer getTotalIncidenciasPorMes(); 
+    // para obtener la cantidad total de detalle problema solucionados
+    Integer getDetalleProblemaSolucionados();
 
-    // se va recibir una tabla
-    Map<String, Object> getIncidenciasDosMonthComparacion();
+    // para obtener el promedio de los detalle problema solucionados
+    Integer getPromedioDetalleProblemaResueltos();
 
-    Integer getTotalIncidenciasPorDia(); 
-    
-    // se va recibir una tabla
-    Map<String, Object> getIncidenciasDosDayComparacion();
+    // para obtener el empleado con mas detalle problemas reportados actualmente
+    Map<String, Object> getMaxEmpleadoDetalleProblema();
 
-    // para obtener todas las problema solucionadas
-    Integer getIncidenciasTotalesSolucionadas();
+    // para obtener el promedio de empleado con mas detalle problemas acutales
+    Integer getPromedioMaxEmpleadoDetalleProblema();
 
-    // para obtener el promedio de las problema solucionadas
-    Integer getPromedioIncidenciasSolucionadas();
+    // para obtener la cantidad total de detalle problema registrados ayer
+    Integer getTotalDetalleProblemaAyer();
 
-    // empleado con mas problema reportadas actualmente
-    Map<String, Object> getEmpleadoCantidadMaxIncidencias();
+    // para obtener el promedio de detalle problema registradas con respecto ayer con hoy dia
+    Integer getPromedioDetalleProbemaEntreAyerHoy();
 
-    // promedio de empleado con mas problema acutales
-    Integer getPromedioIncidenciasEmpleado();
+    // para obtener la cantidad de detalle problema por mes
+    DetalleProblemaDTO getCantidadTotalDetallePromedioPorMes();
 
-    // obtener la cantidad total de problema registradas ayer
-    Integer getIncidenciasTotalesAyer();
+    // para obtener la cantidad, porcentaje de solucionado y en mantenimiento de los detalle problema
+    DetalleProblemaDTO getMedidasDetalleProblemaMantenimiento();
 
-    // obtener el promedio de problema registradas con respecto ayer con hoy dia
-    Integer getPromedioIncidenciasAyerHoy();
+    // para obtener la cantidad de detalle problema de todos los dias del mes actual con el anterior
+    DetalleProblemaDTO getCantidadDetalleProblemaPorDiaMesActualAnterior();
 
-    // para obtener el total de mantenimiento de hoy dia y ayer
-    Map<String, Object> getTotalManenimientoHoyAyer();
+    // para obtener la cantidad total de detalle problema del mes actual y anterior
+    DetalleProblemaDTO getDetalleProblemaTotalMesActualAnterior();
 
-    // para obtener la cantidad de auditorias del dia de hoy y el total
-    Map<String, Object> getTotalAuditoriaHoyTotal();
+    // procedimiento para obtener la cantidad total de detalle problema y fallos por prioridad del mes actual y anterior
+    DetalleProblemaDTO getTotalDetalleProblemaByPrioridadByCategoria();
 
-    // para obtener la tabla personalizada
-    DetalleProblemaDTO getTableResults();
-
-    // para obtener la cantidad de problema por mes
-    DetalleProblemaDTO getCantidadTotalIncidencaPorMes();
-
-    // para obtener la cantidad, porcentaje de solucionado y en mantenimiento de las problema
-    DetalleProblemaDTO getTotalIncidencias();
-
-    // para obtener la cantidad de problema de todos los dias del mes actual con el anterior
-    DetalleProblemaDTO getTotalIncidenciasDiasMes();
-
-    // para obtener la cantidad total de problema del mes actual y anterior
-    DetalleProblemaDTO getIncidenciasTotalMesActualAnterior();
-
-    // procedimiento para obtener la cantidad total de problema y fallos por prioridad del mes actual y anterior
-    DetalleProblemaDTO getTotalIncidenciasFalloByPrioridad();
+    // procedimiento para obtener los detalles problema por el id de problema general
+    DetalleProblemaDTO getDetalleProblemaPorIdProblemaGeneral(Integer idProblemaGeneral);
 }

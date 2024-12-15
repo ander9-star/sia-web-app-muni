@@ -41,4 +41,7 @@ public class Personal {
     @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "id")
     private Rol rol;
+
+    @NotNull
+    private Boolean estado;
 }

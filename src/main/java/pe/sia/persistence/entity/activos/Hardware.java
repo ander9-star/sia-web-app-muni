@@ -46,6 +46,4 @@ public class Hardware {
     @ManyToOne
     @JoinColumn(name="proveedor_id", referencedColumnName = "id")
     private Proveedor proveedor;
-
-    
 }

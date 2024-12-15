@@ -15,7 +15,6 @@ import pe.sia.presentation.dto.activosDTO.SoftwareDTO;
 import pe.sia.service.interfaces.SoftwareService;
 
 @RestController
-@RequestMapping("sia/software")
 public class SoftwareController {
     
     private final SoftwareService softwareService;
@@ -24,30 +23,35 @@ public class SoftwareController {
         this.softwareService = softwareService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/admin/software-create")
     public ResponseEntity<SoftwareDTO> createSoftware(@RequestBody SoftwareDTO softwareDTO) {
         return ResponseEntity.ok(softwareService.createSoftware(softwareDTO));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/software-update/{id}")
     public ResponseEntity<SoftwareDTO> updateSoftware(@PathVariable Integer id, @RequestBody SoftwareDTO softwareDTO) {
         return ResponseEntity.ok(softwareService.updateSoftware(id, softwareDTO));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/software-update/{id}")
     public ResponseEntity<Void> deleteSoftware(@PathVariable Integer id) {
         softwareService.deleteSoftware(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/software-by-id/{id}")
     public ResponseEntity<SoftwareDTO> getSotfwareById(@PathVariable Integer id) {
         return ResponseEntity.ok(softwareService.getSoftwareById(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/admin/software-all")
     public ResponseEntity<List<SoftwareDTO>> getAllSoftwares() {
         return ResponseEntity.ok(softwareService.getAllSoftwares());
+    }
+
+    @GetMapping("/adminuser/software-data")
+    public ResponseEntity<SoftwareDTO> getFISoftware() {
+        return ResponseEntity.ok(softwareService.getFISoftware());
     }
 
 }

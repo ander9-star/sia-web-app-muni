@@ -13,8 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pe.sia.persistence.entity.activos.ActivoMaestro;
-import pe.sia.persistence.entity.actores.Usuario;
 
 import java.time.Instant;
 
@@ -31,7 +29,7 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProblemaDetalle {
+public class DetalleProblema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,19 +41,14 @@ public class ProblemaDetalle {
     @NotNull
     private String descripcion;
 
-    @Column(name = "fecha_ocurrencia", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private Instant fechaOcurrencia;
+    @Column(name = "fecha_registro", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Instant fechaRegistro;
     
     @NotNull
     @Column(name = "medio_reporte")
     private String medioReporte;
 
     private String solucion;
-    
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "activo_maestro_id", referencedColumnName = "id")
-    private ActivoMaestro activoMaestro;
 
     @NotNull
     @ManyToOne
@@ -67,10 +60,11 @@ public class ProblemaDetalle {
     @JoinColumn(name = "prioridad_id", referencedColumnName = "id")
     private Prioridad prioridad;
 
+    private boolean solucionado;
+
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private Usuario usuario;
+    @JoinColumn(name = "problema_general_id", referencedColumnName = "id")
+    private ProblemaGeneral problemaGeneral;
 
-    private boolean solucionado;
 }

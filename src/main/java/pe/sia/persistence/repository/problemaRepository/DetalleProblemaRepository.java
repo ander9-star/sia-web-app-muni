@@ -1,4 +1,4 @@
-package pe.sia.persistence.repository.incidenciasRepository;
+package pe.sia.persistence.repository.problemaRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -6,90 +6,69 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pe.sia.persistence.entity.problema.DetalleProblema;
 
 @Repository
-public interface ProblemaGeneralRepository extends JpaRepository<DetalleProblema, Integer> {
+public interface DetalleProblemaRepository extends JpaRepository<DetalleProblema, Integer> {
 
-    // para obtener el nombre del activo
+    // para obtener el nombre del activo ingresando el codigo del problema del la tabla detalle_problema
     @Query(value = "select get_nombre_activo(:codigoP)", nativeQuery = true)
-    Optional<String> getNombreActivo(String codigoP);
+    Optional<String> getNombreActivoPorCodigoProblema(String codigoP);
 
-    // para buscar una incidencia por codigo de problema
+    // para buscar un detalle problema por codigo de problema
     Optional<DetalleProblema> findByCodigoProblema(String codigoProblema);
 
-    @Query(value = "select * from listar_detalle_problema()", nativeQuery = true)
-    List<Object[]> findAllDetalleProblema();
+    // listando por completo la data de la tabla detalle_problema
+    @Query(value = "select * from listar_detalle_problema_and_por_id(:id_pg)", nativeQuery = true)
+    List<Object[]> findAllDetalleProblema(@Param("id_pg") Integer idProblemaGeneral);
 
-    @Query(value="select get_problemas_generales_al_mes_actual()", nativeQuery = true)
-    Integer countIncidenciasByMonth();
-
-    // se va a recibir una tabla
-    @Query(value="select * from get_problemas_generales_para_mes_actual_anterior()", nativeQuery = true)
-    List<Map<String, Object>> getIncidenciasComparacion();
-
-    @Query(value="select get_problemas_generado_por_dia()", nativeQuery = true)
-    Integer countIncidenciasByDay();
-
-    // se va a recibir una tabla
-    @Query(value="select * from get_problema_generado_dia_actual_anterior()", nativeQuery = true)
-    List<Map<String, Object>> getIncidenciasDiaComparacion();
-
-    // para obtener la cantidad de problema solucionadas actualmente
+    // para obtener la cantidad de detalle problema solucionadas actualmente
     @Query(value = "select get_cantidad_problemas_resueltos()", nativeQuery = true)
-    Integer getIncidenciasTotalesSolucionadas();
+    Integer getDetalleProblemaSolucionados();
 
-    // funcion para obtener el promedio de las problema resueltas
+    // funcion para obtener el promedio de las detalle problema resueltas
     @Query(value = "select get_promedio_problemas_resueltas()", nativeQuery = true)
-    Integer getPromedioIncidenciasResueltas();
+    Integer getPromedioDetalleProblemaResueltos();
 
-    // funcion que retorna el empleado y cantidad con mayor problema actuales (una tabla)
+    // funcion que retorna el empleado y cantidad con mayor detalle problema actuales (una tabla)
     @Query(value = "select * from get_cantidad_empleado_mas_problemas()", nativeQuery = true)
-    List<Map<String, Object>> getEmpleadoCantidaMaximaIncidencias();
+    List<Map<String, Object>> getMaxEmpleadoDetalleProblema();
 
-    // para obtener el promedio del empleado con mas problema
+    // para obtener el promedio del empleado con mas detalle problema
     @Query(value = "select get_promedio_empleado_problemas()", nativeQuery = true)
-    Integer getPromedioEmpleadoMaxIncidencias();
+    Integer getPromedioMaxEmpleadoDetalleProblema();
 
-    // para obtener la cantidad de problema registradas ayer
+    // para obtener la cantidad de detalle problema registradas ayer
     @Query(value = "select get_detalle_problema_ayer()", nativeQuery = true)
-    Integer getIncidenciasTotalesAyer();
+    Integer getTotalDetalleProblemaAyer();
 
-    // para obtener el promedio de problema con respecto de ayer con el dia actual
+    // para obtener el promedio de detalle problema con respecto de ayer con el dia actual
     @Query(value = "select get_detalle_problema_promedio_dia_ayer_hoy()", nativeQuery = true)
-    Integer getPromedioIncidenciasAyerHoy(); 
-
-    // para obtener la cantidad de mantenimiento de hoy y ayer
-    @Query(value = "select * from get_cantidad_mantenimiento_hoy_ayer()", nativeQuery = true)
-    List<Map<String, Object>> getTotalManenimientoHoyAyer();
-
-    // para obtener la cantidad de audiotria de hoy y el total
-    @Query(value = "select * from get_cantidad_auditoria_hoy_total()", nativeQuery = true)
-    List<Map<String, Object>> getTotalAuditoriaHoyTotal();
-
-    // tabla personaliada para obtener solo el id, codigo de bien, nombre y empleado
-    @Query(value = "select * from listar_activo_nombre()", nativeQuery = true)
-    List<Object[]> getTableResults();
+    Integer getPromedioDetalleProbemaEntreAyerHoy();
 
     // procedimiento para obtener la cantidad de problema por mes
     @Query(value = "select * from get_cantidad_dp_por_mes()",nativeQuery = true)
-    List<Object[]> getCantidadTotalIncidencaPorMes();
+    List<Object[]> getCantidadTotalDetallePromedioPorMes();
 
     // procedimiento para obtener la cantidad total, porcentaje de solucionado y mantenimiento
-    @Query(value = "select * from get_total_problemas_por_mes()", nativeQuery = true)
-    List<Object[]> getTotalIncidencias();
+    @Query(value = "select * from get_medidas_detalle_problema_mantenimiento()", nativeQuery = true)
+    List<Object[]> getMedidasDetalleProblemaMantenimiento();
 
     // procedimiento para obtener la cantidad de problema por los dias del mes actual y anterior
     @Query(value = "select * from contar_problema_detalle_semanales_mes_actua_anterior()", nativeQuery = true)
-    List<Object[]> getTotalIncidenciasDiasMes();
+    List<Object[]> getCantidadDetalleProblemaPorDiaMesActualAnterior();
 
     // procedimiento para obtener la cantidad total de problema del mes anterior con el actual
     @Query(value = "select * from contar_problema_detalle_total_mes()", nativeQuery = true)
-    List<Object[]> getIncidenciasTotalMesActualAnterior();
+    List<Object[]> getDetalleProblemaTotalMesActualAnterior();
 
     // procedimiento para obtener la cantidad total de problema y fallos por prioridad del mes actual y anterior
     @Query(value = "select * from get_prioridad_categoria_detalle_problema()", nativeQuery = true)
-    List<Object[]> getTotalIncidenciasFalloByPrioridad();
+    List<Object[]> getTotalDetalleProblemaByPrioridadByCategoria();
+
+    @Query(value = "select * from listar_detalle_problema_por_id_pg(:id_dp)", nativeQuery = true)
+    List<Object[]> getDetalleProblemaPorIdPG(@Param("id_dp") Integer idProblemaGeneral);
 
 }

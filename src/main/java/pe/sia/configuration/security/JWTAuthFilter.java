@@ -2,11 +2,11 @@ package pe.sia.configuration.security;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,14 +20,16 @@ import pe.sia.util.JWTokenUtils;
 
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
-    
-    @Autowired
-    private JWTokenUtils jwTokenUtils;
 
-    @Autowired
-    private UsuarioDetailsService usuarioDeatilsService;
+    private final JWTokenUtils jwTokenUtils;
 
-    @SuppressWarnings("null")
+    private final UsuarioDetailsService usuarioDeatilsService;
+
+    public JWTAuthFilter(JWTokenUtils tokenUtils, UsuarioDetailsService usuarioDeatilsService) {
+        this.jwTokenUtils = tokenUtils;
+        this.usuarioDeatilsService = usuarioDeatilsService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
@@ -47,16 +49,21 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         userName = jwTokenUtils.extraerUsername(jwtToken);
 
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = usuarioDeatilsService.loadUserByUsername(userName);
-
-            if (jwTokenUtils.isTokenValid(jwtToken, userDetails)) {
-                SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-                );
-                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                securityContext.setAuthentication(token);
-                SecurityContextHolder.setContext(securityContext);
+            try {
+                UserDetails userDetails = usuarioDeatilsService.loadUserByUsername(userName);
+                // verificando si el token es valido
+                if (jwTokenUtils.isTokenValid(jwtToken, userDetails)) {
+                    SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()
+                    );
+                    token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    securityContext.setAuthentication(token);
+                    SecurityContextHolder.setContext(securityContext);
+                }
+            } catch (UsernameNotFoundException e) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuario no encontrado");
+                return;
             }
         }
         filterChain.doFilter(request, response);

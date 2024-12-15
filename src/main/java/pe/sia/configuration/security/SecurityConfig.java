@@ -1,6 +1,5 @@
 package pe.sia.configuration.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,16 +23,19 @@ import pe.sia.service.details.UsuarioDetailsService;
 public class SecurityConfig {
     
     // Servicio de detalles del usuario para autenticación
-    @Autowired
-    private UsuarioDetailsService usuarioDetailsService; 
+    private final UsuarioDetailsService usuarioDetailsService;
 
     // Filtro de autenticación JWT
-    @Autowired
-    private JWTAuthFilter jwtAuthFilter; 
+    private final JWTAuthFilter jwtAuthFilter;
 
-    // Este método configura la cadena de filtros de seguridad para la aplicación
+    public SecurityConfig(UsuarioDetailsService usuarioDetailsService, JWTAuthFilter jwtAuthFilter) {
+        this.usuarioDetailsService = usuarioDetailsService;
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
+
+    // Este metodo configura la cadena de filtros de seguridad para la aplicación
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         // Configuración de seguridad para la aplicación
         httpSecurity.csrf(AbstractHttpConfigurer::disable) // Desactiva CSRF
                 .cors(Customizer.withDefaults()) // Configuración de CORS por defecto

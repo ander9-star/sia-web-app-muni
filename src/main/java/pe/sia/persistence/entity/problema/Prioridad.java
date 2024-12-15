@@ -1,4 +1,4 @@
-package pe.sia.persistence.entity.incidencias;
+package pe.sia.persistence.entity.problema;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

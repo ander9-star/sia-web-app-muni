@@ -1,4 +1,4 @@
-package pe.sia.persistence.repository.incidenciasRepository;
+package pe.sia.persistence.repository.problemaRepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

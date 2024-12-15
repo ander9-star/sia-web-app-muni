@@ -1,5 +1,11 @@
 package pe.sia.service.implementation;
 
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -30,7 +36,7 @@ public class SoftwareServiceImpl implements SoftwareService {
         software.setFechaVencimientoLicencia(softwareDTO.getFechaVencimientoLicencia());
 
         Proveedor proveedor = proveedorRepository.findById(softwareDTO.getProveedorId())
-                .orElseThrow(() -> new RuntimeException("El proveedor no existe"));
+                .orElseThrow(() -> new RuntimeException("El proveedor no existe en la base de datos"));
         software.setProveedor(proveedor);
 
         software = softwareRepository.save(software);
@@ -41,7 +47,7 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Override
     public SoftwareDTO updateSoftware(Integer idSoftware, SoftwareDTO softwareDTO) {
         Software software = softwareRepository.findById(idSoftware)
-                .orElseThrow(() -> new RuntimeException("El proveedor no existe"));
+                .orElseThrow(() -> new RuntimeException("El proveedor no existe para actualizar"));
         software.setNombre(softwareDTO.getNombre());
         software.setVersion(softwareDTO.getVersion());
         software.setFechaInstalacion(softwareDTO.getFechaInstalacion());
@@ -74,6 +80,45 @@ public class SoftwareServiceImpl implements SoftwareService {
                     .stream()
                     .map(this::mapToDTO)
                     .toList();
+    }
+
+    private LocalDate convertirLocalDate(Date date) {
+        return date.toLocalDate();
+    }
+
+    @Override
+    public SoftwareDTO getFISoftware() {
+        SoftwareDTO requestDTO = new SoftwareDTO();
+        try {
+            List<Object[]> resultTable = softwareRepository.getFISoftware();
+            List<SoftwareDTO> softwareDTOList = new ArrayList<>();
+            if(!resultTable.isEmpty()) {
+                for (Object[] row : resultTable) {
+                    SoftwareDTO softwareDTO = new SoftwareDTO();
+                    softwareDTO.setStatusCode(200);
+                    softwareDTO.setNombre((String) row[0]);
+                    softwareDTO.setVersion((String) row[1]);
+                    softwareDTO.setFechaInstalacion(convertirLocalDate((Date) row[2]));
+                    softwareDTO.setFechaVencimientoLicencia(convertirLocalDate((Date) row[3]));
+                    softwareDTO.setNombreProveedor((String) row[4]);
+                    softwareDTO.setNombreEmpleado((String) row[5]);
+                    softwareDTO.setCantidadIncidencias((Integer) row[6]);
+                    softwareDTO.setPorcentajeIncidencias((BigDecimal) row[7]);
+                    softwareDTOList.add(softwareDTO);
+                }
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Se ha obtenido la data completa de software");
+                requestDTO.setSoftwareDTOList(softwareDTOList);
+            } else{
+                requestDTO.setStatusCode(404);
+                requestDTO.setMessage("Lista vacia");
+            }
+            return requestDTO;
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setMessage("Ha sucedio un error: " + e.getMessage());
+            return requestDTO;
+        }
     }
 
     private SoftwareDTO mapToDTO(Software software) {

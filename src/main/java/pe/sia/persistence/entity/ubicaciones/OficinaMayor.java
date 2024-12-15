@@ -16,7 +16,7 @@ import lombok.Setter;
 /*
  * @author Villalta Carnero Anderson
  * @version 1.0
- ** Esta entidad representa las oficinas de la muni en el sistema de incidencias.
+ ** Esta entidad representa las oficinas de la muni en el sistema de problema.
  */
 
 @Entity

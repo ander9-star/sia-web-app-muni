@@ -1,9 +1,11 @@
-package pe.sia.presentation.controller.falloIncidenciaController;
+package pe.sia.presentation.controller.problemaController;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.sia.presentation.dto.incienciasDTO.AuditoriaDTO;
+import pe.sia.presentation.dto.problemaDTO.AuditoriaDTO;
 import pe.sia.service.interfaces.AuditoriaService;
+
+import java.util.Map;
 
 @RestController
 public class AuditoriaController {
@@ -37,6 +39,11 @@ public class AuditoriaController {
     @DeleteMapping("/adminuser/delete-auditoria/{id}")
     public ResponseEntity<AuditoriaDTO> deleteAuditoria(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(auditoriaService.deleteAuditoria(id));
+    }
+
+    @GetMapping("/soporte-tecnico/auditoria-incidencia-hoy-total")
+    public ResponseEntity<Map<String, Object>> getTotalAuditoriaHoyTotal() {
+        return ResponseEntity.ok(auditoriaService.getTotalAuditoriaHoyTotal());
     }
 
 }

@@ -1,9 +1,9 @@
-package pe.sia.presentation.controller.falloIncidenciaController;
+package pe.sia.presentation.controller.problemaController;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.sia.persistence.entity.problema.Categoria;
-import pe.sia.presentation.dto.incienciasDTO.CategoriaDTO;
+import pe.sia.presentation.dto.problemaDTO.CategoriaDTO;
 import pe.sia.service.interfaces.CategoriaService;
 
 @RestController

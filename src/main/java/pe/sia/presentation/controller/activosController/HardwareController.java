@@ -2,7 +2,6 @@ package pe.sia.presentation.controller.activosController;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +15,6 @@ import pe.sia.presentation.dto.activosDTO.HardwareDTO;
 import pe.sia.service.interfaces.HardwareService;
 
 @RestController
-@RequestMapping("/sia/hardware")
 public class HardwareController {
 
     private final HardwareService hardwareService;
@@ -25,30 +23,35 @@ public class HardwareController {
         this.hardwareService = hardwareService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/admin/hardware-create")
     public ResponseEntity<HardwareDTO> createHardware(@RequestBody HardwareDTO hardwareDTO) {
         return ResponseEntity.ok(hardwareService.createHardware(hardwareDTO));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/hardware-update/{id}")
     public ResponseEntity<HardwareDTO> updateHardware(@PathVariable Integer id, @RequestBody HardwareDTO hardwareDTO) {
         return ResponseEntity.ok(hardwareService.updateHardware(id, hardwareDTO));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/hardware-delete/{id}")
     public ResponseEntity<Void> deleteHardware(@PathVariable Integer id) {
         hardwareService.deleteHardware(id);
         return ResponseEntity.noContent().build();  
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/hardware-by-id/{id}")
     public ResponseEntity<HardwareDTO> getHardwareById(@PathVariable Integer id) {
         return ResponseEntity.ok(hardwareService.getHardwareById(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/admin/hardware-all")
     public ResponseEntity<List<HardwareDTO>> getAllHardware() {
         return ResponseEntity.ok(hardwareService.getAllHardware());
+    }
+
+    @GetMapping("/adminuser/hardware-data")
+    public ResponseEntity<HardwareDTO> getFIPorHardware() {
+        return ResponseEntity.ok(hardwareService.getFIPorHardware());
     }
  
 }

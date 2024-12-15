@@ -1,12 +1,14 @@
 package pe.sia.service.implementation;
 
 import org.springframework.stereotype.Service;
-import pe.sia.persistence.repository.incidenciasRepository.CategoriaRepository;
-import pe.sia.presentation.dto.incienciasDTO.CategoriaDTO;
+import pe.sia.persistence.entity.problema.Categoria;
+import pe.sia.persistence.repository.problemaRepository.CategoriaRepository;
+import pe.sia.presentation.dto.problemaDTO.CategoriaDTO;
 import pe.sia.service.interfaces.CategoriaService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
@@ -15,6 +17,68 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     public CategoriaServiceImpl(CategoriaRepository categoriaRepository) {
         this.categoriaRepository = categoriaRepository;
+    }
+
+    @Override
+    public CategoriaDTO insertCategoria(Categoria categoria) {
+        CategoriaDTO requestDTO = new CategoriaDTO();
+        try {
+            Categoria categoriaNew = new Categoria();
+            categoriaNew.setNombre(categoria.getNombre());
+            Categoria newCategoria = categoriaRepository.save(categoriaNew);
+            if(newCategoria.getId() > 0) {
+                requestDTO.setStatusCode(201);
+                requestDTO.setMessage("Categoria creada con éxito");
+                requestDTO.setCategoria(newCategoria);
+            }
+
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setError("Ha ocurrido un error inesperado al crear el usuario: " + e.getMessage());
+        }
+        return requestDTO;
+    }
+
+    @Override
+    public CategoriaDTO updateCategoria(Integer idCategoria, Categoria categoria) {
+        CategoriaDTO requestDTO = new CategoriaDTO();
+        try {
+            Optional<Categoria> optionalCategoria = categoriaRepository.findById(idCategoria);
+            optionalCategoria.ifPresentOrElse(categoriaUpdate -> {
+                categoriaUpdate.setNombre(categoria.getNombre());
+                categoriaRepository.save(categoriaUpdate);
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Categoria actualizada con éxito");
+                requestDTO.setCategoria(categoriaUpdate);
+            }, () -> {
+                requestDTO.setStatusCode(404);
+                requestDTO.setError("Categoria no encontrada");
+            });
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setError("Ha ocurrido un error inesperado al actualizar la categoria: " + e.getMessage());
+        }
+        return requestDTO;
+    }
+
+    @Override
+    public CategoriaDTO deleteCategoria(Integer idCategoria) {
+        CategoriaDTO requestDTO = new CategoriaDTO();
+        try {
+            Optional<Categoria> optionalCategoria = categoriaRepository.findById(idCategoria);
+            optionalCategoria.ifPresentOrElse(categoriaDelete -> {
+                categoriaRepository.delete(categoriaDelete);
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Categoria eliminada con éxito");
+            }, () -> {
+                requestDTO.setStatusCode(404);
+                requestDTO.setError("Categoria no encontrada");
+            });
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setError("Ha ocurrido un error inesperado al eliminar la categoria: " + e.getMessage());
+        }
+        return requestDTO;
     }
 
     @Override
