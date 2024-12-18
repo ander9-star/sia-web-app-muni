@@ -1,6 +1,5 @@
 package pe.sia.presentation.controller.actoresController;
 
-
 import org.springframework.web.bind.annotation.RestController;
 import pe.sia.presentation.dto.actoresDTO.UsuarioDTO;
 import pe.sia.service.interfaces.UsuarioService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 
 @RestController
 public class UsuarioController {

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = false)

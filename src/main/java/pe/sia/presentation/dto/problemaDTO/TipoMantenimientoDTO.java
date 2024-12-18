@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import pe.sia.persistence.entity.problema.TipoMantenimiento;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,7 +15,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TipoMantenimientoDTO extends EstadoPeticion {
-
     private Integer id;
     private String nombre;
     private TipoMantenimiento tipoMantenimiento;

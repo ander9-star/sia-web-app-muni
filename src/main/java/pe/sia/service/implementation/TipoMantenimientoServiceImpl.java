@@ -5,7 +5,6 @@ import pe.sia.persistence.entity.problema.TipoMantenimiento;
 import pe.sia.persistence.repository.problemaRepository.TipoMantenimientoRepository;
 import pe.sia.presentation.dto.problemaDTO.TipoMantenimientoDTO;
 import pe.sia.service.interfaces.TipoMantenimientoService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

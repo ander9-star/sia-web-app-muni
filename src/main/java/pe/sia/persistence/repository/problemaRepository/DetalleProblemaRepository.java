@@ -3,7 +3,6 @@ package pe.sia.persistence.repository.problemaRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,16 +12,13 @@ import pe.sia.persistence.entity.problema.DetalleProblema;
 @Repository
 public interface DetalleProblemaRepository extends JpaRepository<DetalleProblema, Integer> {
 
-    // para obtener el nombre del activo ingresando el codigo del problema del la tabla detalle_problema
-    @Query(value = "select get_nombre_activo(:codigoP)", nativeQuery = true)
-    Optional<String> getNombreActivoPorCodigoProblema(String codigoP);
-
     // para buscar un detalle problema por codigo de problema
     Optional<DetalleProblema> findByCodigoProblema(String codigoProblema);
 
     // listando por completo la data de la tabla detalle_problema
-    @Query(value = "select * from listar_detalle_problema_and_por_id(:id_pg)", nativeQuery = true)
-    List<Object[]> findAllDetalleProblema(@Param("id_pg") Integer idProblemaGeneral);
+    @Query(value = "select * from listar_detalle_problema_and_por_id(:id_pg, :id_usuario, :es_admin)", nativeQuery = true)
+    List<Object[]> findAllDetalleProblema(@Param("id_pg") Integer idProblemaGeneral, @Param("id_usuario") Integer idUsuario,
+                                          @Param("es_admin") Boolean esAdmin);
 
     // para obtener la cantidad de detalle problema solucionadas actualmente
     @Query(value = "select get_cantidad_problemas_resueltos()", nativeQuery = true)
@@ -32,21 +28,17 @@ public interface DetalleProblemaRepository extends JpaRepository<DetalleProblema
     @Query(value = "select get_promedio_problemas_resueltas()", nativeQuery = true)
     Integer getPromedioDetalleProblemaResueltos();
 
-    // funcion que retorna el empleado y cantidad con mayor detalle problema actuales (una tabla)
-    @Query(value = "select * from get_cantidad_empleado_mas_problemas()", nativeQuery = true)
-    List<Map<String, Object>> getMaxEmpleadoDetalleProblema();
-
     // para obtener el promedio del empleado con mas detalle problema
-    @Query(value = "select get_promedio_empleado_problemas()", nativeQuery = true)
-    Integer getPromedioMaxEmpleadoDetalleProblema();
+    @Query(value = "select * from get_cantidad_empleado_mas_problemas();", nativeQuery = true)
+    List<Map<String, Object>> getPromedioMaxEmpleadoDetalleProblema();
 
     // para obtener la cantidad de detalle problema registradas ayer
     @Query(value = "select get_detalle_problema_ayer()", nativeQuery = true)
     Integer getTotalDetalleProblemaAyer();
 
     // para obtener el promedio de detalle problema con respecto de ayer con el dia actual
-    @Query(value = "select get_detalle_problema_promedio_dia_ayer_hoy()", nativeQuery = true)
-    Integer getPromedioDetalleProbemaEntreAyerHoy();
+    @Query(value = "select * from get_detalle_problema_promedio_dia_ayer_hoy()", nativeQuery = true)
+    List<Map<String, Object>> getPromedioDetalleProbemaEntreAyerHoy();
 
     // procedimiento para obtener la cantidad de problema por mes
     @Query(value = "select * from get_cantidad_dp_por_mes()",nativeQuery = true)
@@ -70,5 +62,13 @@ public interface DetalleProblemaRepository extends JpaRepository<DetalleProblema
 
     @Query(value = "select * from listar_detalle_problema_por_id_pg(:id_dp)", nativeQuery = true)
     List<Object[]> getDetalleProblemaPorIdPG(@Param("id_dp") Integer idProblemaGeneral);
+
+    // para obtener el nombre del activo ingresando el codigo del problema del la tabla detalle_problema
+    @Query(value = "select get_nombre_activo(:codigoP)", nativeQuery = true)
+    Optional<String> getNombreActivoPorCodigoProblema(String codigoP);
+
+    // funcion que retorna el empleado y cantidad con mayor detalle problema actuales (una tabla)
+    @Query(value = "select * from get_cantidad_empleado_mas_problemas()", nativeQuery = true)
+    List<Map<String, Object>> getMaxEmpleadoDetalleProblema();
 
 }

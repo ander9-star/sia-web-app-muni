@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import pe.sia.persistence.repository.ubicaciones.OficinaSubgerenciaRepository;
 import pe.sia.presentation.dto.ubicacionDTO.OficinaSubgerenciaDTO;
 import pe.sia.service.interfaces.OficinaSubgerenciaService;
-
 import java.util.ArrayList;
 import java.util.List;
 

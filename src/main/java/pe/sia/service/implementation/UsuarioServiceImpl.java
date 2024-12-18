@@ -1,13 +1,11 @@
 package pe.sia.service.implementation;
 
 import java.util.*;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import lombok.extern.slf4j.Slf4j;
 import pe.sia.persistence.entity.actores.Rol;
 import pe.sia.persistence.entity.actores.Usuario;

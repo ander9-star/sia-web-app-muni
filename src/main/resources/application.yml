@@ -6,21 +6,19 @@ spring:
     name: sia-app-web # Nombre de la aplicación
   datasource:
     driver-class-name: org.postgresql.Driver # Controlador de la base de datos
-    url: jdbc:postgresql://0.0.0.0:5432/dbhistorialactivos # URL de la base de datos
-    username: usuario_soporte # Nombre de usuario de la base de datos
-    password: muni_demo # Contraseña de la base de datos
+    url: jdbc:postgresql://dbhistorialactivos.c1m4ueo42jbz.us-east-2.rds.amazonaws.com:5432/dbhistorialactivosmuni # URL de la base de datos
+    username: usuario_sia # Nombre de usuario de la base de datos
+    password: muni_2024_sia # Contraseña de la base de datos
   jpa:
     hibernate:
-      ddl-auto: update # Actualizar la base de datos
+      ddl-auto: none # Actualizar la base de datos
     database: postgresql # Tipo de base de datos
     database-platform: org.hibernate.dialect.PostgreSQLDialect # Plataforma de la base de datos
-    show-sql: true # Mostrar SQL
-    generate-ddl: true # Esta configuración indica a Hibernate que genere automáticamente el DDL (Data Definition Language) para las tablas de la base de datos.
+    show-sql: false # Mostrar SQL
 logging:
   level:
     org:
-      springframework:
-        security: DEBUG
+      springframework: INFO
 chatbot:
   api:
     key: 2bb5e892c509dc5e3a09c88885770569437391acff5da87aafbf01259960076e

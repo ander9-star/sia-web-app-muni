@@ -5,21 +5,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import pe.sia.configuration.app.ChatbotConfig;
 import pe.sia.presentation.dto.iaDTO.ChatbotSessionRequestDTO;
 import pe.sia.presentation.dto.iaDTO.ChatbotSessionResponseDTO;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @RestController
-@RequestMapping("/adminuser")
+@RequestMapping("/admin")
 public class ChatbotIAController {
 
-    //@Value("${chatbot.api.key}")
     private final String apiKey;
 
     public ChatbotIAController(ChatbotConfig chatbotConfig) {
@@ -40,8 +37,8 @@ public class ChatbotIAController {
 
             // estableciendo la peticion del cuerpo
             ChatbotSessionRequestDTO requestBody = new ChatbotSessionRequestDTO(
-                "bb385aff33f4d00ee66e8e958233c857",
-                "chatbot-sia",
+                "6dba817c456f33008c16cef0f8d6d880",
+                "chatbot-admin",
                 "jvillaltaca12@ucvvirtual.edu.pe"
             );
 

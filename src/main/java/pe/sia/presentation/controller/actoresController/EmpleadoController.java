@@ -17,7 +17,7 @@ public class EmpleadoController {
 
     @GetMapping("/adminuser/top-5-empleados")
     public ResponseEntity<EmpleadoDTO> getTop5EmpleadosFallos() {
-        return ResponseEntity.ok(empleadoService.getTop5EmpleadosFallos());
+        return ResponseEntity.ok(empleadoService.getTop5Empleados());
     }
 
     @GetMapping("/soporte-tecnico/all-empleados-cantidad")

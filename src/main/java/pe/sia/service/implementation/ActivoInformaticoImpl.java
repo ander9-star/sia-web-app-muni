@@ -1,9 +1,7 @@
 package pe.sia.service.implementation;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import pe.sia.persistence.entity.activos.ActivoInformatico;
 import pe.sia.persistence.entity.activos.Hardware;
 import pe.sia.persistence.entity.activos.InfraestructuraRed;

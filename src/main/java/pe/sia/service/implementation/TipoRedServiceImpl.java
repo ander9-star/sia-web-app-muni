@@ -1,9 +1,7 @@
 package pe.sia.service.implementation;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import pe.sia.persistence.entity.activos.TipoRed;
 import pe.sia.persistence.repository.activosRepository.TipoRedRepository;
 import pe.sia.presentation.dto.activosDTO.TipoRedDTO;

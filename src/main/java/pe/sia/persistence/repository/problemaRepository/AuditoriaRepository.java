@@ -1,15 +1,10 @@
 package pe.sia.persistence.repository.problemaRepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import org.springframework.transaction.annotation.Transactional;
 import pe.sia.persistence.entity.problema.Auditoria;
-
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +15,8 @@ public interface AuditoriaRepository extends JpaRepository<Auditoria, Integer>{
     List<Object[]> getAuditoriaMantenimiento(@Param("id_man") Integer idMantenimiento);
 
     // para obtener data completa de la auditoria
-    @Query(value = "select * from get_data_auditoria_full()", nativeQuery = true)
-    List<Object[]> getDataFullAuditoria();
+    @Query(value = "select * from get_data_auditoria_full(:id_usuario, :es_admin)", nativeQuery = true)
+    List<Object[]> getDataFullAuditoria(@Param("id_usuario") Integer idUsuario, @Param("es_admin") Boolean esAdmin);
 
     // para obtener la cantidad de audiotria de hoy y el total
     @Query(value = "select * from get_cantidad_auditoria_hoy_total()", nativeQuery = true)

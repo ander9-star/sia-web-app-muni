@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.sia.presentation.dto.problemaDTO.ProblemaGeneralDTO;
 import pe.sia.service.interfaces.ProblemaGeneralService;
-
 import java.util.Map;
 
 @RestController
@@ -36,13 +35,17 @@ public class ProblemaGeneralController {
 
     @GetMapping("/adminuser/compareday-problema")
     public ResponseEntity<Map<String, Object>> getIncidenciasDayComparacion() {
-        Map<String, Object> resutados = problemaGeneralService.getIncidenciasDosDayComparacion();
+        Map<String, Object> resutados = problemaGeneralService.getAmountProGenByDayActulaAnterior();
         return ResponseEntity.ok(resutados);
     }
 
-    @GetMapping("/adminuser/data-problema-general")
-    public ResponseEntity<ProblemaGeneralDTO> getDataNormalizadaProblemaGeneral() {
-        ProblemaGeneralDTO data = problemaGeneralService.getDataNormalizadaProblemaGeneral();
+    @GetMapping("/adminuser/data-problema-general/{idProblemaGeneral}/{idUsuario}/{esAdmin}")
+    public ResponseEntity<ProblemaGeneralDTO> getDataNormalizadaProblemaGeneral(
+            @PathVariable("idProblemaGeneral") Integer idProblemaGeneral,
+            @PathVariable("idUsuario") Integer idUsuario,
+            @PathVariable("esAdmin") Boolean esAdmin
+    ) {
+        ProblemaGeneralDTO data = problemaGeneralService.getDataNormalizadaProblemaGeneral(idProblemaGeneral, idUsuario, esAdmin);
         return ResponseEntity.ok(data);
     }
 
@@ -56,6 +59,12 @@ public class ProblemaGeneralController {
     public ResponseEntity<ProblemaGeneralDTO> deleteProblemaGeneral(@PathVariable("idProblemaGeneral") Integer idProblemaGeneral) {
         ProblemaGeneralDTO problemaGeneral = problemaGeneralService.deleteProblemaGeneral(idProblemaGeneral);
         return ResponseEntity.ok(problemaGeneral);
+    }
+
+    @GetMapping("/admin/pg-total-mes")
+    public ResponseEntity<Integer> getProblemaGeneralAlMesActual() {
+        Integer totalProblemaGeneral = problemaGeneralService.getProblemaGeneralAlMesActual();
+        return ResponseEntity.ok(totalProblemaGeneral);
     }
 
 }

@@ -5,7 +5,6 @@ import pe.sia.persistence.entity.problema.Categoria;
 import pe.sia.persistence.repository.problemaRepository.CategoriaRepository;
 import pe.sia.presentation.dto.problemaDTO.CategoriaDTO;
 import pe.sia.service.interfaces.CategoriaService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +67,7 @@ public class CategoriaServiceImpl implements CategoriaService {
             Optional<Categoria> optionalCategoria = categoriaRepository.findById(idCategoria);
             optionalCategoria.ifPresentOrElse(categoriaDelete -> {
                 categoriaRepository.delete(categoriaDelete);
-                requestDTO.setStatusCode(200);
+                requestDTO.setStatusCode(204);
                 requestDTO.setMessage("Categoria eliminada con éxito");
             }, () -> {
                 requestDTO.setStatusCode(404);

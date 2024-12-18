@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import pe.sia.util.EstadoPeticion;
-
 import java.math.BigDecimal;
 import java.util.List;
 

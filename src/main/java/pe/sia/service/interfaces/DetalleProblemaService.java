@@ -6,7 +6,7 @@ import pe.sia.presentation.dto.problemaDTO.DetalleProblemaDTO;
 public interface DetalleProblemaService {
 
     // obtener la data de detalle problema normalizadas
-    DetalleProblemaDTO findAllDetalleProblema(Integer idProblemaGeneral);
+    DetalleProblemaDTO findAllDetalleProblema(Integer idProblemaGeneral, Integer idUsuario, Boolean esAdmin);
 
     // para insertar una nuevo detalle problema
     DetalleProblemaDTO insertarDetalleProblema(DetalleProblemaDTO detalleProblema);
@@ -26,17 +26,14 @@ public interface DetalleProblemaService {
     // para obtener el promedio de los detalle problema solucionados
     Integer getPromedioDetalleProblemaResueltos();
 
-    // para obtener el empleado con mas detalle problemas reportados actualmente
-    Map<String, Object> getMaxEmpleadoDetalleProblema();
-
     // para obtener el promedio de empleado con mas detalle problemas acutales
-    Integer getPromedioMaxEmpleadoDetalleProblema();
+    Map<String, Object> getPromedioMaxEmpleadoDetalleProblema();
 
     // para obtener la cantidad total de detalle problema registrados ayer
     Integer getTotalDetalleProblemaAyer();
 
     // para obtener el promedio de detalle problema registradas con respecto ayer con hoy dia
-    Integer getPromedioDetalleProbemaEntreAyerHoy();
+    Map<String, Object> getPromedioDetalleProbemaEntreAyerHoy();
 
     // para obtener la cantidad de detalle problema por mes
     DetalleProblemaDTO getCantidadTotalDetallePromedioPorMes();

@@ -6,7 +6,6 @@ import pe.sia.persistence.repository.actoresRepository.PersonalRepository;
 import pe.sia.persistence.repository.actoresRepository.RolRepository;
 import pe.sia.presentation.dto.actoresDTO.PersonalDTO;
 import pe.sia.service.interfaces.PersonalService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

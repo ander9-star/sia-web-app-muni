@@ -3,16 +3,13 @@ package pe.sia.service.implementation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import pe.sia.persistence.entity.activos.Hardware;
 import pe.sia.persistence.entity.activos.Proveedor;
 import pe.sia.persistence.repository.activosRepository.HardwareRepository;
 import pe.sia.persistence.repository.activosRepository.ProveedorRepository;
 import pe.sia.presentation.dto.activosDTO.HardwareDTO;
 import pe.sia.service.interfaces.HardwareService;
-import java.util.stream.Collectors;
 
 /**
  * @author villalta carnero anderson

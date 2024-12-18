@@ -7,7 +7,6 @@ import pe.sia.persistence.repository.problemaRepository.MantenimientoRepository;
 import pe.sia.presentation.dto.problemaDTO.AuditoriaDTO;
 import pe.sia.service.interfaces.AuditoriaService;
 import pe.sia.util.UtilsApp;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,10 +119,10 @@ public class AuditoriaServiceImpl implements AuditoriaService {
     }
 
     @Override
-    public AuditoriaDTO getDataFullAuditoria() {
+    public AuditoriaDTO getDataFullAuditoria(Integer idUsuario, Boolean esAdmin) {
         AuditoriaDTO requestDTO = new AuditoriaDTO();
         try {
-            List<Object[]> resultTable = auditoriaRepository.getDataFullAuditoria();
+            List<Object[]> resultTable = auditoriaRepository.getDataFullAuditoria(idUsuario, esAdmin);
             List<AuditoriaDTO> listAuditoria = new ArrayList<>();
             if(!resultTable.isEmpty()) {
                 for (Object[] row : resultTable) {

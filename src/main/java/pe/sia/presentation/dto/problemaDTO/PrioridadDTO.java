@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.sia.persistence.entity.problema.Prioridad;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
 
 @Setter

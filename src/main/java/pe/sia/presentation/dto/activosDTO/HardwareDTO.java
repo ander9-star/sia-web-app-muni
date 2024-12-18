@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import pe.sia.util.EstadoPeticion;
-
 import java.math.BigDecimal;
 import java.util.List;
 

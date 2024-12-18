@@ -2,9 +2,7 @@ package pe.sia.service.implementation;
 
 import java.time.Instant;
 import java.util.*;
-
 import org.springframework.stereotype.Service;
-
 import lombok.extern.slf4j.Slf4j;
 import pe.sia.persistence.entity.problema.DetalleProblema;
 import pe.sia.persistence.repository.problemaRepository.CategoriaRepository;
@@ -34,10 +32,10 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
     }
 
     @Override
-    public DetalleProblemaDTO findAllDetalleProblema(Integer idProblemaGeneral) {
+    public DetalleProblemaDTO findAllDetalleProblema(Integer idProblemaGeneral, Integer idUsuario, Boolean esAdmin) {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
-            List<Object[]> listResults = detalleProblemaRepository.findAllDetalleProblema(idProblemaGeneral);
+            List<Object[]> listResults = detalleProblemaRepository.findAllDetalleProblema(idProblemaGeneral, idUsuario, esAdmin);
             List<DetalleProblemaDTO> listaDetalleProblemaDTO = new ArrayList<>();
 
             if (!listResults.isEmpty()) {
@@ -91,7 +89,7 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
             detalleProblema.setSolucionado(false);
             detalleProblema.setProblemaGeneral(problemaGeneralRepository.findById(detalleProblemaDTO.getIdProblemaGeneral()).orElse(null));
             DetalleProblema newDetalleProblema = detalleProblemaRepository.save(detalleProblema);
-            if(newDetalleProblema.getId() > 0) {
+            if (newDetalleProblema.getId() > 0) {
                 requestDTO.setDetalleProblema(detalleProblema);
                 requestDTO.setStatusCode(201);
                 requestDTO.setMessage("Se ha creado el detalle del problema correctamente");
@@ -109,7 +107,7 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
         try {
             Optional<DetalleProblema> detalleProblemaOptional = detalleProblemaRepository.findById(id);
-            detalleProblemaOptional.ifPresentOrElse( detalleProblema -> {
+            detalleProblemaOptional.ifPresentOrElse(detalleProblema -> {
                 detalleProblema.setDescripcion(detalleProblemaUpdate.getDescripcion());
                 detalleProblema.setFechaRegistro(UtilsApp.formatearFechaInstant(detalleProblemaUpdate.getFechaRegistro()));
                 detalleProblema.setMedioReporte(detalleProblemaUpdate.getMedioReporte());
@@ -198,22 +196,17 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
     }
 
     @Override
-    public Map<String, Object> getMaxEmpleadoDetalleProblema() {
-        List<Map<String, Object>> resultadoTabla = detalleProblemaRepository.getMaxEmpleadoDetalleProblema();
-
-        Map<String, Object> empleado = resultadoTabla.getFirst();
-
+    public Map<String, Object> getPromedioMaxEmpleadoDetalleProblema() {
+        List<Map<String, Object>> resultTable = detalleProblemaRepository.getPromedioMaxEmpleadoDetalleProblema();
+        if(resultTable.isEmpty()) {
+            return Map.of("nombreApellidos", "No hay datos", "cantidad", 0);
+        }
+        Map<String, Object> objectMap = resultTable.getFirst();
         return Map.of(
-                "nombre", empleado.get("nombre"),
-                "cantidad", empleado.get("cantidad")
+                "nombreApellidos", objectMap.get("nombre_apellidos"),
+                "cantidad", objectMap.get("cantidad"),
+                "promedio", objectMap.get("promedio")
         );
-    }
-
-    @Override
-    public Integer getPromedioMaxEmpleadoDetalleProblema() {
-        int promedio;
-        promedio = detalleProblemaRepository.getPromedioMaxEmpleadoDetalleProblema();
-        return promedio;
     }
 
     @Override
@@ -224,10 +217,15 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
     }
 
     @Override
-    public Integer getPromedioDetalleProbemaEntreAyerHoy() {
-        int promedio;
-        promedio = detalleProblemaRepository.getPromedioDetalleProbemaEntreAyerHoy();
-        return promedio;
+    public Map<String, Object> getPromedioDetalleProbemaEntreAyerHoy() {
+        List<Map<String, Object>> resultTable = detalleProblemaRepository.getPromedioDetalleProbemaEntreAyerHoy();
+        Map<String, Object> first = resultTable.getFirst();
+        return Map.of(
+                "totalDPHoy", first.get("total_dp_hoy"),
+                "totalDPAyer", first.get("total_dp_ayer"),
+                "porcentajeHoy", first.get("porcentaje_hoy"),
+                "porcentajeAyer", first.get("porcentaje_ayer")
+        );
     }
 
     @Override
@@ -280,7 +278,7 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
                 requestDTO.setDetalleProblemaDTO(detalleProblemaDTO);
             } else {
                 requestDTO.setStatusCode(404);
-                requestDTO.setMessage("No se ha encontrado datos");
+                requestDTO.setMessage("No se ha encontrado datos en la peticion");
             }
             return requestDTO;
         } catch (Exception e) {
@@ -293,11 +291,11 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
     @Override
     public DetalleProblemaDTO getCantidadDetalleProblemaPorDiaMesActualAnterior() {
         DetalleProblemaDTO requestDTO = new DetalleProblemaDTO();
-        try{
+        try {
             List<Object[]> resultTable = detalleProblemaRepository.getCantidadDetalleProblemaPorDiaMesActualAnterior();
             List<DetalleProblemaDTO> listMesActualAnterior = new ArrayList<>();
-            if(!resultTable.isEmpty()) {
-                for(Object[] fila : resultTable) {
+            if (!resultTable.isEmpty()) {
+                for (Object[] fila : resultTable) {
                     DetalleProblemaDTO incidencia = new DetalleProblemaDTO.Builder()
                             .statusCode(200)
                             .diaSemana((String) fila[0])
@@ -309,8 +307,7 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
                 requestDTO.setStatusCode(200);
                 requestDTO.setMessage("Obteniendo la cantidad de los dias el mes anterior y actual");
                 requestDTO.setDetalleProblemaDTOList(listMesActualAnterior);
-            }
-            else {
+            } else {
                 requestDTO.setStatusCode(404);
                 requestDTO.setMessage("No se ha encontrado datos");
             }
@@ -356,7 +353,7 @@ public class DetalleProblemaIServicempl implements DetalleProblemaService {
             List<Object[]> resultTable = detalleProblemaRepository.getTotalDetalleProblemaByPrioridadByCategoria();
             List<PrioridadDTO> prioridadDTOList = new ArrayList<>();
             if (!resultTable.isEmpty()) {
-                for(Object[] fila : resultTable) {
+                for (Object[] fila : resultTable) {
                     PrioridadDTO incidenciaFalloDTO = new PrioridadDTO.Builder()
                             .statusCode(200)
                             .nombre((String) fila[0])

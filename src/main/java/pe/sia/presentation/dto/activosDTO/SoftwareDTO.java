@@ -3,7 +3,6 @@ package pe.sia.presentation.dto.activosDTO;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;

@@ -2,13 +2,10 @@ package pe.sia.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import pe.sia.persistence.repository.activosRepository.ActivoMaestroRepository;
 import pe.sia.presentation.dto.activosDTO.ActivoMaestroDTO;
 import pe.sia.service.interfaces.ActivoMaestroService;
-
 
 @Service
 public class ActivoMaestroImpl implements ActivoMaestroService {
@@ -106,6 +103,5 @@ public class ActivoMaestroImpl implements ActivoMaestroService {
 			return requestDTO;
 		}
 	}
-
 
 }

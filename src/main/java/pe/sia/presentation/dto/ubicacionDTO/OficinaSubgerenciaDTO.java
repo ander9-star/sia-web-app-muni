@@ -2,11 +2,9 @@ package pe.sia.presentation.dto.ubicacionDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.*;
 import pe.sia.persistence.entity.ubicaciones.OficinaGerencia;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
 
 @Setter
@@ -17,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OficinaSubgerenciaDTO extends EstadoPeticion {
-
     private Integer id;
     private String nombreOficina;
     private String oficinaGeren;
@@ -27,5 +24,4 @@ public class OficinaSubgerenciaDTO extends EstadoPeticion {
     private Integer piso;
     private OficinaGerencia oficinaGerencia;
     private List<OficinaSubgerenciaDTO> listOficinas;
-
 }

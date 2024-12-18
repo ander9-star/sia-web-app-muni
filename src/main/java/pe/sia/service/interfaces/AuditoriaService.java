@@ -1,7 +1,6 @@
 package pe.sia.service.interfaces;
 
 import pe.sia.presentation.dto.problemaDTO.AuditoriaDTO;
-
 import java.util.Map;
 
 public interface AuditoriaService {
@@ -19,7 +18,7 @@ public interface AuditoriaService {
     AuditoriaDTO getAuditoriaMantenimiento(Integer idMantenimiento);
 
     // para obtener la data completa de auditoria
-    AuditoriaDTO getDataFullAuditoria();
+    AuditoriaDTO getDataFullAuditoria(Integer idUsuario, Boolean esAdmin);
 
     // para obtener el total de autorias de hoy y el total que hay en el sistema
     Map<String, Object> getTotalAuditoriaHoyTotal();

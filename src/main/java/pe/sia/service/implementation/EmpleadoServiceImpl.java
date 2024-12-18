@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pe.sia.persistence.repository.actoresRepository.EmpleadoRepository;
 import pe.sia.presentation.dto.actoresDTO.EmpleadoDTO;
 import pe.sia.service.interfaces.EmpleadoService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +17,10 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     }
 
     @Override
-    public EmpleadoDTO getTop5EmpleadosFallos() {
+    public EmpleadoDTO getTop5Empleados() {
         EmpleadoDTO requestDTO = new EmpleadoDTO();
         try {
-            List<Object[]> resultTable = empleadoRepository.getTop5EmpleadosTncidencias();
+            List<Object[]> resultTable = empleadoRepository.getTop5Empleados();
             List<EmpleadoDTO> listEmpleado = new ArrayList<>();
             if(!resultTable.isEmpty()) {
                 for(Object[] object : resultTable) {
@@ -105,6 +104,5 @@ public class EmpleadoServiceImpl implements EmpleadoService {
             return requestDTO;
         }
     }
-
 
 }

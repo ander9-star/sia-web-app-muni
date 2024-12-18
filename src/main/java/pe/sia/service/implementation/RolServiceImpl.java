@@ -5,7 +5,6 @@ import pe.sia.persistence.entity.actores.Rol;
 import pe.sia.persistence.repository.actoresRepository.RolRepository;
 import pe.sia.presentation.dto.actoresDTO.RolDTO;
 import pe.sia.service.interfaces.RolService;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +66,7 @@ public class RolServiceImpl implements RolService {
             Optional<Rol> optionalRol = rolRepository.findById(idRol);
             optionalRol.ifPresentOrElse((rolDelete) -> {
                 rolRepository.delete(rolDelete);
-                requestDTO.setStatusCode(200);
+                requestDTO.setStatusCode(204);
                 requestDTO.setMessage("Rol eliminado con éxito");
             }, () -> {
                 requestDTO.setStatusCode(404);
@@ -81,10 +80,31 @@ public class RolServiceImpl implements RolService {
     }
 
     @Override
-    public RolDTO getDataRol() {
+    public RolDTO getDataRolPersonal() {
         RolDTO requestDTO = new RolDTO();
         try {
-            List<Rol> listRol = rolRepository.findAll();
+            List<Rol> listRol = rolRepository.findAll().stream().filter( rol -> rol.getId() != 1 && rol.getId() != 2).toList();
+            if(!listRol.isEmpty()) {
+                requestDTO.setStatusCode(200);
+                requestDTO.setMessage("Se ha extraido la data de rol");
+                requestDTO.setListRol(listRol);
+            } else {
+                requestDTO.setStatusCode(2403);
+                requestDTO.setMessage("Lista vacia");
+            }
+            return requestDTO;
+        } catch (Exception e) {
+            requestDTO.setStatusCode(500);
+            requestDTO.setMessage("Ha sucedido un erro: " + e.getMessage());
+            return requestDTO;
+        }
+    }
+
+    @Override
+    public RolDTO getDataRolUser() {
+        RolDTO requestDTO = new RolDTO();
+        try {
+            List<Rol> listRol = rolRepository.findAll().stream().filter( rol -> rol.getId() <= 1 || rol.getId() == 2).toList();
             if(!listRol.isEmpty()) {
                 requestDTO.setStatusCode(200);
                 requestDTO.setMessage("Se ha extraido la data de rol");

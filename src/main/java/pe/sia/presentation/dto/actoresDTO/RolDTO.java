@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import pe.sia.persistence.entity.actores.Rol;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
 
 @Setter

@@ -9,7 +9,6 @@ import pe.sia.persistence.repository.problemaRepository.TipoMantenimientoReposit
 import pe.sia.presentation.dto.problemaDTO.MantenimientoDTO;
 import pe.sia.service.interfaces.MantenimientoService;
 import pe.sia.util.UtilsApp;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,21 +102,21 @@ public class MantenimientoServiceImpl implements MantenimientoService {
     }
 
     @Override
-    public MantenimientoDTO getMantenimientoFallo(Integer idFallo) {
+    public MantenimientoDTO getMantenimientoDetalleProblema(Integer idDetalleProblema) {
         MantenimientoDTO requestDTO = new MantenimientoDTO();
         try {
-            List<Object[]> result = mantenimientoRepository.getMantenimientoFallo(idFallo);
+            List<Object[]> result = mantenimientoRepository.getMantenimientoDetalleProblema(idDetalleProblema);
 
             if(!result.isEmpty()) {
                 Object[] objeto = result.getFirst();
                 requestDTO.setStatusCode(200);
                 requestDTO.setMessage("La incidencia esta en mantenimiento");
                 requestDTO.setIdMantenimiento((Integer) objeto[0]);
-                requestDTO.setCodigoProblema((String) objeto[1]);
+                requestDTO.setCodigoProblema(objeto[1].toString());
                 requestDTO.setFechaProgramada(UtilsApp.formatearFecha((Instant) objeto[2]));
-                requestDTO.setTipoMantenimiento((String) objeto[3]);
-                requestDTO.setNotas((String) objeto[4]);
-                requestDTO.setPersonal((String) objeto[5]);
+                requestDTO.setTipoMantenimiento(objeto[3].toString());
+                requestDTO.setNotas(objeto[4].toString());
+                requestDTO.setPersonal(objeto[5].toString());
                 requestDTO.setCantidadAuditoria((Integer) objeto[6]);
             }
             else {
@@ -134,10 +133,10 @@ public class MantenimientoServiceImpl implements MantenimientoService {
     }
 
     @Override
-    public MantenimientoDTO getDataMantenimiento() {
+    public MantenimientoDTO getDataMantenimiento(Integer idUsuario, Boolean esAdmin) {
         MantenimientoDTO requestDTO = new MantenimientoDTO();
         try {
-            List<Object[]> resultTable = mantenimientoRepository.getDataMantenimiento();
+            List<Object[]> resultTable = mantenimientoRepository.getDataMantenimiento(idUsuario, esAdmin);
             List<MantenimientoDTO> mantenimientoDTOList = new ArrayList<>();
             if (!resultTable.isEmpty()) {
                 for (Object[] row : resultTable) {
@@ -180,8 +179,20 @@ public class MantenimientoServiceImpl implements MantenimientoService {
         List<Map<String, Object>> resultadoTable = mantenimientoRepository.getTotalManenimientoHoyAyer();
         Map<String, Object> map = resultadoTable.getFirst();
         return Map.of(
-                "totalHoy", map.get("totalHoy"),
-                "totalAyer", map.get("totalAyer")
+                "totalManteHoy", map.get("total_mante_hoy"),
+                "totalManteAyer", map.get("total_mante_ayer"),
+                "porcentajeHoy", map.get("porcentaje_hoy"),
+                "porcentajeAyer", map.get("porcentaje_ayer")
+        );
+    }
+
+    @Override
+    public Map<String, Object> getTotalVencidaMantenimiento() {
+        List<Map<String, Object>> resultadoTable = mantenimientoRepository.getTotalVencidaMantenimiento();
+        Map<String, Object> map = resultadoTable.getFirst();
+        return Map.of(
+                "totalVencida", map.get("total_vencida"),
+                "total", map.get("total")
         );
     }
 

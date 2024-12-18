@@ -2,13 +2,10 @@ package pe.sia.presentation.dto.problemaDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.*;
 import pe.sia.persistence.entity.problema.Categoria;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
-
 
 @EqualsAndHashCode(callSuper = false)
 @Setter

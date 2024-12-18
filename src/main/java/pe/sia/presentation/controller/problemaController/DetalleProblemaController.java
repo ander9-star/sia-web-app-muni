@@ -1,7 +1,6 @@
 package pe.sia.presentation.controller.problemaController;
 
 import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import pe.sia.presentation.dto.problemaDTO.DetalleProblemaDTO;
 import pe.sia.service.interfaces.DetalleProblemaService;
 
@@ -23,9 +21,13 @@ public class DetalleProblemaController {
         this.detalleProblemaService = detalleProblemaService;
     }
 
-    @GetMapping("/soporte-tecnico/all-detalle-problema/{idProblemaGeneral}")
-    public ResponseEntity<DetalleProblemaDTO> getDataNormalizadaDetalleProblema(@PathVariable("idProblemaGeneral") Integer idProblemaGeneral) {
-        return ResponseEntity.ok(detalleProblemaService.findAllDetalleProblema(idProblemaGeneral));
+    @GetMapping("/adminuser/all-detalle-problema/{idProblemaGeneral}/{idUsuario}/{esAdmin}")
+    public ResponseEntity<DetalleProblemaDTO> getDataNormalizadaDetalleProblema(
+            @PathVariable("idProblemaGeneral") Integer idProblemaGeneral,
+            @PathVariable("idUsuario") Integer idUsuario,
+            @PathVariable("esAdmin") Boolean esAdmin)
+    {
+        return ResponseEntity.ok(detalleProblemaService.findAllDetalleProblema(idProblemaGeneral, idUsuario, esAdmin));
     }
 
     @GetMapping("/soporte-tecnico/get-incidencia/{codigoProblema}")
@@ -43,7 +45,7 @@ public class DetalleProblemaController {
         return  ResponseEntity.ok(detalleProblemaService.actualizarDetalleProblema(id, item));
     }
 
-    @DeleteMapping("/soporte-tecnico/delete-incidencia/{id}")
+    @DeleteMapping("/soporte-tecnico/delete-dp/{id}")
     public ResponseEntity<DetalleProblemaDTO> delete(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(detalleProblemaService.eliminarDetalleProblema(id));
     }
@@ -59,13 +61,8 @@ public class DetalleProblemaController {
         return ResponseEntity.ok(promedio); 
     }
 
-    @GetMapping("/admin/problema-max-empleado")
-    public ResponseEntity<Map<String, Object>> getEmpleadoMaxIncidencias() {
-        return ResponseEntity.ok(detalleProblemaService.getMaxEmpleadoDetalleProblema());
-    }
-
     @GetMapping("/admin/problema-max-empleado-promedio")
-    public ResponseEntity<Integer> getEmpleadoMaxIncidenciasPromedio() {
+    public ResponseEntity<Map<String, Object>> getEmpleadoMaxIncidenciasPromedio() {
         return ResponseEntity.ok(detalleProblemaService.getPromedioMaxEmpleadoDetalleProblema());
     }
 
@@ -73,9 +70,9 @@ public class DetalleProblemaController {
     public ResponseEntity<Integer> getIncidenciasTotalesAyer() {
         return ResponseEntity.ok(detalleProblemaService.getTotalDetalleProblemaAyer());
     }
-    
-    @GetMapping("/soporte-tecnico/promedio-incidencia-ayer")
-    public ResponseEntity<Integer> getPromedioIncidenciasAyerHoy() {
+
+    @GetMapping("/soporte-tecnico/promedio-dp-ayer-hoy")
+    public ResponseEntity<Map<String, Object>> getPromedioIncidenciasAyerHoy() {
         return ResponseEntity.ok(detalleProblemaService.getPromedioDetalleProbemaEntreAyerHoy());
     }
 

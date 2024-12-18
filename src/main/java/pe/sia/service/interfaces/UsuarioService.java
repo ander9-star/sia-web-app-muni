@@ -1,11 +1,9 @@
 package pe.sia.service.interfaces;
 
-
 import org.springframework.security.core.Authentication;
 import pe.sia.presentation.dto.actoresDTO.UsuarioDTO;
 
 public interface UsuarioService {
-
     UsuarioDTO createUsuario(UsuarioDTO usuarioCreateDTO);
     UsuarioDTO updateUsuario(Integer idUsuario, UsuarioDTO usuarioRequestDTO, Authentication authentication);
     UsuarioDTO deleteUsuario(Integer idUsuario);

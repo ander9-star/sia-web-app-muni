@@ -1,5 +1,6 @@
 package pe.sia.service.implementation;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pe.sia.persistence.entity.problema.ProblemaGeneral;
 import pe.sia.persistence.repository.activosRepository.ActivoMaestroRepository;
@@ -8,13 +9,13 @@ import pe.sia.persistence.repository.problemaRepository.ProblemaGeneralRepositor
 import pe.sia.presentation.dto.problemaDTO.ProblemaGeneralDTO;
 import pe.sia.service.interfaces.ProblemaGeneralService;
 import pe.sia.util.UtilsApp;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class ProblemaGeneralServiceImpl implements ProblemaGeneralService {
 
@@ -56,20 +57,19 @@ public class ProblemaGeneralServiceImpl implements ProblemaGeneralService {
         Map<String, Object> mesActual = resultadosTable.get(0);
         Map<String, Object> mesAnterior = resultadosTable.get(1);
 
-        long totalMesActual = (long) mesActual.get("total");
-        long totalMesAnterior = (long) mesAnterior.get("total");
-
-        double porcentaje = (double) ((totalMesActual - totalMesAnterior) / totalMesAnterior) * 100;
+        int totalMesActual = (int) mesActual.get("total");
+        int totalMesAnterior = (int) mesAnterior.get("total");
+        double porcentaje = ((double)(totalMesActual - totalMesAnterior) / totalMesAnterior) * 100;
         boolean incremento = porcentaje >= 0;
 
         return Map.of(
-                "porcentaje", Math.abs(Math.round(porcentaje)),
+                "porcentaje", Math.round(porcentaje),
                 "esIncremento", incremento
         );
     }
 
     @Override
-    public Map<String, Object> getIncidenciasDosDayComparacion() {
+    public Map<String, Object> getAmountProGenByDayActulaAnterior() {
         List<Map<String, Object>> resultadoTable = problemaGeneralRepository.getIncidenciasDiaComparacion();
 
         if (resultadoTable.size() < 2) {
@@ -79,28 +79,32 @@ public class ProblemaGeneralServiceImpl implements ProblemaGeneralService {
         Map<String, Object> diaActual = resultadoTable.get(0);
         Map<String, Object> diaAnterior = resultadoTable.get(1);
 
-        long totalDiaActual = (long) diaActual.get("total");
-        long totalDiaAnterior = (long) diaAnterior.get("total");
+        int totalDiaActual = (Integer) diaActual.get("total");
+        int totalDiaAnterior = (Integer) diaAnterior.get("total");
 
-        double porcentaje = getPorcentaje(totalDiaAnterior, totalDiaActual);
+        double porcentajeActual = getPorcentaje(totalDiaAnterior, totalDiaActual);
+        double porcentajeAnterior = getPorcentaje(totalDiaActual, totalDiaAnterior);
 
-        boolean incremento = porcentaje >= 0;
+        boolean incremento = porcentajeActual >= 0;
 
         return Map.of(
-                "porcentaje", Math.abs(Math.round(porcentaje)),
-                "esIncremento", incremento
+                "porcentajeDiaActual", Math.round(porcentajeActual),
+                "porcentajeDiaAnterior", Math.round(porcentajeAnterior),
+                "esIncremento", incremento,
+                "diaAnterior", totalDiaAnterior
         );
     }
 
     @Override
-    public ProblemaGeneralDTO getDataNormalizadaProblemaGeneral() {
+    public ProblemaGeneralDTO getDataNormalizadaProblemaGeneral(Integer idProblemaGeneral, Integer idUsuario, Boolean esAdmin) {
         ProblemaGeneralDTO requestDTO = new ProblemaGeneralDTO();
         try {
-            List<Object[]> resultTable = problemaGeneralRepository.getDataNormalizadaProblemaGeneral();
+            List<Object[]> resultTable = problemaGeneralRepository.getDataNormalizadaProblemaGeneral(idProblemaGeneral, idUsuario, esAdmin);
             List<ProblemaGeneralDTO> listProblemaGeneral = new ArrayList<>();
             if (!resultTable.isEmpty()) {
                 for (Object[] row : resultTable) {
                     ProblemaGeneralDTO problemaGeneralDTO = new ProblemaGeneralDTO();
+                    problemaGeneralDTO.setStatusCode(200);
                     problemaGeneralDTO.setIdProblemaGeneral((Integer) row[0]);
                     problemaGeneralDTO.setCodigoProblemaGeneral(row[1].toString());
                     problemaGeneralDTO.setCodigoBien(row[2].toString());
@@ -136,7 +140,7 @@ public class ProblemaGeneralServiceImpl implements ProblemaGeneralService {
             problemaGeneral.setUsuario(usuarioRepository.findById(problemaGeneralDTO.getIdUsuario()).orElse(null));
             problemaGeneral.setFechaOcurrencia(UtilsApp.formatearFechaInstant(problemaGeneralDTO.getFechaOcurrencia()));
             ProblemaGeneral newProblemaGeneral = problemaGeneralRepository.save(problemaGeneral);
-            if(newProblemaGeneral.getId() > 0) {
+            if (newProblemaGeneral.getId() > 0) {
                 requestDTO.setStatusCode(201);
                 requestDTO.setMessage("Problema general creado con éxito");
                 requestDTO.setProblemaGeneral(newProblemaGeneral);
@@ -169,7 +173,7 @@ public class ProblemaGeneralServiceImpl implements ProblemaGeneralService {
         return requestDTO;
     }
 
-    private double getPorcentaje(long totalDiaAnterior, long totalDiaActual) {
+    private double getPorcentaje(int totalDiaAnterior, int totalDiaActual) {
         double porcentaje;
         if (totalDiaAnterior == 0) {
             // Si el día anterior tiene 0 problema
@@ -180,7 +184,10 @@ public class ProblemaGeneralServiceImpl implements ProblemaGeneralService {
             }
         } else {
             // Si el día anterior tiene problema, calculamos el porcentaje normalmente
-            porcentaje = ((double) (totalDiaActual - totalDiaAnterior) / totalDiaAnterior) * 100;
+            int diferencia = totalDiaActual - totalDiaAnterior;
+            // Se asegura que la división se realice en el contexto de double
+            double valorRelativo = (double) diferencia / totalDiaAnterior; // Esto ahora será un double
+            porcentaje = valorRelativo * 100; // Calcula el porcentaje
         }
         return porcentaje;
     }

@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import pe.sia.persistence.entity.actores.Empleado;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
 
 @Setter

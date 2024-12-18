@@ -32,6 +32,11 @@ public class RolController {
 
     @GetMapping("/admin/data-rol")
     public ResponseEntity<RolDTO> getDataRol() {
-        return  ResponseEntity.ok(rolService.getDataRol());
+        return  ResponseEntity.ok(rolService.getDataRolPersonal());
+    }
+
+    @GetMapping("/admin/data-rol-user")
+    public ResponseEntity<RolDTO> getDataRolUser() {
+        return  ResponseEntity.ok(rolService.getDataRolUser());
     }
 }

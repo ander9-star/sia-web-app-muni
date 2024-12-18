@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import pe.sia.persistence.entity.problema.ProblemaGeneral;
 import pe.sia.util.EstadoPeticion;
-
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)

@@ -1,7 +1,6 @@
 package pe.sia.service.interfaces;
 
 import pe.sia.presentation.dto.problemaDTO.ProblemaGeneralDTO;
-
 import java.util.Map;
 
 public interface ProblemaGeneralService {
@@ -14,9 +13,9 @@ public interface ProblemaGeneralService {
 
     Integer getTotalIncidenciasPorDia();
 
-    Map<String, Object> getIncidenciasDosDayComparacion();
+    Map<String, Object> getAmountProGenByDayActulaAnterior();
 
-    ProblemaGeneralDTO getDataNormalizadaProblemaGeneral();
+    ProblemaGeneralDTO getDataNormalizadaProblemaGeneral(Integer idProblemaGeneral, Integer idUsuario, Boolean esAdmin);
 
     ProblemaGeneralDTO createProblemaGeneral(ProblemaGeneralDTO problemaGeneralDTO);
 

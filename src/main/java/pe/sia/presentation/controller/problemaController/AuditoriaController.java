@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.sia.presentation.dto.problemaDTO.AuditoriaDTO;
 import pe.sia.service.interfaces.AuditoriaService;
-
 import java.util.Map;
 
 @RestController
@@ -21,9 +20,9 @@ public class AuditoriaController {
         return ResponseEntity.ok(auditoriaService.getAuditoriaMantenimiento(id));
     }
 
-    @GetMapping("/adminuser/auditoria-full")
-    public ResponseEntity<AuditoriaDTO> getDataFullAuditoria() {
-        return ResponseEntity.ok(auditoriaService.getDataFullAuditoria());
+    @GetMapping("/adminuser/auditoria-full/{idUsuario}/{esAdmin}")
+    public ResponseEntity<AuditoriaDTO> getDataFullAuditoria(@PathVariable("idUsuario") Integer idUsuario, @PathVariable("esAdmin") Boolean esAdmin) {
+        return ResponseEntity.ok(auditoriaService.getDataFullAuditoria(idUsuario, esAdmin));
     }
 
     @PostMapping("/adminuser/insert-auditoria")

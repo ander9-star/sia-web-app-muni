@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.sia.persistence.entity.activos.ActivoMaestro;
 import pe.sia.persistence.entity.actores.Usuario;
-
 import java.time.Instant;
 
 @Entity
