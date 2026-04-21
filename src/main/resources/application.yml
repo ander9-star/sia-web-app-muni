@@ -21,4 +21,4 @@ logging:
       springframework: INFO
 chatbot:
   api:
-    key: 2bb5e892c509dc5e3a09c88885770569437391acff5da87aafbf01259960076e
+    key: 2bb5e892c509dc5e3a09c88885770569437391acff5da87aafbf01259960076e # deprecada
